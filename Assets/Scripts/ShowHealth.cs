@@ -9,7 +9,7 @@ public class ShowHealth : MonoBehaviour
     public void updatePos(Entity entity, Sprite sprite)
     {
         transform.position = Camera.main.WorldToScreenPoint(entity.transform.position);
-        transform.position += Vector3.down * ((sprite.rect.size.y / 2) * entity.transform.lossyScale.y);
+        transform.position += Vector3.down * ((sprite.rect.size.y / 2) * (entity.transform.lossyScale.y / 3));
     }
 
     public void updateHealth(Entity entity)

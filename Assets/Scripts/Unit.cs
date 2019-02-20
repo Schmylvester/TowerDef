@@ -32,6 +32,15 @@ public class Unit : Entity
         setNewTarget(set);
     }
 
+    public void setStats(float _moveSpeed, short _damage, float _attackRate, short _health)
+    {
+        moveSpeed = _moveSpeed;
+        damage = _damage;
+        attackRate = _attackRate;
+        health = _health;
+        currentHealth = _health;
+    }
+
     public void setHealthBar(ShowHealth hBar)
     {
         healthBar = hBar;
