@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class Structure : Entity
 {
+    [SerializeField] short reward;
     public bool destroyed = false;
     protected override void beDestroyed()
     {
-        sprite.enabled = false;
+        sprite.color = Color.Lerp(Color.clear, sprite.color, 0.5f);
         destroyed = true;
+    }
+
+    public short getReward()
+    {
+        return reward;
     }
 }

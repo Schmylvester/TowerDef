@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-
+    [SerializeField] short cost;
     [SerializeField] float range;
     [SerializeField] float rateOfFire;
     [SerializeField] short damage;
+    [SerializeField] DrawCircle circle;
     float timer = 0;
     List<Unit> units = new List<Unit>();
+    Resources resources;
+    bool ready = false;
+    bool attachedToMouse = false;
+    Vector2 startPos;
 
     private void Start()
     {
-        EntityTrack.instance.addTower(this);
+        startPos = new Vector2(transform.position.x, transform.position.y);
+        EntityTracker.instance.addTower(this);
     }
 
     public void addUnit(Unit unit)
@@ -26,21 +32,75 @@ public class Tower : MonoBehaviour
         units.Remove(unit);
     }
 
+    public void setResources(Resources _resources)
+    {
+        resources = _resources;
+    }
+
+    private void OnMouseDown()
+    {
+        if (!ready && !attachedToMouse)
+        {
+            if (resources.canAfford(cost))
+            {
+                attachedToMouse = true;
+                Instantiate(this, startPos, new Quaternion());
+                resources.updateGold((short)-cost);
+            }
+            else
+            {
+                Debug.Log("No afford that");
+            }
+        }
+    }
+    private void OnMouseUp()
+    {
+        if (attachedToMouse)
+        {
+            float dist = EntityTracker.instance.getClosestTower(this);
+            if (dist > range * 0.7f)
+            {
+                ready = true;
+                attachedToMouse = false;
+            }
+            else
+            {
+                Debug.Log("Too close");
+                resources.updateGold(cost);
+                EntityTracker.instance.removeTower(this);
+                Destroy(gameObject);
+            }
+        }
+    }
+
     private void Update()
     {
-        timer += Time.deltaTime;
-        if (timer > rateOfFire)
+        if (ready)
         {
-            foreach (Unit unit in units)
+            timer += Time.deltaTime;
+            if (timer > rateOfFire)
             {
-                float dist = (transform.position - unit.transform.position).magnitude;
-                if (dist < range)
+                foreach (Unit unit in units)
                 {
-                    unit.takeDamage(damage, gameObject, Color.green);
-                    timer = 0;
-                    break;
+                    float dist = (transform.position - unit.transform.position).magnitude;
+                    if (dist < range)
+                    {
+                        if (unit.takeDamage(damage, gameObject, Color.green))
+                        {
+                            resources.updateGold(unit.getReward());
+                        }
+                        timer = 0;
+                        break;
+                    }
                 }
             }
+            circle.drawCircle(range, transform.position, 15);
+        }
+        else if (attachedToMouse)
+        {
+            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = new Vector3(transform.position.x, transform.position.y);
+            circle.drawCircle(range, transform.position, 15);
         }
     }
 

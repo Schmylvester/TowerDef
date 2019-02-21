@@ -12,18 +12,16 @@ public class Unit : Entity
 {
     UnitState state = UnitState.Moving;
     [SerializeField] Node target;
-    [SerializeField] float moveSpeed;
-    [SerializeField] short damage;
-    [SerializeField] float attackRate;
-    Vector3 dirLastFrame;
+    UnitStats stats;
     float timer = 0;
+    Resources resources;
 
     protected override void Start()
     {
         base.Start();
         if (target)
             setNewTarget(target);
-        EntityTrack.instance.addUnit(this);
+        EntityTracker.instance.addUnit(this);
     }
 
     public void setStartNode(Node set)
@@ -32,19 +30,22 @@ public class Unit : Entity
         setNewTarget(set);
     }
 
-    public void setStats(float _moveSpeed, short _damage, float _attackRate, short _health)
-    {
-        moveSpeed = _moveSpeed;
-        damage = _damage;
-        attackRate = _attackRate;
-        health = _health;
-        currentHealth = _health;
-    }
-
     public void setHealthBar(ShowHealth hBar)
     {
         healthBar = hBar;
         healthBar.updatePos(this, sprite.sprite);
+    }
+
+    public void setClass(UnitType type)
+    {
+        stats = UnitTypes.instance.getStats(type);
+        health = stats.health;
+        currentHealth = stats.health;
+    }
+
+    public void setResources(Resources _resources)
+    {
+        resources = _resources;
     }
 
     private void Update()
@@ -66,43 +67,43 @@ public class Unit : Entity
     void move()
     {
         Vector3 dir = (target.transform.position - transform.position).normalized;
-        if ((dir.x * dirLastFrame.x >= 0 && dir.y * dirLastFrame.y >= 0) && dir != Vector3.zero)
+        if (Vector2.Distance(transform.position, target.transform.position) > 0.1f)
         {
-            transform.position += dir * Time.deltaTime * moveSpeed;
+            transform.position += dir * Time.deltaTime * stats.moveSpeed;
         }
         else
         {
             nextTargetInSequence();
         }
-        dirLastFrame = dir;
         healthBar.updatePos(this, sprite.sprite);
     }
 
     void nextTargetInSequence()
     {
-        if (target.next_node.Length == 0)
+        if (target.next_node == null)
         {
-            Debug.Log("Reached end of path, I imagine this means a win for the attacker");
             target = null;
+            beDestroyed();
             return;
         }
         else
         {
-            setNewTarget(target.next_node[Random.Range(0, target.next_node.Length)]);
+            setNewTarget(target.next_node);
         }
     }
 
     private void attack()
     {
-        if (target.health.destroyed)
+        if (target.structure.destroyed)
             nextTargetInSequence();
 
         timer += Time.deltaTime;
-        if (timer > attackRate)
+        if (timer > stats.attackRate)
         {
-            timer -= attackRate;
-            if (target.health.takeDamage(damage, gameObject, Color.red))
+            timer -= stats.attackRate;
+            if (target.structure.takeDamage(stats.damage, gameObject, Color.red))
             {
+                resources.updateGold(target.structure.getReward());
                 nextTargetInSequence();
             }
         }
@@ -112,20 +113,30 @@ public class Unit : Entity
     {
         if (state == UnitState.Moving)
             transform.position = target.transform.position;
-        if (node.health)
-            if (!node.health.destroyed)
+        if (node.structure)
+            if (!node.structure.destroyed)
                 state = UnitState.Attacking;
             else
                 state = UnitState.Moving;
         else
             state = UnitState.Moving;
         target = node;
-        dirLastFrame = Vector3.zero;
+    }
+
+    public short getReward()
+    {
+        return stats.reward;
     }
 
     protected override void beDestroyed()
     {
-        EntityTrack.instance.removeUnit(this);
+        Destroy(healthBar.gameObject);
+        EntityTracker.instance.removeUnit(this);
         Destroy(gameObject);
+    }
+
+    public float getCooldown()
+    {
+        return stats.cooldown;
     }
 }

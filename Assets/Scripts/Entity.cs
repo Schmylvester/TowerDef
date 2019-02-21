@@ -25,13 +25,12 @@ public abstract class Entity : MonoBehaviour
 
     void makeLine(GameObject attacker, Color color)
     {
-        GameObject line = Instantiate(new GameObject());
-        LineRenderer lRend = line.AddComponent<LineRenderer>();
-        line.AddComponent<LineSet>();
+        LineRenderer lRend = new GameObject().AddComponent<LineRenderer>();
+        lRend.gameObject.AddComponent<LineSet>();
         lRend.SetPositions(new Vector3[] { attacker.transform.position, transform.position });
         lRend.startColor = new Color(color.r / 2, color.g / 2, color.b / 2);
         lRend.endColor = color;
-        lRend.material = EntityTrack.instance.lineMat;
+        lRend.material = EntityTracker.instance.lineMat;
         lRend.startWidth = 0.1f;
         lRend.endWidth = 0.1f;
     }
@@ -45,7 +44,6 @@ public abstract class Entity : MonoBehaviour
         healthBar.updateHealth(this);
         if (currentHealth <= 0)
         {
-            Destroy(healthBar.gameObject);
             beDestroyed();
             return true;
         }
