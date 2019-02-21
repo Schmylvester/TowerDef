@@ -20,6 +20,7 @@ public class Tower : MonoBehaviour
 
     private void Start()
     {
+        timer = rateOfFire;
         startPos = new Vector2(transform.position.x, transform.position.y);
         EntityTracker.instance.addTower(this);
     }
@@ -101,13 +102,12 @@ public class Tower : MonoBehaviour
                     }
                 }
             }
-            circle.drawCircle(range, transform.position, 15);
         }
         else if (attachedToMouse)
         {
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(transform.position.x, transform.position.y);
-            circle.drawCircle(range, transform.position, 15);
+            circle.drawCircle(range, transform.position, 18);
         }
     }
 

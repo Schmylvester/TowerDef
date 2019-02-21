@@ -25,7 +25,7 @@ public class UpdateTowerPanel : MonoBehaviour {
         towerName.text = _name;
         cost.text = "Cost: " + _cost;
         range.text = "Range: " + _range;
-        rateOfFire.text = "Fire Rate: " + _rof;
+        rateOfFire.text = "Fire Rate: " + (short)(30 / _rof);
         damage.text = "Damage: " + _damage;
     }
 }
