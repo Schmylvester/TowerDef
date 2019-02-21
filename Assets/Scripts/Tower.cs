@@ -51,7 +51,7 @@ public class Tower : MonoBehaviour
             }
             else
             {
-                Debug.Log("No afford that");
+                FeedbackManager.instance.setFeedback(false, "You can't afford that.", Color.red);
             }
         }
     }
@@ -67,7 +67,7 @@ public class Tower : MonoBehaviour
             }
             else
             {
-                Debug.Log("Too close");
+                FeedbackManager.instance.setFeedback(false, "This tower is too close to another tower.", Color.red);
                 resources.updateGold(cost);
                 EntityTracker.instance.removeTower(this);
                 Destroy(gameObject);

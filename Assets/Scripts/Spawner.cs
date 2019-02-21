@@ -22,6 +22,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] Text damage;
     [SerializeField] Text attackSpeed;
     [SerializeField] Text cost;
+    [SerializeField] Transform darkness;
     #endregion
 
     private void Start()
@@ -36,7 +37,7 @@ public class Spawner : MonoBehaviour
         for (int i = 0; i < cooldowns.Length; i++)
             cooldowns[i] -= Time.deltaTime;
 
-        if(Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D))
         {
             switchUnitType(1);
         }
@@ -45,7 +46,7 @@ public class Spawner : MonoBehaviour
             switchUnitType(-1);
         }
 
-        if(Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             switchTargettedNode(-1);
         }
@@ -54,23 +55,39 @@ public class Spawner : MonoBehaviour
             switchTargettedNode(1);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && cooldowns[(int)spawn] <= 0)
+        if (cooldowns[(int)spawn] > 0)
         {
-            short cost = UnitTypes.instance.getStats(spawn).cost;
-            if (resources.canAfford(cost))
+            darkness.localScale = new Vector3(1, cooldowns[(int)spawn] / UnitTypes.instance.getStats(spawn).cooldown, 1);
+        }
+        else
+        {
+            darkness.localScale = new Vector3(1, 0, 1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (cooldowns[(int)spawn] <= 0)
             {
-                resources.updateGold((short)-cost);
-                Unit unit = Instantiate(unitPrefab).GetComponent<Unit>();
-                unit.setStartNode(paths[targettedNode].transform.GetChild(0).GetComponent<Node>());
-                unit.setClass(spawn);
-                ShowHealth healthBar = Instantiate(healthBarPrefab, canvas).GetComponent<ShowHealth>();
-                unit.setHealthBar(healthBar);
-                unit.GetComponent<SpriteRenderer>().sprite = UnitTypes.instance.getSprite(spawn);
-                cooldowns[(int)spawn] = unit.getCooldown();
+                short cost = UnitTypes.instance.getStats(spawn).cost;
+                if (resources.canAfford(cost))
+                {
+                    resources.updateGold((short)-cost);
+                    Unit unit = Instantiate(unitPrefab).GetComponent<Unit>();
+                    unit.setStartNode(paths[targettedNode].transform.GetChild(0).GetComponent<Node>());
+                    unit.setClass(spawn);
+                    ShowHealth healthBar = Instantiate(healthBarPrefab, canvas).GetComponent<ShowHealth>();
+                    unit.setHealthBar(healthBar);
+                    unit.GetComponent<SpriteRenderer>().sprite = UnitTypes.instance.getSprite(spawn);
+                    cooldowns[(int)spawn] = unit.getCooldown();
+                }
+                else
+                {
+                    FeedbackManager.instance.setFeedback(true, "You can't afford that.", Color.red);
+                }
             }
             else
             {
-
+                FeedbackManager.instance.setFeedback(true, spawn.ToString() + " is cooling down.", Color.red);
             }
         }
     }
@@ -83,7 +100,7 @@ public class Spawner : MonoBehaviour
         {
             sp = (short)(UnitType.Count - 1);
         }
-        if(sp == (short)(UnitType.Count))
+        if (sp == (short)(UnitType.Count))
         {
             sp = 0;
         }

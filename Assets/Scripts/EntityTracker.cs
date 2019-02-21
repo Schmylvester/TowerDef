@@ -52,7 +52,8 @@ public class EntityTracker : MonoBehaviour
         }
         if(units.Count == 0 && !attackerRes.canAfford(UnitTypes.instance.cheapestUnit()))
         {
-            Debug.Log("I think this means the towers win.");
+            FeedbackManager.instance.setFeedback(true, "You lose.");
+            FeedbackManager.instance.setFeedback(false, "You win.");
         }
     }
 

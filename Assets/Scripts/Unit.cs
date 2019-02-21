@@ -82,6 +82,8 @@ public class Unit : Entity
     {
         if (target.next_node == null)
         {
+            FeedbackManager.instance.setFeedback(true, "You win.");
+            FeedbackManager.instance.setFeedback(false, "You lose.");
             target = null;
             beDestroyed();
             return;
