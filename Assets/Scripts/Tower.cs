@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    [SerializeField] string towerID;
+    [SerializeField] SpriteRenderer sprite;
     [SerializeField] short cost;
     [SerializeField] float range;
     [SerializeField] float rateOfFire;
@@ -71,6 +73,11 @@ public class Tower : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+    }
+
+    private void OnMouseEnter()
+    {
+        UpdateTowerPanel.instance.updatePanel(sprite.sprite, towerID, range, rateOfFire, damage, cost);
     }
 
     private void Update()

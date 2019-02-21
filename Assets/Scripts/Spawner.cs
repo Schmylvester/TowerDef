@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
@@ -9,13 +10,25 @@ public class Spawner : MonoBehaviour
     [SerializeField] Transform canvas;
     [SerializeField] LineRenderer[] paths;
     [SerializeField] Resources resources;
+    UnitType spawn;
     int targettedNode = 0;
     float[] cooldowns;
+
+    #region UnitUI
+    [SerializeField] Image sprite;
+    [SerializeField] Text unitName;
+    [SerializeField] Text health;
+    [SerializeField] Text moveSpeed;
+    [SerializeField] Text damage;
+    [SerializeField] Text attackSpeed;
+    [SerializeField] Text cost;
+    #endregion
 
     private void Start()
     {
         cooldowns = new float[(int)UnitType.Count];
         switchTargettedNode(0);
+        updatePanel();
     }
 
     private void Update()
@@ -23,18 +36,13 @@ public class Spawner : MonoBehaviour
         for (int i = 0; i < cooldowns.Length; i++)
             cooldowns[i] -= Time.deltaTime;
 
-        UnitType spawn = UnitType.Count;
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if(Input.GetKeyDown(KeyCode.D))
         {
-            spawn = UnitType.Knight;
+            switchUnitType(1);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.A))
         {
-            spawn = UnitType.Rogue;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            spawn = UnitType.Pirate;
+            switchUnitType(-1);
         }
 
         if(Input.GetKeyDown(KeyCode.W))
@@ -46,7 +54,7 @@ public class Spawner : MonoBehaviour
             switchTargettedNode(1);
         }
 
-        if (spawn != UnitType.Count && cooldowns[(int)spawn] <= 0)
+        if (Input.GetKeyDown(KeyCode.Space) && cooldowns[(int)spawn] <= 0)
         {
             short cost = UnitTypes.instance.getStats(spawn).cost;
             if (resources.canAfford(cost))
@@ -60,7 +68,40 @@ public class Spawner : MonoBehaviour
                 unit.GetComponent<SpriteRenderer>().sprite = UnitTypes.instance.getSprite(spawn);
                 cooldowns[(int)spawn] = unit.getCooldown();
             }
+            else
+            {
+
+            }
         }
+    }
+
+    void switchUnitType(short dir)
+    {
+        short sp = (short)spawn;
+        sp += dir;
+        if (sp < 0)
+        {
+            sp = (short)(UnitType.Count - 1);
+        }
+        if(sp == (short)(UnitType.Count))
+        {
+            sp = 0;
+        }
+        spawn = (UnitType)sp;
+        updatePanel();
+    }
+
+    void updatePanel()
+    {
+        UnitTypes units = UnitTypes.instance;
+        sprite.sprite = units.getSprite(spawn);
+        unitName.text = spawn.ToString();
+        UnitStats stats = units.getStats(spawn);
+        health.text = "Health: " + stats.health;
+        moveSpeed.text = "Move Speed: " + stats.moveSpeed;
+        damage.text = "Damage: " + stats.damage;
+        attackSpeed.text = "Attack Speed: " + stats.attackRate;
+        cost.text = "Cost: " + stats.cost;
     }
 
     void switchTargettedNode(short dir)
