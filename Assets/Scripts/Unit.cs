@@ -15,6 +15,7 @@ public class Unit : Entity
     UnitStats stats;
     float timer = 0;
     Resources resources;
+    float timeToTarget;
 
     protected override void Start()
     {
@@ -66,8 +67,9 @@ public class Unit : Entity
 
     void move()
     {
+        timer += Time.deltaTime;
         Vector3 dir = (target.transform.position - transform.position).normalized;
-        if (Vector2.Distance(transform.position, target.transform.position) > 0.1f)
+        if (timer < timeToTarget)
         {
             transform.position += dir * Time.deltaTime * stats.moveSpeed;
         }
@@ -113,6 +115,7 @@ public class Unit : Entity
 
     void setNewTarget(Node node)
     {
+        timer = 0;
         if (state == UnitState.Moving)
             transform.position = target.transform.position;
         if (node.structure)
@@ -123,6 +126,11 @@ public class Unit : Entity
         else
             state = UnitState.Moving;
         target = node;
+        if (state == UnitState.Moving)
+        {
+            float distance = Vector2.Distance(transform.position, target.transform.position);
+            timeToTarget = distance / stats.moveSpeed;
+        }
     }
 
     public short getReward()
