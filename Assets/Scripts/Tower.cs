@@ -2,9 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TowerType
+{
+    Archer,
+    Bard,
+    Necromancer,
+
+    Count
+}
+
 public class Tower : MonoBehaviour
 {
-    [SerializeField] string towerID;
+    [SerializeField] TowerType type;
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] short cost;
     [SerializeField] float range;
@@ -22,6 +31,7 @@ public class Tower : MonoBehaviour
     {
         timer = rateOfFire;
         startPos = new Vector2(transform.position.x, transform.position.y);
+        PlayFrames.instance.addItem(this);
         EntityTracker.instance.addTower(this);
     }
 
@@ -61,16 +71,18 @@ public class Tower : MonoBehaviour
         if (attachedToMouse)
         {
             float dist = EntityTracker.instance.getClosestTower(this);
-            if (dist > range * 0.7f)
+            if (dist > 1.5f)
             {
                 ready = true;
                 attachedToMouse = false;
+                GSRecorder.GameStateRecorder.instance.towerAdded(this);
             }
             else
             {
                 FeedbackManager.instance.setFeedback(false, "This tower is too close to another tower.", Color.red);
                 resources.updateGold(cost);
                 EntityTracker.instance.removeTower(this);
+                PlayFrames.instance.removeItem(this);
                 Destroy(gameObject);
             }
         }
@@ -78,14 +90,24 @@ public class Tower : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        UpdateTowerPanel.instance.updatePanel(sprite.sprite, towerID, range, rateOfFire, damage, cost);
+        UpdateTowerPanel.instance.updatePanel(sprite.sprite, type.ToString(), range, rateOfFire, damage, cost);
     }
 
     private void Update()
     {
+        if (attachedToMouse)
+        {
+            Vector3 p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = new Vector3(p.x, p.y);
+            circle.drawCircle(range, transform.position, 18);
+        }
+    }
+
+    public void update(float rate)
+    {
         if (ready)
         {
-            timer += Time.deltaTime;
+            timer += rate;
             if (timer > rateOfFire)
             {
                 foreach (Unit unit in units)
@@ -103,12 +125,16 @@ public class Tower : MonoBehaviour
                 }
             }
         }
-        else if (attachedToMouse)
-        {
-            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector3(transform.position.x, transform.position.y);
-            circle.drawCircle(range, transform.position, 18);
-        }
+    }
+
+    public bool isReady()
+    {
+        return ready;
+    }
+
+    public TowerType getType()
+    {
+        return type;
     }
 
 #if (UNITY_EDITOR)

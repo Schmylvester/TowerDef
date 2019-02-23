@@ -10,12 +10,14 @@ enum UnitState
 
 public class Unit : Entity
 {
+    UnitType type;
     UnitState state = UnitState.Moving;
     [SerializeField] Node target;
     UnitStats stats;
     float timer = 0;
     Resources resources;
     float timeToTarget;
+    short track;
 
     protected override void Start()
     {
@@ -23,10 +25,12 @@ public class Unit : Entity
         if (target)
             setNewTarget(target);
         EntityTracker.instance.addUnit(this);
+        PlayFrames.instance.addItem(this);
     }
 
-    public void setStartNode(Node set)
+    public void setStartNode(Node set, short trackID)
     {
+        track = trackID;
         target = set;
         setNewTarget(set);
     }
@@ -37,8 +41,9 @@ public class Unit : Entity
         healthBar.updatePos(this, sprite.sprite);
     }
 
-    public void setClass(UnitType type)
+    public void setClass(UnitType _type)
     {
+        type = _type;
         stats = UnitTypes.instance.getStats(type);
         health = stats.health;
         currentHealth = stats.health;
@@ -49,29 +54,29 @@ public class Unit : Entity
         resources = _resources;
     }
 
-    private void Update()
+    public void update(float rate)
     {
         if (target)
         {
             switch (state)
             {
                 case UnitState.Moving:
-                    move();
+                    move(rate);
                     break;
                 case UnitState.Attacking:
-                    attack();
+                    attack(rate);
                     break;
             }
         }
     }
 
-    void move()
+    void move(float rate)
     {
-        timer += Time.deltaTime;
+        timer += rate;
         Vector3 dir = (target.transform.position - transform.position).normalized;
         if (timer < timeToTarget)
         {
-            transform.position += dir * Time.deltaTime * stats.moveSpeed;
+            transform.position += dir * rate * stats.moveSpeed;
         }
         else
         {
@@ -96,12 +101,12 @@ public class Unit : Entity
         }
     }
 
-    private void attack()
+    private void attack(float rate)
     {
         if (target.structure.destroyed)
             nextTargetInSequence();
 
-        timer += Time.deltaTime;
+        timer += rate;
         if (timer > stats.attackRate)
         {
             timer -= stats.attackRate;
@@ -138,15 +143,26 @@ public class Unit : Entity
         return stats.reward;
     }
 
+    public UnitType getType()
+    {
+        return type;
+    }
+
     protected override void beDestroyed()
     {
         Destroy(healthBar.gameObject);
         EntityTracker.instance.removeUnit(this);
+        PlayFrames.instance.removeItem(this);
         Destroy(gameObject);
     }
 
     public float getCooldown()
     {
         return stats.cooldown;
+    }
+
+    public short getTrack()
+    {
+        return track;
     }
 }

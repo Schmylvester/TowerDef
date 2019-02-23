@@ -10,17 +10,36 @@ public class EntityTracker : MonoBehaviour
     public Material lineMat;
     [SerializeField] Resources attackerRes;
     [SerializeField] Resources defenderRes;
+    [SerializeField] GSRecorder.GameStateRecorder stateRecorder;
 
     private void Awake()
     {
         instance = this;
+    }
+    
+    public List<Unit> getUnits()
+    {
+        return units;
+    }
+
+    public List<Tower> getTowers()
+    {
+        return towers;
+    }
+
+    public Resources getResources(bool att)
+    {
+        if (att)
+            return attackerRes;
+        else
+            return defenderRes;
     }
 
     public void addUnit(Unit unit)
     {
         units.Add(unit);
         unit.setResources(attackerRes);
-        foreach(Tower tower in towers)
+        foreach (Tower tower in towers)
         {
             tower.addUnit(unit);
         }
@@ -29,7 +48,7 @@ public class EntityTracker : MonoBehaviour
     public float getClosestTower(Tower to)
     {
         float closest = float.MaxValue;
-        foreach(Tower tower in towers)
+        foreach (Tower tower in towers)
         {
             if (tower != to)
             {
@@ -46,11 +65,11 @@ public class EntityTracker : MonoBehaviour
     public void removeUnit(Unit unit)
     {
         units.Remove(unit);
-        foreach(Tower tower in towers)
+        foreach (Tower tower in towers)
         {
             tower.removeUnit(unit);
         }
-        if(units.Count == 0 && !attackerRes.canAfford(UnitTypes.instance.cheapestUnit()))
+        if (units.Count == 0 && !attackerRes.canAfford(UnitTypes.instance.cheapestUnit()))
         {
             FeedbackManager.instance.setFeedback(true, "You lose.");
             FeedbackManager.instance.setFeedback(false, "You win.");
@@ -60,7 +79,7 @@ public class EntityTracker : MonoBehaviour
     public void addTower(Tower tower)
     {
         towers.Add(tower);
-        foreach(Unit unit in units)
+        foreach (Unit unit in units)
         {
             tower.addUnit(unit);
         }

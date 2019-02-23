@@ -12,6 +12,11 @@ public class Resources : MonoBehaviour
         updateGold(0);
     }
 
+    public int getGold()
+    {
+        return gold;
+    }
+
     public bool canAfford(short cost)
     {
         return gold >= cost;

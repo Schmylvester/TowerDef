@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] LineRenderer[] paths;
     [SerializeField] Resources resources;
     UnitType spawn;
-    int targettedNode = 0;
+    short targettedNode = 0;
     float[] cooldowns;
 
     #region UnitUI
@@ -32,11 +32,22 @@ public class Spawner : MonoBehaviour
         updatePanel();
     }
 
-    private void Update()
+    public void update(float rate)
     {
         for (int i = 0; i < cooldowns.Length; i++)
-            cooldowns[i] -= Time.deltaTime;
+            cooldowns[i] -= rate;
+        if (cooldowns[(int)spawn] > 0)
+        {
+            darkness.localScale = new Vector3(1, cooldowns[(int)spawn] / UnitTypes.instance.getStats(spawn).cooldown, 1);
+        }
+        else
+        {
+            darkness.localScale = new Vector3(1, 0, 1);
+        }
+    }
 
+    private void Update()
+    {
         if (Input.GetKeyDown(KeyCode.D))
         {
             switchUnitType(1);
@@ -55,15 +66,6 @@ public class Spawner : MonoBehaviour
             switchTargettedNode(1);
         }
 
-        if (cooldowns[(int)spawn] > 0)
-        {
-            darkness.localScale = new Vector3(1, cooldowns[(int)spawn] / UnitTypes.instance.getStats(spawn).cooldown, 1);
-        }
-        else
-        {
-            darkness.localScale = new Vector3(1, 0, 1);
-        }
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (cooldowns[(int)spawn] <= 0)
@@ -73,12 +75,13 @@ public class Spawner : MonoBehaviour
                 {
                     resources.updateGold((short)-cost);
                     Unit unit = Instantiate(unitPrefab).GetComponent<Unit>();
-                    unit.setStartNode(paths[targettedNode].transform.GetChild(0).GetComponent<Node>());
+                    unit.setStartNode(paths[targettedNode].transform.GetChild(0).GetComponent<Node>(), targettedNode);
                     unit.setClass(spawn);
                     ShowHealth healthBar = Instantiate(healthBarPrefab, canvas).GetComponent<ShowHealth>();
                     unit.setHealthBar(healthBar);
                     unit.GetComponent<SpriteRenderer>().sprite = UnitTypes.instance.getSprite(spawn);
                     cooldowns[(int)spawn] = unit.getCooldown();
+                    GSRecorder.GameStateRecorder.instance.unitAdded(unit);
                 }
                 else
                 {
@@ -125,8 +128,8 @@ public class Spawner : MonoBehaviour
     {
         paths[targettedNode].startColor = Color.white;
         targettedNode += dir;
-        targettedNode = Mathf.Max(0, targettedNode);
-        targettedNode = Mathf.Min(targettedNode, paths.Length - 1);
+        targettedNode = (short)Mathf.Max(0, targettedNode);
+        targettedNode = (short)Mathf.Min(targettedNode, paths.Length - 1);
         paths[targettedNode].startColor = Color.blue;
     }
 }

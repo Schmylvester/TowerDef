@@ -5,11 +5,19 @@ using UnityEngine;
 public class LineSet : MonoBehaviour
 {
     float lifeTime = 0.2f;
-    
-    void Update()
+
+    private void Start()
     {
-        lifeTime -= Time.deltaTime;
+        PlayFrames.instance.addItem(this);
+    }
+
+    public void update(float rate)
+    {
+        lifeTime -= rate;
         if (lifeTime < 0)
+        {
+            PlayFrames.instance.removeItem(this);
             Destroy(gameObject);
+        }
     }
 }
