@@ -34,10 +34,16 @@ public class GameStateRecorder : MonoBehaviour
     void clearFiles()
     {
         StreamWriter file = new StreamWriter("Assets/kNNData/Def.json", false);
-        file.Write(JsonUtility.ToJson(new Defends() { defends = new List<IODSetup>() }));
+        file.Write(JsonUtility.ToJson(new Defends()
+        {
+            defends = new List<IODSetup>()
+        }));
         file.Close();
         file = new StreamWriter("Assets/kNNData/Att.json", false);
-        file.Write(JsonUtility.ToJson(new Attacks() { attacks = new List<IOASetup>() }));
+        file.Write(JsonUtility.ToJson(new Attacks()
+        {
+            attacks = new List<IOASetup>()
+        }));
         file.Close();
         Application.Quit();
     }
@@ -53,14 +59,26 @@ public class GameStateRecorder : MonoBehaviour
         foreach (Structure wall in walls)
         {
             Vector2Int pos = getGridPos(wall.transform.position);
-            EntityData wallData = new EntityData() { x = pos.x, y = pos.y, type = new short[0], health = wall.getHealth() };
+            EntityData wallData = new EntityData()
+            {
+                x = pos.x,
+                y = pos.y,
+                type = new short[0],
+                health = wall.getHealth()
+            };
             input.walls.Add(wallData);
         }
         EntityTracker tracker = EntityTracker.instance;
         foreach (Unit unit in tracker.getUnits())
         {
             Vector2Int pos = getGridPos(unit.transform.position);
-            EntityData unitData = new EntityData() { x = pos.x, y = pos.y, health = unit.getHealth(), type = new short[(int)UnitType.Count] };
+            EntityData unitData = new EntityData()
+            {
+                x = pos.x,
+                y = pos.y,
+                health = unit.getHealth(),
+                type = new short[(int)UnitType.Count]
+            };
             unitData.type[(int)unit.getType()] = 1;
             input.units.Add(unitData);
         }
@@ -69,7 +87,13 @@ public class GameStateRecorder : MonoBehaviour
             if (tower.isReady())
             {
                 Vector2Int pos = getGridPos(tower.transform.position);
-                EntityData towerData = new EntityData() { x = pos.x, y = pos.y, health = 1, type = new short[(int)TowerType.Count] };
+                EntityData towerData = new EntityData()
+                {
+                    x = pos.x,
+                    y = pos.y,
+                    health = 1,
+                    type = new short[(int)TowerType.Count]
+                };
                 towerData.type[(int)tower.getType()] = 1;
                 input.towers.Add(towerData);
             }
@@ -83,14 +107,24 @@ public class GameStateRecorder : MonoBehaviour
     EntityData createOutput(Tower addedTower)
     {
         Vector2Int pos = getGridPos(addedTower.transform.position);
-        EntityData towerData = new EntityData() { x = pos.x, y = pos.y, health = 1, type = new short[(int)TowerType.Count] };
+        EntityData towerData = new EntityData()
+        {
+            x = pos.x,
+            y = pos.y,
+            health = 1,
+            type = new short[(int)TowerType.Count]
+        };
         towerData.type[(int)addedTower.getType()] = 1;
         return towerData;
     }
 
     UnitData createOutput(Unit addedUnit)
     {
-        UnitData newUnit = new UnitData() { type = new short[(int)UnitType.Count], track = new short[tracks.Length] };
+        UnitData newUnit = new UnitData()
+        {
+            type = new short[(int)UnitType.Count],
+            track = new short[tracks.Length]
+        };
         newUnit.type[(int)addedUnit.getType()] = 1;
         newUnit.track[addedUnit.getTrack()] = 1;
         return newUnit;
@@ -105,7 +139,13 @@ public class GameStateRecorder : MonoBehaviour
     {
         InputRecord _in = getGameState();
         UnitData _out = createOutput(unit);
-        IOASetup data = new IOASetup() { gameID = gameID, frame = PlayFrames.instance.frame, input = _in, output = _out };
+        IOASetup data = new IOASetup()
+        {
+            gameID = gameID,
+            frame = PlayFrames.instance.frame,
+            input = _in,
+            output = _out
+        };
         attacks.attacks.Add(data);
     }
 
@@ -113,7 +153,13 @@ public class GameStateRecorder : MonoBehaviour
     {
         InputRecord _in = getGameState();
         EntityData _out = createOutput(tower);
-        IODSetup data = new IODSetup() { gameID = gameID, frame = PlayFrames.instance.frame, input = _in, output = _out };
+        IODSetup data = new IODSetup()
+        {
+            gameID = gameID,
+            frame = PlayFrames.instance.frame,
+            input = _in,
+            output = _out
+        };
         defends.defends.Add(data);
     }
 
@@ -147,7 +193,8 @@ public class GameStateRecorder : MonoBehaviour
                 };
             }
         }
-        StreamWriter file = new StreamWriter("Assets/kNNData/Def.json", false);
+        StreamWriter file;
+        file = new StreamWriter("Assets/kNNData/Def.json", false);
         file.Write(JsonUtility.ToJson(defends));
         file.Close();
         file = new StreamWriter("Assets/kNNData/Att.json", false);
