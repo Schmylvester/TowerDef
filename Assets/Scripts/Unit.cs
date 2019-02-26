@@ -91,6 +91,7 @@ public class Unit : Entity
         {
             FeedbackManager.instance.setFeedback(true, "You win.");
             FeedbackManager.instance.setFeedback(false, "You lose.");
+            GameStateRecorder.instance.onGameOver(false);
             target = null;
             beDestroyed();
             return;
@@ -103,7 +104,7 @@ public class Unit : Entity
 
     private void attack(float rate)
     {
-        if (target.structure.destroyed)
+        if (target.structure.getDestroyed())
             nextTargetInSequence();
 
         timer += rate;
@@ -127,7 +128,7 @@ public class Unit : Entity
         if (state == UnitState.Moving)
             transform.position = target.transform.position;
         if (node.structure)
-            if (!node.structure.destroyed)
+            if (!node.structure.getDestroyed())
                 state = UnitState.Attacking;
             else
                 state = UnitState.Moving;

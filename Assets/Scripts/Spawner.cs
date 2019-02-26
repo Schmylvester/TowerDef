@@ -48,49 +48,52 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (!ReplayGame.instance.isRunning())
         {
-            switchUnitType(1);
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            switchUnitType(-1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            switchTargettedNode(-1);
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            switchTargettedNode(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (cooldowns[(int)spawn] <= 0)
+            if (Input.GetKeyDown(KeyCode.D))
             {
-                short cost = UnitTypes.instance.getStats(spawn).cost;
-                if (resources.canAfford(cost))
+                switchUnitType(1);
+            }
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                switchUnitType(-1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                switchTargettedNode(-1);
+            }
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                switchTargettedNode(1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (cooldowns[(int)spawn] <= 0)
                 {
-                    resources.updateGold((short)-cost);
-                    Unit unit = Instantiate(unitPrefab).GetComponent<Unit>();
-                    unit.setStartNode(paths[targettedNode].transform.GetChild(0).GetComponent<Node>(), targettedNode);
-                    unit.setClass(spawn);
-                    ShowHealth healthBar = Instantiate(healthBarPrefab, canvas).GetComponent<ShowHealth>();
-                    unit.setHealthBar(healthBar);
-                    unit.GetComponent<SpriteRenderer>().sprite = UnitTypes.instance.getSprite(spawn);
-                    cooldowns[(int)spawn] = unit.getCooldown();
-                    GSRecorder.GameStateRecorder.instance.unitAdded(unit);
+                    short cost = UnitTypes.instance.getStats(spawn).cost;
+                    if (resources.canAfford(cost))
+                    {
+                        Unit unit = Instantiate(unitPrefab).GetComponent<Unit>();
+                        unit.setStartNode(paths[targettedNode].transform.GetChild(0).GetComponent<Node>(), targettedNode);
+                        unit.setClass(spawn);
+                        ShowHealth healthBar = Instantiate(healthBarPrefab, canvas).GetComponent<ShowHealth>();
+                        unit.setHealthBar(healthBar);
+                        unit.GetComponent<SpriteRenderer>().sprite = UnitTypes.instance.getSprite(spawn);
+                        cooldowns[(int)spawn] = unit.getCooldown();
+                        GameStateRecorder.instance.unitAdded(unit);
+                        resources.updateGold((short)-cost);
+                    }
+                    else
+                    {
+                        FeedbackManager.instance.setFeedback(true, "You can't afford that.", Color.red);
+                    }
                 }
                 else
                 {
-                    FeedbackManager.instance.setFeedback(true, "You can't afford that.", Color.red);
+                    FeedbackManager.instance.setFeedback(true, spawn.ToString() + " is cooling down.", Color.red);
                 }
-            }
-            else
-            {
-                FeedbackManager.instance.setFeedback(true, spawn.ToString() + " is cooling down.", Color.red);
             }
         }
     }

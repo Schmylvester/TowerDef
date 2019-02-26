@@ -10,7 +10,7 @@ public class EntityTracker : MonoBehaviour
     public Material lineMat;
     [SerializeField] Resources attackerRes;
     [SerializeField] Resources defenderRes;
-    [SerializeField] GSRecorder.GameStateRecorder stateRecorder;
+    [SerializeField] GameStateRecorder stateRecorder;
 
     private void Awake()
     {
@@ -73,6 +73,7 @@ public class EntityTracker : MonoBehaviour
         {
             FeedbackManager.instance.setFeedback(true, "You lose.");
             FeedbackManager.instance.setFeedback(false, "You win.");
+            GameStateRecorder.instance.onGameOver(true);
         }
     }
 

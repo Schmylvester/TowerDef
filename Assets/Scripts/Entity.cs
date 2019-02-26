@@ -14,13 +14,21 @@ public abstract class Entity : MonoBehaviour
     protected virtual void Start()
     {
         currentHealth = health;
-        if(healthBar)
+        if (healthBar)
+        {
             healthBar.updatePos(this, sprite.sprite);
+            healthBar.updateHealth(this);
+        }
     }
 
     public float getHealth()
     {
         return (float)currentHealth / health;
+    }
+
+    public string getHealthText()
+    {
+        return currentHealth + "/" + health;
     }
 
     void makeLine(GameObject attacker, Color color)

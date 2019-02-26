@@ -25,12 +25,19 @@ public class PlayFrames : MonoBehaviour
     }
     private void Update()
     {
-        playFrame(Time.deltaTime);
-        frame++;
+        for (int i = 0; i < 8; i++)
+        {
+            playFrame(Time.deltaTime);
+            frame++;
+        }
     }
 
     public void playFrame(float rate)
     {
+        if (ReplayGame.instance.isRunning())
+        {
+            ReplayGame.instance.replayFrame(frame);
+        }
         foreach (MonoBehaviour item in trackedObjects)
         {
             if (item as LineSet)

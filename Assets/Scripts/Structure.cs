@@ -5,7 +5,7 @@ using UnityEngine;
 public class Structure : Entity
 {
     [SerializeField] short reward;
-    public bool destroyed = false;
+    bool destroyed = false;
     protected override void beDestroyed()
     {
         sprite.color = Color.Lerp(Color.clear, sprite.color, 0.5f);
@@ -15,5 +15,10 @@ public class Structure : Entity
     public short getReward()
     {
         return reward;
+    }
+
+    public bool getDestroyed()
+    {
+        return destroyed;
     }
 }

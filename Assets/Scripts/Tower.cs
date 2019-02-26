@@ -52,54 +52,68 @@ public class Tower : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!ready && !attachedToMouse)
+        if (!ReplayGame.instance.isRunning())
         {
-            if (resources.canAfford(cost))
+            if (!ready && !attachedToMouse)
             {
-                attachedToMouse = true;
-                Instantiate(this, startPos, new Quaternion());
-                resources.updateGold((short)-cost);
-            }
-            else
-            {
-                FeedbackManager.instance.setFeedback(false, "You can't afford that.", Color.red);
+                if (resources.canAfford(cost))
+                {
+                    attachedToMouse = true;
+                    Instantiate(this, startPos, new Quaternion());
+                    resources.updateGold((short)-cost);
+                }
+                else
+                {
+                    FeedbackManager.instance.setFeedback(false, "You can't afford that.", Color.red);
+                }
             }
         }
     }
     private void OnMouseUp()
     {
-        if (attachedToMouse)
+        if (!ReplayGame.instance.isRunning())
         {
-            float dist = EntityTracker.instance.getClosestTower(this);
-            if (dist > 1.5f)
+            if (attachedToMouse)
             {
-                ready = true;
-                attachedToMouse = false;
-                GSRecorder.GameStateRecorder.instance.towerAdded(this);
-            }
-            else
-            {
-                FeedbackManager.instance.setFeedback(false, "This tower is too close to another tower.", Color.red);
-                resources.updateGold(cost);
-                EntityTracker.instance.removeTower(this);
-                PlayFrames.instance.removeItem(this);
-                Destroy(gameObject);
+                float dist = EntityTracker.instance.getClosestTower(this);
+                if (dist > 1.5f)
+                {
+                    ready = true;
+                    attachedToMouse = false;
+                    resources.updateGold(cost);
+                    GameStateRecorder.instance.towerAdded(this);
+                    resources.updateGold((short)(cost * -1));
+                }
+                else
+                {
+                    FeedbackManager.instance.setFeedback(false, "This tower is too close to another tower.", Color.red);
+                    resources.updateGold(cost);
+                    EntityTracker.instance.removeTower(this);
+                    PlayFrames.instance.removeItem(this);
+                    Destroy(gameObject);
+                }
             }
         }
     }
 
     private void OnMouseEnter()
     {
-        UpdateTowerPanel.instance.updatePanel(sprite.sprite, type.ToString(), range, rateOfFire, damage, cost);
+        if (!ReplayGame.instance.isRunning())
+        {
+            UpdateTowerPanel.instance.updatePanel(sprite.sprite, type.ToString(), range, rateOfFire, damage, cost);
+        }
     }
 
     private void Update()
     {
-        if (attachedToMouse)
+        if (!ReplayGame.instance.isRunning())
         {
-            Vector3 p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector3(p.x, p.y);
-            circle.drawCircle(range, transform.position, 18);
+            if (attachedToMouse)
+            {
+                Vector3 p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                transform.position = new Vector3(p.x, p.y);
+                circle.drawCircle(range, transform.position, 18);
+            }
         }
     }
 
@@ -135,6 +149,16 @@ public class Tower : MonoBehaviour
     public TowerType getType()
     {
         return type;
+    }
+
+    public void setReady()
+    {
+        ready = true;
+    }
+
+    public short getCost()
+    {
+        return cost;
     }
 
 #if (UNITY_EDITOR)
