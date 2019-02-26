@@ -1270,6 +1270,960 @@
         "type": [ 0, 0, 1 ],
         "track": [ 0, 1, 0 ]
       }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 898,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 100,
+        "defenderResources": 125
+      },
+      "output": {
+        "type": [ 0, 1, 0 ],
+        "track": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 959,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [
+          {
+            "x": -148,
+            "y": -2,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 95,
+        "defenderResources": 125
+      },
+      "output": {
+        "type": [ 0, 1, 0 ],
+        "track": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 1013,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [
+          {
+            "x": -132,
+            "y": -1,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          },
+          {
+            "x": -150,
+            "y": -3,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 90,
+        "defenderResources": 125
+      },
+      "output": {
+        "type": [ 0, 1, 0 ],
+        "track": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 1084,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [
+          {
+            "x": -112,
+            "y": 3,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          },
+          {
+            "x": -129,
+            "y": -1,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          },
+          {
+            "x": -145,
+            "y": -2,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 85,
+        "defenderResources": 125
+      },
+      "output": {
+        "type": [ 0, 0, 1 ],
+        "track": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 1244,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [
+          {
+            "x": -93,
+            "y": 26,
+            "health": 0.6000000238418579,
+            "type": [ 0, 1, 0 ]
+          },
+          {
+            "x": -104,
+            "y": 13,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          },
+          {
+            "x": -134,
+            "y": -1,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          }
+        ],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 77,
+        "defenderResources": 128
+      },
+      "output": {
+        "type": [ 0, 0, 1 ],
+        "track": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 1370,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [
+          {
+            "x": -111,
+            "y": 4,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -141,
+            "y": -2,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          }
+        ],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 69,
+        "defenderResources": 134
+      },
+      "output": {
+        "type": [ 0, 0, 1 ],
+        "track": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 1626,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [
+          {
+            "x": -84,
+            "y": 6,
+            "health": 0.2666666805744171,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -99,
+            "y": 19,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -115,
+            "y": 0,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          }
+        ],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 61,
+        "defenderResources": 134
+      },
+      "output": {
+        "type": [ 0, 0, 1 ],
+        "track": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 1885,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [
+          {
+            "x": -76,
+            "y": -12,
+            "health": 0.20000000298023225,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -86,
+            "y": 11,
+            "health": 0.7333333492279053,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -115,
+            "y": 1,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          }
+        ],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 53,
+        "defenderResources": 140
+      },
+      "output": {
+        "type": [ 0, 0, 1 ],
+        "track": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 1951,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [
+          {
+            "x": -73,
+            "y": 0,
+            "health": 0.20000000298023225,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -81,
+            "y": -1,
+            "health": 0.5333333611488342,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -106,
+            "y": 10,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -153,
+            "y": -3,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          }
+        ],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 45,
+        "defenderResources": 140
+      },
+      "output": {
+        "type": [ 0, 0, 1 ],
+        "track": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 2016,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [
+          {
+            "x": -71,
+            "y": 12,
+            "health": 0.13333334028720857,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -76,
+            "y": -12,
+            "health": 0.5333333611488342,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -98,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -140,
+            "y": -2,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -153,
+            "y": -3,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          }
+        ],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 37,
+        "defenderResources": 140
+      },
+      "output": {
+        "type": [ 0, 0, 1 ],
+        "track": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 2080,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [
+          {
+            "x": -73,
+            "y": 0,
+            "health": 0.5333333611488342,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -91,
+            "y": 22,
+            "health": 0.800000011920929,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -127,
+            "y": -1,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -140,
+            "y": -2,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -153,
+            "y": -3,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          }
+        ],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 29,
+        "defenderResources": 146
+      },
+      "output": {
+        "type": [ 0, 0, 1 ],
+        "track": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 2147,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [
+          {
+            "x": -70,
+            "y": 13,
+            "health": 0.46666666865348818,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -86,
+            "y": 10,
+            "health": 0.5333333611488342,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -114,
+            "y": 1,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -127,
+            "y": -1,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -140,
+            "y": -2,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -153,
+            "y": -3,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          }
+        ],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 21,
+        "defenderResources": 146
+      },
+      "output": {
+        "type": [ 0, 0, 1 ],
+        "track": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 2223,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [
+          {
+            "x": -67,
+            "y": 28,
+            "health": 0.13333334028720857,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -80,
+            "y": -4,
+            "health": 0.5333333611488342,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -105,
+            "y": 12,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -113,
+            "y": 2,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -125,
+            "y": 0,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -138,
+            "y": -2,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": -151,
+            "y": -3,
+            "health": 1.0,
+            "type": [ 0, 0, 1 ]
+          }
+        ],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 13,
+        "defenderResources": 146
+      },
+      "output": {
+        "type": [ 0, 0, 1 ],
+        "track": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": false,
+      "gameID": 2,
+      "frame": 4770,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          },
+          {
+            "x": 142,
+            "y": -4,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 0.9666666388511658,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 5,
+        "defenderResources": 169
+      },
+      "output": {
+        "type": [ 0, 1, 0 ],
+        "track": [ 0, 1, 0 ]
+      }
     }
   ]
 }

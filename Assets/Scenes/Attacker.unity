@@ -2633,7 +2633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e48232606b09f804cabbcf5887398623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gold: 100
+  gold: 150
   text: {fileID: 1895133121}
 --- !u!4 &980049950
 Transform:
@@ -4596,7 +4596,7 @@ MonoBehaviour:
   resources:
   - {fileID: 1039850265}
   - {fileID: 980049949}
-  replay: 1
+  replay: 0
 --- !u!156049354 &1785044659
 Grid:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 {
   "defends": [
     {
-      "didWin": false,
+      "didWin": true,
       "gameID": 1,
       "frame": 233,
       "input": {
@@ -51,7 +51,7 @@
       }
     },
     {
-      "didWin": false,
+      "didWin": true,
       "gameID": 1,
       "frame": 564,
       "input": {
@@ -107,7 +107,7 @@
       }
     },
     {
-      "didWin": false,
+      "didWin": true,
       "gameID": 1,
       "frame": 775,
       "input": {
@@ -169,7 +169,7 @@
       }
     },
     {
-      "didWin": false,
+      "didWin": true,
       "gameID": 1,
       "frame": 997,
       "input": {
@@ -237,7 +237,7 @@
       }
     },
     {
-      "didWin": false,
+      "didWin": true,
       "gameID": 1,
       "frame": 1344,
       "input": {
@@ -308,6 +308,161 @@
         "y": -6,
         "health": 1.0,
         "type": [ 0, 0, 1 ]
+      }
+    },
+    {
+      "didWin": true,
+      "gameID": 2,
+      "frame": 837,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 100,
+        "defenderResources": 150
+      },
+      "output": {
+        "x": -82,
+        "y": 20,
+        "health": 1.0,
+        "type": [ 0, 1, 0 ]
+      }
+    },
+    {
+      "didWin": true,
+      "gameID": 2,
+      "frame": 3608,
+      "input": {
+        "towers": [
+          {
+            "x": -82,
+            "y": 20,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          },
+          {
+            "x": 142,
+            "y": -4,
+            "health": 1.0,
+            "type": [ 0, 1, 0 ]
+          }
+        ],
+        "units": [
+          {
+            "x": 155,
+            "y": -4,
+            "health": 0.13333334028720857,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": 113,
+            "y": -16,
+            "health": 0.13333334028720857,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": 63,
+            "y": -30,
+            "health": 0.06666667014360428,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": 53,
+            "y": -22,
+            "health": 0.46666666865348818,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": 44,
+            "y": -13,
+            "health": 0.3333333432674408,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": 34,
+            "y": -5,
+            "health": 0.3333333432674408,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": 24,
+            "y": 4,
+            "health": 0.6000000238418579,
+            "type": [ 0, 0, 1 ]
+          },
+          {
+            "x": 13,
+            "y": 14,
+            "health": 0.6000000238418579,
+            "type": [ 0, 0, 1 ]
+          }
+        ],
+        "walls": [
+          {
+            "x": 165,
+            "y": -4,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": -112,
+            "y": 56,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 32,
+            "y": 73,
+            "health": 1.0,
+            "type": []
+          },
+          {
+            "x": 35,
+            "y": -64,
+            "health": 1.0,
+            "type": []
+          }
+        ],
+        "attackerResources": 5,
+        "defenderResources": 146
+      },
+      "output": {
+        "x": 142,
+        "y": -4,
+        "health": 1.0,
+        "type": [ 0, 1, 0 ]
       }
     }
   ]

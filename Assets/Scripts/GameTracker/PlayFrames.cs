@@ -25,11 +25,8 @@ public class PlayFrames : MonoBehaviour
     }
     private void Update()
     {
-        for (int i = 0; i < 8; i++)
-        {
-            playFrame(Time.deltaTime);
-            frame++;
-        }
+        playFrame(Time.deltaTime);
+        frame++;
     }
 
     public void playFrame(float rate)
