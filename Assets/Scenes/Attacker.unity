@@ -492,7 +492,7 @@ Prefab:
     - target: {fileID: 114297829269788806, guid: 0f7bf535bf531ea41be15c3c876ca25d,
         type: 2}
       propertyPath: range
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114297829269788806, guid: 0f7bf535bf531ea41be15c3c876ca25d,
         type: 2}
@@ -2202,12 +2202,12 @@ Prefab:
     - target: {fileID: 114297829269788806, guid: 0f7bf535bf531ea41be15c3c876ca25d,
         type: 2}
       propertyPath: cost
-      value: 12
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 114297829269788806, guid: 0f7bf535bf531ea41be15c3c876ca25d,
         type: 2}
       propertyPath: range
-      value: 3
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 114297829269788806, guid: 0f7bf535bf531ea41be15c3c876ca25d,
         type: 2}
@@ -2385,7 +2385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e48232606b09f804cabbcf5887398623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gold: 50
+  gold: 100
   text: {fileID: 1895133121}
 --- !u!4 &980049950
 Transform:
@@ -2757,6 +2757,16 @@ Prefab:
         type: 2}
       propertyPath: towerID
       value: Archer
+      objectReference: {fileID: 0}
+    - target: {fileID: 114297829269788806, guid: 0f7bf535bf531ea41be15c3c876ca25d,
+        type: 2}
+      propertyPath: cost
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114297829269788806, guid: 0f7bf535bf531ea41be15c3c876ca25d,
+        type: 2}
+      propertyPath: range
+      value: 1.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f7bf535bf531ea41be15c3c876ca25d, type: 2}
@@ -4077,6 +4087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawner: {fileID: 1039850264}
+  frame: 0
 --- !u!156049354 &1785044659
 Grid:
   m_ObjectHideFlags: 0

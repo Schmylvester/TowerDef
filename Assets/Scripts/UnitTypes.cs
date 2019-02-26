@@ -7,7 +7,6 @@ public enum UnitType
     Knight,
     Rogue,
     Pirate,
-    DebugMan,
 
     Count
 }
@@ -33,10 +32,9 @@ public class UnitTypes : MonoBehaviour
     {
         instance = this;
         stats = new UnitStats[(int)UnitType.Count];
-        setStats(UnitType.Knight, 50, 0.8f, 15, 1.5f, 20, 15, 7.0f);
-        setStats(UnitType.Rogue, 5, 2.0f, 1, 0.5f, 7, 5, 0.8f);
-        setStats(UnitType.Pirate, 15, 1.5f, 2, 0.7f, 10, 8, 1.0f);
-        setStats(UnitType.DebugMan, 15, 0.1f, 150, 80.0f, 10, 1, 0.0f);
+        setStats(UnitType.Knight, 50, 0.8f, 15, 1.5f, 10, 15, 7.0f);
+        setStats(UnitType.Rogue, 5, 2.0f, 1, 0.5f, 3, 5, 0.8f);
+        setStats(UnitType.Pirate, 15, 1.5f, 2, 0.7f, 6, 8, 1.0f);
     }
 
     public UnitStats getStats(UnitType type)

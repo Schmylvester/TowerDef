@@ -7,6 +7,7 @@ public class PlayFrames : MonoBehaviour
     public static PlayFrames instance;
     List<MonoBehaviour> trackedObjects = new List<MonoBehaviour>();
     [SerializeField] Spawner spawner;
+    public uint frame = 0;
 
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class PlayFrames : MonoBehaviour
     private void Update()
     {
         playFrame(Time.deltaTime);
+        frame++;
     }
 
     public void playFrame(float rate)

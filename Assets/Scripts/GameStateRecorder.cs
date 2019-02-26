@@ -5,6 +5,7 @@ using System.IO;
 
 namespace GSRecorder
 {
+    #region SoManyStructs
     [System.Serializable]
     public struct EntityData
     {
@@ -46,6 +47,7 @@ namespace GSRecorder
     [System.Serializable]
     public struct IOASetup
     {
+        public uint frame;
         public Input input;
         public AttackerOutput output;
     }
@@ -53,6 +55,7 @@ namespace GSRecorder
     [System.Serializable]
     public struct IODSetup
     {
+        public uint frame;
         public Input input;
         public DefenderOutput output;
     }
@@ -68,7 +71,7 @@ namespace GSRecorder
     {
         public List<IODSetup> defends;
     }
-
+    #endregion
     public class GameStateRecorder : MonoBehaviour
     {
         public static GameStateRecorder instance;
@@ -81,8 +84,12 @@ namespace GSRecorder
         private void Awake()
         {
             instance = this;
-            attacks = new Attacks() { attacks = new List<IOASetup>() };
-            defends = new Defends() { defends = new List<IODSetup>() };
+            StreamReader file = new StreamReader("Assets/kNNData/Att.json");
+            attacks = JsonUtility.FromJson<Attacks>(file.ReadToEnd());
+            file.Close();
+            file = new StreamReader("Assets/kNNData/Def.json");
+            defends = JsonUtility.FromJson<Defends>(file.ReadToEnd());
+            file.Close();
         }
 
         Input getGameState()
@@ -154,7 +161,7 @@ namespace GSRecorder
         {
             Input _in = getGameState();
             AttackerOutput _out = createOutput(unit);
-            IOASetup data = new IOASetup() { input = _in, output = _out };
+            IOASetup data = new IOASetup() { frame = PlayFrames.instance.frame, input = _in, output = _out };
             attacks.attacks.Add(data);
         }
 
@@ -162,18 +169,16 @@ namespace GSRecorder
         {
             Input _in = getGameState();
             DefenderOutput _out = createOutput(tower);
-            IODSetup data = new IODSetup() { input = _in, output = _out };
+            IODSetup data = new IODSetup() { frame = PlayFrames.instance.frame, input = _in, output = _out };
             defends.defends.Add(data);
         }
 
         private void OnApplicationQuit()
         {
-
-            string gameID = Random.Range(0, int.MaxValue).ToString();
-            StreamWriter file = new StreamWriter("Assets/kNNData/" + gameID + "Att.json", true);
+            StreamWriter file = new StreamWriter("Assets/kNNData/Att.json", false);
             file.Write(JsonUtility.ToJson(attacks));
             file.Close();
-            file = new StreamWriter("Assets/kNNData/" + gameID + "Def.json", true);
+            file = new StreamWriter("Assets/kNNData/Def.json", false);
             file.Write(JsonUtility.ToJson(defends));
             file.Close();
         }

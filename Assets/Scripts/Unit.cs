@@ -110,10 +110,13 @@ public class Unit : Entity
         if (timer > stats.attackRate)
         {
             timer -= stats.attackRate;
-            if (target.structure.takeDamage(stats.damage, gameObject, Color.red))
+            if (target)
             {
-                resources.updateGold(target.structure.getReward());
-                nextTargetInSequence();
+                if (target.structure.takeDamage(stats.damage, gameObject, Color.red))
+                {
+                    resources.updateGold(target.structure.getReward());
+                    nextTargetInSequence();
+                }
             }
         }
     }
