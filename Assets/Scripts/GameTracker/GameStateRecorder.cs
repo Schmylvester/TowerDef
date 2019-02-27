@@ -13,6 +13,7 @@ public class GameStateRecorder : MonoBehaviour
     Defends defends;
     uint gameID;
     [SerializeField] bool clear_files;
+    [SerializeField] bool track_this_game;
 
     private void Awake()
     {
@@ -137,6 +138,10 @@ public class GameStateRecorder : MonoBehaviour
 
     public void unitAdded(Unit unit)
     {
+        if (!track_this_game)
+        {
+            return;
+        }
         InputRecord _in = getGameState();
         UnitData _out = createOutput(unit);
         IOASetup data = new IOASetup()
@@ -151,6 +156,10 @@ public class GameStateRecorder : MonoBehaviour
 
     public void towerAdded(Tower tower)
     {
+        if (!track_this_game)
+        {
+            return;
+        }
         InputRecord _in = getGameState();
         EntityData _out = createOutput(tower);
         IODSetup data = new IODSetup()
@@ -165,6 +174,10 @@ public class GameStateRecorder : MonoBehaviour
 
     public void onGameOver(bool defenderWins)
     {
+        if (!track_this_game)
+        {
+            return;
+        }
         if (defenderWins)
         {
             for (int i = 0; i < defends.defends.Count; i++)

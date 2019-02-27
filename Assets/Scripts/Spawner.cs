@@ -123,7 +123,7 @@ public class Spawner : MonoBehaviour
         health.text = "Health: " + stats.health;
         moveSpeed.text = "Move Speed: " + stats.moveSpeed;
         damage.text = "Damage: " + stats.damage;
-        attackSpeed.text = "Attack Speed: " + stats.attackRate;
+        attackSpeed.text = "Attack Speed: " + (1.0f / stats.attackRate).ToString("F1");
         cost.text = "Cost: " + stats.cost;
     }
 
