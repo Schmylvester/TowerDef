@@ -16,6 +16,8 @@ public class Tower : MonoBehaviour
     [SerializeField] TowerType type;
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] short cost;
+    [SerializeField] short uses;
+    short usesLeft;
     [SerializeField] float range;
     [SerializeField] float rateOfFire;
     [SerializeField] short damage;
@@ -33,6 +35,7 @@ public class Tower : MonoBehaviour
         startPos = new Vector2(transform.position.x, transform.position.y);
         PlayFrames.instance.addItem(this);
         EntityTracker.instance.addTower(this);
+        usesLeft = uses;
     }
 
     public void addUnit(Unit unit)
@@ -100,7 +103,7 @@ public class Tower : MonoBehaviour
     {
         if (!ReplayGame.instance.isRunning())
         {
-            UpdateTowerPanel.instance.updatePanel(sprite.sprite, type.ToString(), range, rateOfFire, damage, cost);
+            UpdateTowerPanel.instance.updatePanel(sprite.sprite, type.ToString(), range, rateOfFire, damage, uses, cost);
         }
     }
 
@@ -133,6 +136,16 @@ public class Tower : MonoBehaviour
                         {
                             resources.updateGold(unit.getReward());
                         }
+                        usesLeft--;
+                        if (usesLeft <= 0)
+                        {
+                            EntityTracker.instance.removeTower(this);
+                            Destroy(gameObject);
+                        }
+                        else
+                        {
+                            sprite.color = new Color(1, 1, 1, (float)usesLeft / uses + 0.3f);
+                        }
                         timer = 0;
                         break;
                     }
@@ -159,6 +172,11 @@ public class Tower : MonoBehaviour
     public short getCost()
     {
         return cost;
+    }
+
+    public float getHealth()
+    {
+        return (float)usesLeft / uses;
     }
 
 #if (UNITY_EDITOR)

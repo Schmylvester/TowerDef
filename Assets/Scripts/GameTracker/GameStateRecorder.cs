@@ -91,7 +91,7 @@ public class GameStateRecorder : MonoBehaviour
                 {
                     x = pos.x,
                     y = pos.y,
-                    health = 1,
+                    health = tower.getHealth(),
                     type = new short[(int)TowerType.Count]
                 };
                 towerData.type[(int)tower.getType()] = 1;

@@ -10,6 +10,7 @@ public class UpdateTowerPanel : MonoBehaviour {
     [SerializeField] Text cost;
     [SerializeField] Text range;
     [SerializeField] Text rateOfFire;
+    [SerializeField] Text uses;
     [SerializeField] Text damage;
 
     public static UpdateTowerPanel instance;
@@ -19,7 +20,7 @@ public class UpdateTowerPanel : MonoBehaviour {
         instance = this;
     }
 
-    public void updatePanel(Sprite _sprite, string _name, float _range, float _rof, short _damage, short _cost)
+    public void updatePanel(Sprite _sprite, string _name, float _range, float _rof, short _damage, short _uses, short _cost)
     {
         sprite.sprite = _sprite;
         towerName.text = _name;
@@ -27,5 +28,6 @@ public class UpdateTowerPanel : MonoBehaviour {
         range.text = "Range: " + _range;
         rateOfFire.text = "Fire Rate: " + (short)(30 / _rof);
         damage.text = "Damage: " + _damage;
+        uses.text = "Uses: " + _uses;
     }
 }
