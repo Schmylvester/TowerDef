@@ -54,7 +54,7 @@ public class Unit : Entity
         resources = _resources;
     }
 
-    public void update(float rate)
+    public override void update(float rate)
     {
         if (target)
         {

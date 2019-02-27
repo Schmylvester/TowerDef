@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Spawner : MonoBehaviour
+public class Spawner : ManualUpdate
 {
+    public static Spawner instance;
     [SerializeField] GameObject unitPrefab;
     [SerializeField] GameObject healthBarPrefab;
     [SerializeField] Transform canvas;
@@ -27,12 +28,14 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
+        instance = this;
         cooldowns = new float[(int)UnitType.Count];
         switchTargettedNode(0);
         updatePanel();
+        PlayFrames.instance.addItem(this);
     }
 
-    public void update(float rate)
+    public override void update(float rate)
     {
         for (int i = 0; i < cooldowns.Length; i++)
             cooldowns[i] -= rate;
@@ -48,7 +51,7 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
-        if (!ReplayGame.instance.isRunning())
+        if (!Autoplay.instance.replayRunning())
         {
             if (Input.GetKeyDown(KeyCode.D))
             {
@@ -81,7 +84,7 @@ public class Spawner : MonoBehaviour
                         ShowHealth healthBar = Instantiate(healthBarPrefab, canvas).GetComponent<ShowHealth>();
                         unit.setHealthBar(healthBar);
                         unit.GetComponent<SpriteRenderer>().sprite = UnitTypes.instance.getSprite(spawn);
-                        cooldowns[(int)spawn] = unit.getCooldown();
+                        setInCooldown(spawn);
                         GameStateRecorder.instance.unitAdded(unit);
                         resources.updateGold((short)-cost);
                     }
@@ -134,5 +137,14 @@ public class Spawner : MonoBehaviour
         targettedNode = (short)Mathf.Max(0, targettedNode);
         targettedNode = (short)Mathf.Min(targettedNode, paths.Length - 1);
         paths[targettedNode].startColor = Color.blue;
+    }
+
+    public bool isInCooldown(UnitType unit)
+    {
+        return cooldowns[(int)unit] > 0;
+    }
+    public void setInCooldown(UnitType unit)
+    {
+        cooldowns[(int)unit] = UnitTypes.instance.getStats(unit).cooldown;
     }
 }

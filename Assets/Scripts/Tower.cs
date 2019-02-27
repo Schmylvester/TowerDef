@@ -11,7 +11,7 @@ public enum TowerType
     Count
 }
 
-public class Tower : MonoBehaviour
+public class Tower : ManualUpdate
 {
     [SerializeField] TowerType type;
     [SerializeField] SpriteRenderer sprite;
@@ -55,7 +55,7 @@ public class Tower : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!ReplayGame.instance.isRunning())
+        if (!Autoplay.instance.replayRunning())
         {
             if (!ready && !attachedToMouse)
             {
@@ -74,7 +74,7 @@ public class Tower : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        if (!ReplayGame.instance.isRunning())
+        if (!Autoplay.instance.replayRunning())
         {
             if (attachedToMouse)
             {
@@ -101,7 +101,7 @@ public class Tower : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (!ReplayGame.instance.isRunning())
+        if (!Autoplay.instance.replayRunning())
         {
             UpdateTowerPanel.instance.updatePanel(sprite.sprite, type.ToString(), range, rateOfFire, damage, uses, cost);
         }
@@ -109,7 +109,7 @@ public class Tower : MonoBehaviour
 
     private void Update()
     {
-        if (!ReplayGame.instance.isRunning())
+        if (!Autoplay.instance.replayRunning())
         {
             if (attachedToMouse)
             {
@@ -120,7 +120,7 @@ public class Tower : MonoBehaviour
         }
     }
 
-    public void update(float rate)
+    public override void update(float rate)
     {
         if (ready)
         {

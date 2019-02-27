@@ -10,13 +10,12 @@ public class EntityTracker : MonoBehaviour
     public Material lineMat;
     [SerializeField] Resources attackerRes;
     [SerializeField] Resources defenderRes;
-    [SerializeField] GameStateRecorder stateRecorder;
 
     private void Awake()
     {
         instance = this;
     }
-    
+
     public List<Unit> getUnits()
     {
         return units;
@@ -62,6 +61,20 @@ public class EntityTracker : MonoBehaviour
         return closest;
     }
 
+    public float getClosestTower(Vector2 to)
+    {
+        float closest = float.MaxValue;
+        foreach (Tower tower in towers)
+        {
+            float dist = Vector2.Distance(to, tower.transform.position);
+            if (dist < closest)
+            {
+                closest = dist;
+            }
+        }
+        return closest;
+    }
+
     public void removeUnit(Unit unit)
     {
         units.Remove(unit);
@@ -90,5 +103,41 @@ public class EntityTracker : MonoBehaviour
     public void removeTower(Tower tower)
     {
         towers.Remove(tower);
+    }
+
+    public bool isValidInput(UnitData newUnit)
+    {
+        UnitType spawn = UnitType.Count;
+        for (short i = 0; i < (short)UnitType.Count; i++)
+        {
+            if (newUnit.type[i] == 1)
+            {
+                spawn = (UnitType)i;
+            }
+        }
+        short cost = UnitTypes.instance.getStats(spawn).cost;
+        if (!attackerRes.canAfford(cost))
+            return false;
+        if (Spawner.instance.isInCooldown(spawn))
+            return false;
+        return true;
+    }
+    public bool isValidInput(short[] newTower, Vector3 pos)
+    {
+        short towerIdx = 0;
+        for (short i = 0; i < newTower.Length; i++)
+        {
+            if (newTower[i] == 1)
+            {
+                towerIdx = i;
+                break;
+            }
+        }
+        if (!defenderRes.canAfford(TowerTypes.instance.getTower(towerIdx).getCost()))
+            return false;
+        float dist = getClosestTower(new Vector2(pos.x, pos.y));
+        if (dist <= 1.5f)
+            return false;
+        return true;
     }
 }

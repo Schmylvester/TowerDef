@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LineSet : MonoBehaviour
+public class LineSet : ManualUpdate
 {
     float lifeTime = 0.2f;
 
@@ -11,7 +11,7 @@ public class LineSet : MonoBehaviour
         PlayFrames.instance.addItem(this);
     }
 
-    public void update(float rate)
+    public override void update(float rate)
     {
         lifeTime -= rate;
         if (lifeTime < 0)

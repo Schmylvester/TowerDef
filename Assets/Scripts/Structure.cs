@@ -21,4 +21,9 @@ public class Structure : Entity
     {
         return destroyed;
     }
+
+    public override void update(float rate)
+    {
+
+    }
 }

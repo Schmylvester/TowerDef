@@ -3,8 +3,8 @@
 [System.Serializable]
 public struct EntityData
 {
-    public int x;
-    public int y;
+    public float x;
+    public float y;
     public float health;
     public short[] type;
 }
@@ -15,8 +15,8 @@ public struct InputRecord
     public List<EntityData> towers;
     public List<EntityData> units;
     public List<EntityData> walls;
-    public int attackerResources;
-    public int defenderResources;
+    public float attackerResources;
+    public float defenderResources;
 }
 
 [System.Serializable]

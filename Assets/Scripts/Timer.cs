@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Timer : MonoBehaviour
+public class Timer : ManualUpdate
 {
 
     [SerializeField] UnityEngine.UI.Text timeText;
@@ -12,11 +12,12 @@ public class Timer : MonoBehaviour
     private void Start()
     {
         time = startTime;
+        PlayFrames.instance.addItem(this);
     }
 
-    private void Update()
+    public override void update(float rate)
     {
-        time -= Time.deltaTime;
+        time -= rate;
         time = Mathf.Max(0, time);
         if(time == 0)
         {

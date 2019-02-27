@@ -2644,7 +2644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e48232606b09f804cabbcf5887398623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gold: 80
+  gold: 150
   text: {fileID: 1895133121}
   gainRate: 0
   gainAmount: 0
@@ -2821,8 +2821,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gold: 250
   text: {fileID: 1866105747}
-  gainRate: 2
-  gainAmount: 3
+  gainRate: 3
+  gainAmount: 2
 --- !u!4 &1039850266
 Transform:
   m_ObjectHideFlags: 0
@@ -3208,11 +3208,12 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1316744962}
   m_CullTransparentMesh: 0
---- !u!1 &1336579410 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1100318968770172, guid: 0f7bf535bf531ea41be15c3c876ca25d,
+--- !u!114 &1336579412 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114297829269788806, guid: 0f7bf535bf531ea41be15c3c876ca25d,
     type: 2}
   m_PrefabInternal: {fileID: 887607713}
+  m_Script: {fileID: 11500000, guid: 067a4c2e0f44d3040b4737c159e13239, type: 3}
 --- !u!1 &1377297310
 GameObject:
   m_ObjectHideFlags: 0
@@ -3950,11 +3951,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structure: {fileID: 0}
   next_node: {fileID: 216038302}
---- !u!1 &1529440695 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1100318968770172, guid: 0f7bf535bf531ea41be15c3c876ca25d,
+--- !u!114 &1529440698 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114297829269788806, guid: 0f7bf535bf531ea41be15c3c876ca25d,
     type: 2}
   m_PrefabInternal: {fileID: 1283061324}
+  m_Script: {fileID: 11500000, guid: 067a4c2e0f44d3040b4737c159e13239, type: 3}
 --- !u!1 &1529782214
 GameObject:
   m_ObjectHideFlags: 0
@@ -4455,11 +4457,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeText: {fileID: 1697242165}
   startTime: 180
---- !u!1 &1768140839 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1100318968770172, guid: 0f7bf535bf531ea41be15c3c876ca25d,
+--- !u!114 &1768140841 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114297829269788806, guid: 0f7bf535bf531ea41be15c3c876ca25d,
     type: 2}
   m_PrefabInternal: {fileID: 97025612}
+  m_Script: {fileID: 11500000, guid: 067a4c2e0f44d3040b4737c159e13239, type: 3}
 --- !u!1 &1772462204
 GameObject:
   m_ObjectHideFlags: 0
@@ -4565,6 +4568,8 @@ GameObject:
   - component: {fileID: 1785044662}
   - component: {fileID: 1785044661}
   - component: {fileID: 1785044660}
+  - component: {fileID: 1785044663}
+  - component: {fileID: 1785044664}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -4596,8 +4601,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2396fd9d926d63c4b97656fd2b279d7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 1039850264}
   frame: 0
+  gameOver: 0
 --- !u!114 &1785044658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4610,10 +4615,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   replayText: {fileID: 1677912105}
-  towers:
-  - {fileID: 1529440695}
-  - {fileID: 1336579410}
-  - {fileID: 1768140839}
   unitPrefab: {fileID: 1706083075084412, guid: e286e746aab12f940ad1bebf03df9b04, type: 2}
   healthBarPrefab: {fileID: 1605037424349972, guid: 71c1af3d22abf8f41911ce7fb5f0d0e9,
     type: 2}
@@ -4652,7 +4653,6 @@ MonoBehaviour:
   lineMat: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   attackerRes: {fileID: 1039850265}
   defenderRes: {fileID: 980049949}
-  stateRecorder: {fileID: 1785044662}
 --- !u!114 &1785044661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4692,6 +4692,32 @@ MonoBehaviour:
   - {fileID: 1436144415}
   clear_files: 0
   track_this_game: 0
+--- !u!114 &1785044663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1785044655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aea541b1cc9d4b147a7801a94207ce79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1785044664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1785044655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4648836ae4ab51442b88e61496f9189a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towers:
+  - {fileID: 1529440698}
+  - {fileID: 1336579412}
+  - {fileID: 1768140841}
 --- !u!1 &1844314613
 GameObject:
   m_ObjectHideFlags: 0

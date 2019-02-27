@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Resources : MonoBehaviour
+public class Resources : ManualUpdate
 {
     [SerializeField] int gold;
     [SerializeField] UnityEngine.UI.Text text;
@@ -10,24 +10,20 @@ public class Resources : MonoBehaviour
     [SerializeField] short gainAmount;
     float time = 0;
 
-    private void Awake()
+    private void Start()
     {
         updateGold(0);
+        PlayFrames.instance.addItem(this);
     }
 
-    private void Update()
+    public override void update(float rate)
     {
-        time += Time.deltaTime;
+        time += rate;
         if (time > gainRate)
         {
             time -= gainRate;
             updateGold(gainAmount);
         }
-    }
-
-    public int getGold()
-    {
-        return gold;
     }
 
     public bool canAfford(short cost)
@@ -40,5 +36,10 @@ public class Resources : MonoBehaviour
         gold += by;
         gold = Mathf.Max(0, gold);
         text.text = gold.ToString();
+    }
+
+    public float normalisedValue()
+    {
+        return (float)gold / 512;
     }
 }
