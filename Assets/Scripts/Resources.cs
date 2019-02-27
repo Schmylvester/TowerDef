@@ -6,10 +6,23 @@ public class Resources : MonoBehaviour
 {
     [SerializeField] int gold;
     [SerializeField] UnityEngine.UI.Text text;
+    [SerializeField] float gainRate;
+    [SerializeField] short gainAmount;
+    float time = 0;
 
     private void Awake()
     {
         updateGold(0);
+    }
+
+    private void Update()
+    {
+        time += Time.deltaTime;
+        if (time > gainRate)
+        {
+            time -= gainRate;
+            updateGold(gainAmount);
+        }
     }
 
     public int getGold()
