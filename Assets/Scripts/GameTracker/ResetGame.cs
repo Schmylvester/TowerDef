@@ -12,7 +12,7 @@ public class ResetGame : MonoBehaviour
 
     private void Update()
     {
-        if (PlayFrames.instance.gameOver && count-- >= 0)
+        if (PlayFrames.instance.gameOver && --count > 0)
         {
             resetGame();
             GameStateRecorder.instance.incrementOutFile();
