@@ -4534,7 +4534,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frame: 0
   gameOver: 0
-  randomGame: 1
+  randomGame: 0
 --- !u!114 &1785044658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4692,6 +4692,7 @@ MonoBehaviour:
   - {fileID: 1529440698}
   - {fileID: 1336579412}
   - {fileID: 1768140841}
+  count: 100
 --- !u!1 &1844314613
 GameObject:
   m_ObjectHideFlags: 0
