@@ -6,8 +6,9 @@ public class PlayFrames : MonoBehaviour
 {
     public static PlayFrames instance;
     List<ManualUpdate> trackedObjects = new List<ManualUpdate>();
-    public uint frame = 0;
-    public bool gameOver = false;
+    [HideInInspector] public uint frame = 0;
+    [HideInInspector] public bool gameOver = false;
+    [SerializeField] bool randomGame = false;
 
     private void Awake()
     {
@@ -25,10 +26,32 @@ public class PlayFrames : MonoBehaviour
     }
     private void Update()
     {
-        if (!gameOver)
+        if (randomGame)
         {
-            playFrame(Time.deltaTime);
-            frame++;
+            for (int i = 0; i < 1000; i++)
+            {
+                if (!gameOver)
+                {
+                    if (Random.Range(0, 1000) == 0)
+                    {
+                        Autoplay.instance.createTower(new EntityData(), true);
+                    }
+                    if (Random.Range(0, 1000) == 0)
+                    {
+                        Autoplay.instance.createUnit(new UnitData(), true);
+                    }
+                    playFrame(0.01f);
+                    frame++;
+                }
+            }
+        }
+        else
+        {
+            if (!gameOver)
+            {
+                playFrame(Time.deltaTime);
+                frame++;
+            }
         }
     }
 

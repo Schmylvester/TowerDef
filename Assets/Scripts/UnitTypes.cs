@@ -19,7 +19,6 @@ public struct UnitStats
     public float attackRate;
     public short reward;
     public short cost;
-    public float cooldown;
 }
 
 public class UnitTypes : MonoBehaviour
@@ -33,10 +32,10 @@ public class UnitTypes : MonoBehaviour
     {
         instance = this;
         stats = new UnitStats[(int)UnitType.Count];
-        setStats(UnitType.Knight,  45, 0.8f, 15, 1.5f, 10, 15, 7.0f);
-        setStats(UnitType.Rogue,   5,  1.8f, 1,  0.7f, 3,  5,  0.8f);
-        setStats(UnitType.Pirate,  15, 1.2f, 5,  0.8f, 6,  8,  1.0f);
-        setStats(UnitType.Paladin, 60, 0.8f, 5,  1.0f, 15, 15, 4.0f);
+        setStats(UnitType.Knight,  45, 0.8f, 15, 1.5f, 10, 15);
+        setStats(UnitType.Rogue,   5,  1.8f, 1,  0.7f, 3,  5);
+        setStats(UnitType.Pirate,  15, 1.2f, 5,  0.8f, 6,  8);
+        setStats(UnitType.Paladin, 60, 0.8f, 5,  1.0f, 15, 15);
     }
 
     public UnitStats getStats(UnitType type)
@@ -51,7 +50,7 @@ public class UnitTypes : MonoBehaviour
 
     void setStats(UnitType type, short health,
         float moveSpeed, short damage, float attackRate,
-        short reward, short cost, float cooldown)
+        short reward, short cost)
     {
         int i = (int)type;
         stats[i].health = health;
@@ -60,19 +59,5 @@ public class UnitTypes : MonoBehaviour
         stats[i].attackRate = attackRate;
         stats[i].reward = reward;
         stats[i].cost = cost;
-        stats[i].cooldown = cooldown;
-    }
-
-    public short cheapestUnit()
-    {
-        short lowest = short.MaxValue;
-        foreach(UnitStats stat in stats)
-        {
-            if(stat.cost < lowest)
-            {
-                lowest = stat.cost;
-            }
-        }
-        return lowest;
     }
 }

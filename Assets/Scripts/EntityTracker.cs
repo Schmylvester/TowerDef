@@ -82,12 +82,6 @@ public class EntityTracker : MonoBehaviour
         {
             tower.removeUnit(unit);
         }
-        if (units.Count == 0 && !attackerRes.canAfford(UnitTypes.instance.cheapestUnit()))
-        {
-            FeedbackManager.instance.setFeedback(true, "You lose.");
-            FeedbackManager.instance.setFeedback(false, "You win.");
-            GameStateRecorder.instance.onGameOver(true);
-        }
     }
 
     public void addTower(Tower tower)
@@ -118,8 +112,6 @@ public class EntityTracker : MonoBehaviour
         short cost = UnitTypes.instance.getStats(spawn).cost;
         if (!attackerRes.canAfford(cost))
             return false;
-        if (Spawner.instance.isInCooldown(spawn))
-            return false;
         return true;
     }
     public bool isValidInput(short[] newTower, Vector3 pos)
@@ -139,5 +131,11 @@ public class EntityTracker : MonoBehaviour
         if (dist <= 1.5f)
             return false;
         return true;
+    }
+
+    public void resetGame()
+    {
+        towers.Clear();
+        units.Clear();
     }
 }

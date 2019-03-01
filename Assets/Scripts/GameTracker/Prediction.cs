@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Prediction : MonoBehaviour
 {
-    float winBonus = 0.4f;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
@@ -73,10 +72,8 @@ public class Prediction : MonoBehaviour
         for (int i = 0; i < defends.Count; i++)
         {
             float dist = getDistFromCurrentState(gameState, defends[i].input);
-            if (defends[i].didWin)
-            {
-                dist -= winBonus;
-            }
+            dist -= defends[i].score;
+
             if (dist < bestDist)
             {
                 bestDist = dist;
@@ -100,10 +97,7 @@ public class Prediction : MonoBehaviour
         for (int i = 0; i < attacks.Count; i++)
         {
             float dist = getDistFromCurrentState(gameState, attacks[i].input);
-            if (attacks[i].didWin)
-            {
-                dist -= winBonus;
-            }
+            dist -= attacks[i].score;
             if (dist < bestDist)
             {
                 bestDist = dist;

@@ -15,6 +15,11 @@ public class Timer : ManualUpdate
         PlayFrames.instance.addItem(this);
     }
 
+    public float getScore()
+    {
+        return 1 -(time / startTime);
+    }
+
     public override void update(float rate)
     {
         time -= rate;
@@ -41,5 +46,10 @@ public class Timer : ManualUpdate
             miliSeconds = "0" + miliSeconds;
 
         timeText.text = minutes.ToString() + ":" + seconds + "." + miliSeconds;
+    }
+
+    public void resetGame()
+    {
+        time = startTime;
     }
 }

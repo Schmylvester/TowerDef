@@ -157,12 +157,14 @@ public class Unit : Entity
         Destroy(healthBar.gameObject);
         EntityTracker.instance.removeUnit(this);
         PlayFrames.instance.removeItem(this);
+        GameScorer.instance.unitDies(transform.position.x);
         Destroy(gameObject);
     }
 
-    public float getCooldown()
+    public void OnDestroy()
     {
-        return stats.cooldown;
+        if (healthBar)
+            Destroy(healthBar.gameObject);
     }
 
     public short getTrack()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Spawner : ManualUpdate
+public class Spawner : MonoBehaviour
 {
     public static Spawner instance;
     [SerializeField] GameObject unitPrefab;
@@ -13,7 +13,6 @@ public class Spawner : ManualUpdate
     [SerializeField] Resources resources;
     UnitType spawn;
     short targettedNode = 0;
-    float[] cooldowns;
 
     #region UnitUI
     [SerializeField] Image sprite;
@@ -23,30 +22,13 @@ public class Spawner : ManualUpdate
     [SerializeField] Text damage;
     [SerializeField] Text attackSpeed;
     [SerializeField] Text cost;
-    [SerializeField] Transform darkness;
     #endregion
 
     private void Start()
     {
         instance = this;
-        cooldowns = new float[(int)UnitType.Count];
         switchTargettedNode(0);
         updatePanel();
-        PlayFrames.instance.addItem(this);
-    }
-
-    public override void update(float rate)
-    {
-        for (int i = 0; i < cooldowns.Length; i++)
-            cooldowns[i] -= rate;
-        if (cooldowns[(int)spawn] > 0)
-        {
-            darkness.localScale = new Vector3(1, cooldowns[(int)spawn] / UnitTypes.instance.getStats(spawn).cooldown, 1);
-        }
-        else
-        {
-            darkness.localScale = new Vector3(1, 0, 1);
-        }
     }
 
     private void Update()
@@ -73,29 +55,22 @@ public class Spawner : ManualUpdate
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (cooldowns[(int)spawn] <= 0)
+
+                short cost = UnitTypes.instance.getStats(spawn).cost;
+                if (resources.canAfford(cost))
                 {
-                    short cost = UnitTypes.instance.getStats(spawn).cost;
-                    if (resources.canAfford(cost))
-                    {
-                        Unit unit = Instantiate(unitPrefab).GetComponent<Unit>();
-                        unit.setStartNode(paths[targettedNode].transform.GetChild(0).GetComponent<Node>(), targettedNode);
-                        unit.setClass(spawn);
-                        ShowHealth healthBar = Instantiate(healthBarPrefab, canvas).GetComponent<ShowHealth>();
-                        unit.setHealthBar(healthBar);
-                        unit.GetComponent<SpriteRenderer>().sprite = UnitTypes.instance.getSprite(spawn);
-                        setInCooldown(spawn);
-                        GameStateRecorder.instance.unitAdded(unit);
-                        resources.updateGold((short)-cost);
-                    }
-                    else
-                    {
-                        FeedbackManager.instance.setFeedback(true, "You can't afford that.", Color.red);
-                    }
+                    Unit unit = Instantiate(unitPrefab).GetComponent<Unit>();
+                    unit.setStartNode(paths[targettedNode].transform.GetChild(0).GetComponent<Node>(), targettedNode);
+                    unit.setClass(spawn);
+                    ShowHealth healthBar = Instantiate(healthBarPrefab, canvas).GetComponent<ShowHealth>();
+                    unit.setHealthBar(healthBar);
+                    unit.GetComponent<SpriteRenderer>().sprite = UnitTypes.instance.getSprite(spawn);
+                    GameStateRecorder.instance.unitAdded(unit);
+                    resources.updateGold((short)-cost);
                 }
                 else
                 {
-                    FeedbackManager.instance.setFeedback(true, spawn.ToString() + " is cooling down.", Color.red);
+                    FeedbackManager.instance.setFeedback(true, "You can't afford that.", Color.red);
                 }
             }
         }
@@ -137,14 +112,5 @@ public class Spawner : ManualUpdate
         targettedNode = (short)Mathf.Max(0, targettedNode);
         targettedNode = (short)Mathf.Min(targettedNode, paths.Length - 1);
         paths[targettedNode].startColor = Color.blue;
-    }
-
-    public bool isInCooldown(UnitType unit)
-    {
-        return cooldowns[(int)unit] > 0;
-    }
-    public void setInCooldown(UnitType unit)
-    {
-        cooldowns[(int)unit] = UnitTypes.instance.getStats(unit).cooldown;
     }
 }

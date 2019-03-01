@@ -29,8 +29,7 @@ public struct UnitData
 [System.Serializable]
 public struct IOASetup
 {
-    public bool didWin;
-    public uint gameID;
+    public float score;
     public uint frame;
     public InputRecord input;
     public UnitData output;
@@ -39,8 +38,7 @@ public struct IOASetup
 [System.Serializable]
 public struct IODSetup
 {
-    public bool didWin;
-    public uint gameID;
+    public float score;
     public uint frame;
     public InputRecord input;
     public EntityData output;

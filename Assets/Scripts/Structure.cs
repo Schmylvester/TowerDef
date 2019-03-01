@@ -26,4 +26,12 @@ public class Structure : Entity
     {
 
     }
+
+    public void resetGame()
+    {
+        currentHealth = health;
+        destroyed = false;
+        healthBar.updateHealth(this);
+        sprite.color = Color.white;
+    }
 }

@@ -25,7 +25,7 @@ public class Tower : ManualUpdate
     float timer = 0;
     List<Unit> units = new List<Unit>();
     Resources resources;
-    bool ready = false;
+    bool ready;
     bool attachedToMouse = false;
     Vector2 startPos;
 

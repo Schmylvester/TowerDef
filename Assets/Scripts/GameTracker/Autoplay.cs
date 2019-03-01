@@ -29,14 +29,6 @@ public class Autoplay : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Random.Range(0, 400) == 0)
-        {
-            createRandom();
-        }
-    }
-
     Vector3Int unnormalisePos(Vector3 inPos)
     {
         int x = (int)((inPos.x - 0.5f) * 360);
@@ -67,7 +59,7 @@ public class Autoplay : MonoBehaviour
         return replay > 0;
     }
 
-    void createRandom()
+    UnitData randomUnit()
     {
         UnitData newUnit = new UnitData()
         {
@@ -76,11 +68,31 @@ public class Autoplay : MonoBehaviour
         };
         newUnit.type[Random.Range(0, newUnit.type.Length)] = 1;
         newUnit.track[Random.Range(0, newUnit.track.Length)] = 1;
-        createUnit(newUnit);
+        return newUnit;
     }
 
-    public void createTower(EntityData from)
+    EntityData randomTower()
     {
+        EntityData newTower = new EntityData()
+        {
+            type = new short[3],
+            health = 1,
+            x = Random.Range(0.0f, 1.0f),
+            y = Random.Range(0.0f, 1.0f)
+        };
+
+        newTower.type[Random.Range(0, newTower.type.Length)]= 1;
+
+        return newTower;
+    }
+
+    public void createTower(EntityData from, bool rand = false)
+    {
+        if (rand)
+        {
+            from = randomTower();
+            GameStateRecorder.instance.towerAdded(from);
+        }
         Vector3Int iPos = unnormalisePos(new Vector3(from.x, from.y, 0));
         Vector3 pos = grid.CellToWorld(iPos);
         if (EntityTracker.instance.isValidInput(from.type, pos))
@@ -95,15 +107,21 @@ public class Autoplay : MonoBehaviour
                 }
             }
 
-            GameObject tower = Instantiate(TowerTypes.instance.getTower(towerIdx).gameObject, pos, new Quaternion());
-            Tower t = TowerTypes.instance.getTower(towerIdx);
-            t.setReady();
-            resources[1].updateGold((short)-t.getCost());
+            Tower tower = Instantiate(
+                TowerTypes.instance.getTower(towerIdx).gameObject, pos
+                , new Quaternion()).GetComponent<Tower>();
+            tower.setReady();
+            resources[1].updateGold((short)-tower.getCost());
         }
     }
 
-    public void createUnit(UnitData from)
+    public void createUnit(UnitData from, bool rand = false)
     {
+        if (rand)
+        {
+            from = randomUnit();
+            GameStateRecorder.instance.unitAdded(from);
+        }
         if (EntityTracker.instance.isValidInput(from))
         {
             UnitType spawn = UnitType.Count;
@@ -131,7 +149,6 @@ public class Autoplay : MonoBehaviour
             unit.setHealthBar(healthBar);
             unit.GetComponent<SpriteRenderer>().sprite = UnitTypes.instance.getSprite(spawn);
             resources[0].updateGold((short)-UnitTypes.instance.getStats(spawn).cost);
-            Spawner.instance.setInCooldown(spawn);
         }
     }
 }

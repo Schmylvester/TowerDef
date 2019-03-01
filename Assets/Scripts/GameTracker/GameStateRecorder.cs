@@ -11,9 +11,11 @@ public class GameStateRecorder : MonoBehaviour
     [SerializeField] Transform[] tracks;
     Attacks attacks;
     Defends defends;
-    uint gameID;
     [SerializeField] bool clear_files;
-    [SerializeField] bool track_this_game;
+    [SerializeField] string attackPathIn;
+    [SerializeField] string attackPathOut;
+    [SerializeField] string defendPathIn;
+    [SerializeField] string defendPathOut;
 
     Vector2 normalisePos(Vector2Int inPos)
     {
@@ -29,25 +31,48 @@ public class GameStateRecorder : MonoBehaviour
         {
             clearFiles();
         }
-        StreamReader file = new StreamReader("Assets/kNNData/Att.json");
+        if (attackPathIn != "" && defendPathIn != "")
+        {
+            getFileData();
+        }
+        else
+        {
+            attacks = new Attacks() { attacks = new List<IOASetup>() };
+            defends = new Defends() { defends = new List<IODSetup>() };
+        }
+    }
+
+    void getFileData()
+    {
+        StreamReader file = new StreamReader("Assets/kNNData/Attacks/" + attackPathIn + ".json");
         attacks = JsonUtility.FromJson<Attacks>(file.ReadToEnd());
         file.Close();
 
-        file = new StreamReader("Assets/kNNData/Def.json");
+        file = new StreamReader("Assets/kNNData/Defends/" + defendPathIn + ".json");
         defends = JsonUtility.FromJson<Defends>(file.ReadToEnd());
         file.Close();
-        gameID = defends.defends[defends.defends.Count - 1].gameID + 1;
+    }
+
+    public void incrementOutFile()
+    {
+        if (attackPathOut != "")
+        {
+            uint fileID = uint.Parse(attackPathOut);
+            fileID++;
+            attackPathOut = fileID.ToString();
+            defendPathOut = fileID.ToString();
+        }
     }
 
     void clearFiles()
     {
-        StreamWriter file = new StreamWriter("Assets/kNNData/Def.json", false);
+        StreamWriter file = new StreamWriter("Assets/kNNData//Defends/" + defendPathIn + ".json", false);
         file.Write(JsonUtility.ToJson(new Defends()
         {
             defends = new List<IODSetup>()
         }));
         file.Close();
-        file = new StreamWriter("Assets/kNNData/Att.json", false);
+        file = new StreamWriter("Assets/kNNData/Attacks/" + attackPathIn + ".json", false);
         file.Write(JsonUtility.ToJson(new Attacks()
         {
             attacks = new List<IOASetup>()
@@ -153,14 +178,13 @@ public class GameStateRecorder : MonoBehaviour
 
     public void unitAdded(UnitData unit)
     {
-        if (!track_this_game)
+        if (attackPathOut == "")
         {
             return;
         }
         InputRecord _in = getGameState();
         IOASetup data = new IOASetup()
         {
-            gameID = gameID,
             frame = PlayFrames.instance.frame,
             input = _in,
             output = unit
@@ -170,7 +194,7 @@ public class GameStateRecorder : MonoBehaviour
 
     public void unitAdded(Unit unit)
     {
-        if (!track_this_game)
+        if (attackPathOut == "")
         {
             return;
         }
@@ -178,7 +202,6 @@ public class GameStateRecorder : MonoBehaviour
         UnitData _out = createOutput(unit);
         IOASetup data = new IOASetup()
         {
-            gameID = gameID,
             frame = PlayFrames.instance.frame,
             input = _in,
             output = _out
@@ -188,7 +211,7 @@ public class GameStateRecorder : MonoBehaviour
 
     public void towerAdded(Tower tower)
     {
-        if (!track_this_game)
+        if (defendPathOut == "")
         {
             return;
         }
@@ -196,7 +219,6 @@ public class GameStateRecorder : MonoBehaviour
         EntityData _out = createOutput(tower);
         IODSetup data = new IODSetup()
         {
-            gameID = gameID,
             frame = PlayFrames.instance.frame,
             input = _in,
             output = _out
@@ -204,53 +226,56 @@ public class GameStateRecorder : MonoBehaviour
         defends.defends.Add(data);
     }
 
-    public void onGameOver(bool defenderWins)
+    public void towerAdded(EntityData tower)
     {
-        PlayFrames.instance.gameOver = true;
-        if (!track_this_game)
+        if (defendPathOut == "")
         {
             return;
         }
-        if (defenderWins)
+        InputRecord _in = getGameState();
+        IODSetup data = new IODSetup()
         {
-            for (int i = 0; i < defends.defends.Count; i++)
-            {
-                if (defends.defends[i].gameID == gameID)
-                {
-                    defends.defends[i] = new IODSetup()
-                    {
-                        didWin = true,
-                        frame = defends.defends[i].frame,
-                        gameID = defends.defends[i].gameID,
-                        input = defends.defends[i].input,
-                        output = defends.defends[i].output
-                    };
-                }
-            }
-        }
-        else
+            frame = PlayFrames.instance.frame,
+            input = _in,
+            output = tower
+        };
+        defends.defends.Add(data);
+    }
+
+    public void onGameOver(bool defenderWins)
+    {
+        PlayFrames.instance.gameOver = true;
+        if (attackPathOut != "")
         {
+            float aScore = GameScorer.instance.getAttScore(!defenderWins);
             for (int i = 0; i < attacks.attacks.Count; i++)
             {
-                if (attacks.attacks[i].gameID == gameID)
-                {
-                    attacks.attacks[i] = new IOASetup()
-                    {
-                        didWin = true,
-                        frame = attacks.attacks[i].frame,
-                        gameID = attacks.attacks[i].gameID,
-                        input = attacks.attacks[i].input,
-                        output = attacks.attacks[i].output
-                    };
-                }
+                attacks.attacks[i] = setScore(attacks.attacks[i], aScore);
             }
+            packIntoFile(attacks, attackPathOut);
         }
-        StreamWriter file;
-        file = new StreamWriter("Assets/kNNData/Def.json", false);
-        file.Write(JsonUtility.ToJson(defends));
+        if (defendPathOut != "")
+        {
+            float dScore = GameScorer.instance.getDefScore(defenderWins);
+            for (int i = 0; i < defends.defends.Count; i++)
+            {
+                defends.defends[i] = setScore(defends.defends[i], dScore);
+            }
+            packIntoFile(defends, defendPathOut);
+        }
+    }
+
+    public void packIntoFile(Defends def, string fileName)
+    {
+        StreamWriter file = new StreamWriter("Assets/kNNData/Defends/" + fileName + ".json", false);
+        file.Write(JsonUtility.ToJson(def));
         file.Close();
-        file = new StreamWriter("Assets/kNNData/Att.json", false);
-        file.Write(JsonUtility.ToJson(attacks));
+    }
+
+    public void packIntoFile(Attacks att, string fileName)
+    {
+        StreamWriter file = new StreamWriter("Assets/kNNData/Attacks/" + fileName + ".json", false);
+        file.Write(JsonUtility.ToJson(att));
         file.Close();
     }
 
@@ -258,17 +283,11 @@ public class GameStateRecorder : MonoBehaviour
     {
         foreach (IODSetup d in defends.defends)
         {
-            if (d.gameID == thisGame)
-            {
-                def.Add(d);
-            }
+            def.Add(d);
         }
         foreach (IOASetup a in attacks.attacks)
         {
-            if (a.gameID == thisGame)
-            {
-                att.Add(a);
-            }
+            att.Add(a);
         }
     }
 
@@ -280,5 +299,27 @@ public class GameStateRecorder : MonoBehaviour
     public List<IOASetup> getAttackData()
     {
         return attacks.attacks;
+    }
+
+    IOASetup setScore(IOASetup _in, float score)
+    {
+        return new IOASetup()
+        {
+            score = score,
+            frame = _in.frame,
+            input = _in.input,
+            output = _in.output
+        };
+    }
+
+    IODSetup setScore(IODSetup _in, float score)
+    {
+        return new IODSetup()
+        {
+            score = score,
+            frame = _in.frame,
+            input = _in.input,
+            output = _in.output
+        };
     }
 }

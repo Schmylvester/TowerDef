@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Resources : ManualUpdate
 {
-    [SerializeField] int gold;
+    [SerializeField] int startGold;
+    int gold;
     [SerializeField] UnityEngine.UI.Text text;
     [SerializeField] float gainRate;
     [SerializeField] short gainAmount;
@@ -12,6 +13,7 @@ public class Resources : ManualUpdate
 
     private void Start()
     {
+        gold = startGold;
         updateGold(0);
         PlayFrames.instance.addItem(this);
     }
@@ -41,5 +43,11 @@ public class Resources : ManualUpdate
     public float normalisedValue()
     {
         return (float)gold / 512;
+    }
+
+    public void resetGame()
+    {
+        gold = startGold;
+        updateGold(0);
     }
 }
