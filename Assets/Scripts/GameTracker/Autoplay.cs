@@ -13,18 +13,18 @@ public class Autoplay : MonoBehaviour
     [SerializeField] Grid grid;
     [SerializeField] Resources[] resources;
     public static Autoplay instance;
-    [SerializeField] uint replay;
     List<IOASetup> attacks;
     List<IODSetup> defends;
+    [SerializeField] bool replay = false;
 
     private void Start()
     {
         instance = this;
-        if (replay > 0)
+        if (replay)
         {
             defends = new List<IODSetup>();
             attacks = new List<IOASetup>();
-            GameStateRecorder.instance.getEvents(replay, ref defends, ref attacks);
+            GameStateRecorder.instance.getEvents(ref defends, ref attacks);
             replayText.text = "Replaying Game: " + replay;
         }
     }
@@ -56,7 +56,7 @@ public class Autoplay : MonoBehaviour
 
     public bool replayRunning()
     {
-        return replay > 0;
+        return replay;
     }
 
     UnitData randomUnit()

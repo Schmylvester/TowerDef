@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class Prediction : MonoBehaviour
 {
-    private void Update()
+    uint defend_file;
+    uint attack_file;
+
+    List<IODSetup> defends;
+    List<IOASetup> attacks;
+
+    public static Prediction instance;
+
+    private void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            towerPrediction();
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            unitPrediction();
-        }
+        instance = this;
+        System.IO.StreamReader file = 
+            new System.IO.StreamReader("Assets/kNNData/Defends/" + defend_file + ".json");
+        defends = JsonUtility.FromJson<Defends>(file.ReadToEnd()).defends;
+        file.Close();
+        file = new System.IO.StreamReader("Assets/kNNData/Attacks/" + attack_file + ".json");
+        attacks = JsonUtility.FromJson<Attacks>(file.ReadToEnd()).attacks;
+        file.Close();
     }
 
     float getDist(EntityData a, EntityData b)
@@ -60,13 +68,13 @@ public class Prediction : MonoBehaviour
         return dist;
     }
 
-    void towerPrediction()
+    public void towerPrediction()
     {
+        if (defends.Count == 0)
+            return;
         //current state of the game
         InputRecord gameState = GameStateRecorder.instance.getGameState();
-
-        //all previous states and actions from previous games
-        List<IODSetup> defends = GameStateRecorder.instance.getDefenceData();
+        
         int bestDistIdx = 0;
         float bestDist = float.MaxValue;
         for (int i = 0; i < defends.Count; i++)
@@ -79,18 +87,20 @@ public class Prediction : MonoBehaviour
                 bestDist = dist;
                 bestDistIdx = i;
             }
+            else if(dist == bestDist)
+            {
+                bestDistIdx = Random.Range(0, 2) == 0 ? i : bestDistIdx;
+            }
         }
 
         Autoplay.instance.createTower(defends[bestDistIdx].output);
+        defends.RemoveAt(bestDistIdx);
     }
 
-    void unitPrediction()
+    public void unitPrediction()
     {
         //current state of the game
         InputRecord gameState = GameStateRecorder.instance.getGameState();
-
-        //all previous states and actions from previous games
-        List<IOASetup> attacks = GameStateRecorder.instance.getAttackData();
 
         int bestDistIdx = 0;
         float bestDist = float.MaxValue;
@@ -106,5 +116,11 @@ public class Prediction : MonoBehaviour
         }
 
         Autoplay.instance.createUnit(attacks[bestDistIdx].output);
+    }
+
+    public void nextFile()
+    {
+        attack_file++;
+        defend_file++;
     }
 }

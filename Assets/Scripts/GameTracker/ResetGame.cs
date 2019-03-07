@@ -9,14 +9,24 @@ public class ResetGame : MonoBehaviour
     [SerializeField] Timer timer;
     [SerializeField] List<Tower> safeTowers;
     [SerializeField] int count = 100;
-
+    [SerializeField] Evolve evolve;
+    int alsoCount = 50;
     private void Update()
     {
-        if (PlayFrames.instance.gameOver && --count > 0)
+        if (PlayFrames.instance.gameOver)
         {
-            resetGame();
-            GameStateRecorder.instance.incrementOutFile();
-            PlayFrames.instance.gameOver = false;
+            if (--count > 0)
+            {
+                resetGame();
+                GameStateRecorder.instance.incrementOutFile();
+                Prediction.instance.nextFile();
+                PlayFrames.instance.gameOver = false;
+            }
+            else if(--alsoCount > 0)
+            {
+                evolve.evolve();
+                count = 100;
+            }
         }
     }
 
@@ -41,5 +51,10 @@ public class ResetGame : MonoBehaviour
         }
         EntityTracker.instance.resetGame();
         timer.resetGame();
+    }
+
+    public bool randomMatches()
+    {
+        return count < 10;
     }
 }

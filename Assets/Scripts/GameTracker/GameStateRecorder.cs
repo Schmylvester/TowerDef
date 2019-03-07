@@ -17,6 +17,11 @@ public class GameStateRecorder : MonoBehaviour
     [SerializeField] string defendPathIn;
     [SerializeField] string defendPathOut;
 
+    /// <summary>
+    /// Returns the grid position normalised between 0 and 1
+    /// </summary>
+    /// <param name="inPos">The position of an entity on a grid</param>
+    /// <returns>The relative position of the entity between the top and bottom of the screen</returns>
     Vector2 normalisePos(Vector2Int inPos)
     {
         float x = ((float)inPos.x / 360) + 0.5f;
@@ -42,6 +47,9 @@ public class GameStateRecorder : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets the data for the game from a json file
+    /// </summary>
     void getFileData()
     {
         StreamReader file = new StreamReader("Assets/kNNData/Attacks/" + attackPathIn + ".json");
@@ -53,17 +61,30 @@ public class GameStateRecorder : MonoBehaviour
         file.Close();
     }
 
+    /// <summary>
+    /// Adds 1 to the name of the files to output to
+    /// </summary>
     public void incrementOutFile()
     {
         if (attackPathOut != "")
         {
             uint fileID = uint.Parse(attackPathOut);
             fileID++;
+            fileID %= 100;
             attackPathOut = fileID.ToString();
+        }
+        if (defendPathOut != "")
+        {
+            uint fileID = uint.Parse(defendPathOut);
+            fileID++;
+            fileID %= 100;
             defendPathOut = fileID.ToString();
         }
     }
 
+    /// <summary>
+    /// clears the in files and quits
+    /// </summary>
     void clearFiles()
     {
         StreamWriter file = new StreamWriter("Assets/kNNData//Defends/" + defendPathIn + ".json", false);
@@ -85,6 +106,10 @@ public class GameStateRecorder : MonoBehaviour
 #endif
     }
 
+    /// <summary>
+    /// tracks all entities to get the current state of the game
+    /// </summary>
+    /// <returns>struct containing all pertinent data</returns>
     public InputRecord getGameState()
     {
         InputRecord input = new InputRecord()
@@ -144,6 +169,11 @@ public class GameStateRecorder : MonoBehaviour
         return input;
     }
 
+    /// <summary>
+    /// converts tower entity to entity data struct
+    /// </summary>
+    /// <param name="addedTower">Which tower has been added</param>
+    /// <returns>struct of entity data</returns>
     EntityData createOutput(Tower addedTower)
     {
         Vector2Int iPos = getGridPos(addedTower.transform.position);
@@ -159,6 +189,11 @@ public class GameStateRecorder : MonoBehaviour
         return towerData;
     }
 
+    /// <summary>
+    /// converts unit entity to the unit data struct
+    /// </summary>
+    /// <param name="addedUnit">Which unit has been added</param>
+    /// <returns>struct of unit data</returns>
     UnitData createOutput(Unit addedUnit)
     {
         UnitData newUnit = new UnitData()
@@ -176,6 +211,13 @@ public class GameStateRecorder : MonoBehaviour
         return new Vector2Int(grid.WorldToCell(pos).x, grid.WorldToCell(pos).y);
     }
 
+    /// <summary>
+    /// when a unit is added by their data,
+    /// this is called to add the game 
+    /// state and the new unit to the list
+    /// of game data
+    /// </summary>
+    /// <param name="unit">the data of the unit added</param>
     public void unitAdded(UnitData unit)
     {
         if (attackPathOut == "")
@@ -192,6 +234,12 @@ public class GameStateRecorder : MonoBehaviour
         attacks.attacks.Add(data);
     }
 
+    /// <summary>
+    /// when a unit is added, this is called to
+    /// add the game state and the new unit to
+    /// the list of game data
+    /// </summary>
+    /// <param name="unit">the unit added</param>
     public void unitAdded(Unit unit)
     {
         if (attackPathOut == "")
@@ -209,6 +257,12 @@ public class GameStateRecorder : MonoBehaviour
         attacks.attacks.Add(data);
     }
 
+    /// <summary>
+    /// when a tower is added, this is called to
+    /// add the game state and the new tower to
+    /// the list of game data
+    /// </summary>
+    /// <param name="tower">the tower added</param>
     public void towerAdded(Tower tower)
     {
         if (defendPathOut == "")
@@ -226,6 +280,13 @@ public class GameStateRecorder : MonoBehaviour
         defends.defends.Add(data);
     }
 
+    /// <summary>
+    /// when a tower is added by its data,
+    /// this is called to add the game state
+    /// and the new tower to the list of
+    /// game data
+    /// </summary>
+    /// <param name="tower">data of the new tower</param>
     public void towerAdded(EntityData tower)
     {
         if (defendPathOut == "")
@@ -241,7 +302,13 @@ public class GameStateRecorder : MonoBehaviour
         };
         defends.defends.Add(data);
     }
-
+    
+    /// <summary>
+    /// when the game ends, this is called
+    /// to add the game data to the output
+    /// files
+    /// </summary>
+    /// <param name="defenderWins">True if defender won, False if attacker won</param>
     public void onGameOver(bool defenderWins)
     {
         PlayFrames.instance.gameOver = true;
@@ -265,6 +332,11 @@ public class GameStateRecorder : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// packs the defend data into the json file
+    /// </summary>
+    /// <param name="def">the data to save</param>
+    /// <param name="fileName">the file to save to</param>
     public void packIntoFile(Defends def, string fileName)
     {
         StreamWriter file = new StreamWriter("Assets/kNNData/Defends/" + fileName + ".json", false);
@@ -272,6 +344,11 @@ public class GameStateRecorder : MonoBehaviour
         file.Close();
     }
 
+    /// <summary>
+    /// packs the attack data into the json file
+    /// </summary>
+    /// <param name="att">the data to save</param>
+    /// <param name="fileName">the file to save to</param>
     public void packIntoFile(Attacks att, string fileName)
     {
         StreamWriter file = new StreamWriter("Assets/kNNData/Attacks/" + fileName + ".json", false);
@@ -279,7 +356,13 @@ public class GameStateRecorder : MonoBehaviour
         file.Close();
     }
 
-    public void getEvents(uint thisGame, ref List<IODSetup> def, ref List<IOASetup> att)
+    /// <summary>
+    /// gets the attack and defend events of a game
+    /// </summary>
+    /// <param name="thisGame">which game</param>
+    /// <param name="def">what the defenders did and when</param>
+    /// <param name="att">what the attackers did and when</param>
+    public void getEvents(ref List<IODSetup> def, ref List<IOASetup> att)
     {
         foreach (IODSetup d in defends.defends)
         {

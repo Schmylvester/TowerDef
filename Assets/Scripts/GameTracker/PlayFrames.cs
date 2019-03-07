@@ -9,9 +9,12 @@ public class PlayFrames : MonoBehaviour
     [HideInInspector] public uint frame = 0;
     [HideInInspector] public bool gameOver = false;
     [SerializeField] bool randomGame = false;
+    [SerializeField] ResetGame reset;
+    [SerializeField] int framesAtATime;
 
     private void Awake()
     {
+        framesAtATime = Mathf.Max(framesAtATime, 1);
         instance = this;
     }
 
@@ -28,17 +31,31 @@ public class PlayFrames : MonoBehaviour
     {
         if (randomGame)
         {
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < framesAtATime; i++)
             {
                 if (!gameOver)
                 {
                     if (Random.Range(0, 1000) == 0)
                     {
-                        Autoplay.instance.createTower(new EntityData(), true);
+                        if (Random.Range(0, 3) == 0 || reset.randomMatches())
+                        {
+                            Autoplay.instance.createTower(new EntityData(), true);
+                        }
+                        else
+                        {
+                            Prediction.instance.towerPrediction();
+                        }
                     }
                     if (Random.Range(0, 1000) == 0)
                     {
-                        Autoplay.instance.createUnit(new UnitData(), true);
+                        if (Random.Range(0, 3) == 0 || reset.randomMatches())
+                        {
+                            Autoplay.instance.createUnit(new UnitData(), true);
+                        }
+                        else
+                        {
+                            Prediction.instance.unitPrediction();
+                        }
                     }
                     playFrame(0.01f);
                     frame++;
