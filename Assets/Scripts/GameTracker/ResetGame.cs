@@ -10,8 +10,9 @@ public class ResetGame : MonoBehaviour
     [SerializeField] List<Tower> safeTowers;
     [SerializeField] int count = 100;
     [SerializeField] Evolve evolve;
-    int alsoCount = 50;
+    [SerializeField] int evolveCount;
     float[] scores;
+    float checkAverage = float.MinValue;
 
     private void Start()
     {
@@ -28,7 +29,7 @@ public class ResetGame : MonoBehaviour
             Prediction.instance.nextFile();
             PlayFrames.instance.gameOver = false;
         }
-        else if (--alsoCount > 0)
+        else if (--evolveCount > 0)
         {
             evolve.evolve();
             count = 100;
@@ -36,15 +37,31 @@ public class ResetGame : MonoBehaviour
             float total = 0;
             float max = 0;
             float min = float.MaxValue;
+            int wins = 0;
             foreach(float s in scores)
             {
                 total += s;
                 max = Mathf.Max(max, s);
                 if(s > 0)
                     min = Mathf.Min(min, s);
+                if (s >= 1)
+                    wins++;
             }
             float average = total / 100;
-            print("Average Score: " + average + " Max Score: " + max + " Min Score: " + min);
+            Debug.Log("Average Score: " + average + " Max Score: " + max + " Min Score: " + min + " Wins: " + wins);
+            if(evolveCount % 50 == 0)
+            {
+                Debug.Log("Checking average...");
+                if(average <= checkAverage)
+                {
+                    Debug.LogError("No good");
+                }
+                else
+                {
+                    Debug.Log("Fine");
+                }
+                checkAverage = average;
+            }
             resetGame();
             GameStateRecorder.instance.incrementOutFile();
             Prediction.instance.nextFile();

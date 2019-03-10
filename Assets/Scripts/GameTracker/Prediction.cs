@@ -15,7 +15,7 @@ public class Prediction : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        System.IO.StreamReader file = 
+        System.IO.StreamReader file =
             new System.IO.StreamReader("Assets/kNNData/Defends/" + defend_file + ".json");
         defends = JsonUtility.FromJson<Defends>(file.ReadToEnd());
         file.Close();
@@ -71,30 +71,32 @@ public class Prediction : MonoBehaviour
     public void towerPrediction()
     {
         if (defends.defends.Count == 0)
+        {
             return;
+        }
         //current state of the game
         InputRecord gameState = GameStateRecorder.instance.getGameState();
-        
+
         int bestDistIdx = 0;
         float bestDist = float.MaxValue;
         for (int i = 0; i < defends.defends.Count; i++)
         {
             float dist = getDistFromCurrentState(gameState, defends.defends[i].input);
-            dist -= defends.score;
-
             if (dist < bestDist)
             {
                 bestDist = dist;
                 bestDistIdx = i;
             }
-            else if(dist == bestDist)
+            else if (dist == bestDist)
             {
                 bestDistIdx = Random.Range(0, 2) == 0 ? i : bestDistIdx;
             }
         }
-
-        Autoplay.instance.createTower(defends.defends[bestDistIdx].output);
-        defends.defends.RemoveAt(bestDistIdx);
+        if (bestDist < 1.0f)
+        {
+            Autoplay.instance.createTower(defends.defends[bestDistIdx].output);
+            defends.defends.RemoveAt(bestDistIdx);
+        }
     }
 
     public void unitPrediction()

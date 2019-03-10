@@ -2384,7 +2384,7 @@ Prefab:
     - target: {fileID: 114297829269788806, guid: 0f7bf535bf531ea41be15c3c876ca25d,
         type: 2}
       propertyPath: cost
-      value: 25
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 114297829269788806, guid: 0f7bf535bf531ea41be15c3c876ca25d,
         type: 2}
@@ -4537,7 +4537,7 @@ MonoBehaviour:
   gameOver: 0
   randomGame: 1
   reset: {fileID: 1785044666}
-  framesAtATime: 500
+  framesAtATime: 1000
 --- !u!114 &1785044658
 MonoBehaviour:
   m_ObjectHideFlags: 0

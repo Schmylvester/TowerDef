@@ -36,16 +36,13 @@ public class PlayFrames : MonoBehaviour
             {
                 if (!gameOver)
                 {
-                    if (Random.Range(0, 1000) == 0)
+                    if (Random.Range(0, 100) == 0)
                     {
-                        if (reset.randomMatches() || Random.Range(0, 3) == 0)
-                        {
-                            Autoplay.instance.createTower(new EntityData(), true);
-                        }
-                        else
-                        {
-                            Prediction.instance.towerPrediction();
-                        }
+                        Prediction.instance.towerPrediction();
+                    }
+                    else if (reset.randomMatches() || Random.Range(0, 300) == 0)
+                    {
+                        Autoplay.instance.createTower(new EntityData(), true);
                     }
                     if (Random.Range(0, 1000) == 0)
                     {

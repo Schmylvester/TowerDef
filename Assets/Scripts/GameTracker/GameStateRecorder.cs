@@ -321,6 +321,7 @@ public class GameStateRecorder : MonoBehaviour
                 attacks.score = aScore;
             }
             packIntoFile(attacks, attackPathOut);
+            attacks.attacks.Clear();
         }
         float dScore = GameScorer.instance.getDefScore(defenderWins);
         if (defendPathOut != "")
@@ -330,6 +331,7 @@ public class GameStateRecorder : MonoBehaviour
                 defends.score = dScore;
             }
             packIntoFile(defends, defendPathOut);
+            defends.defends.Clear();
         }
         reset.endGame(dScore);
     }

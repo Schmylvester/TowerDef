@@ -66,9 +66,7 @@ public class Autoplay : MonoBehaviour
             track = new short[3],
             type = new short[4],
         };
-
-        Debug.LogWarning("Don't forget to fix this, the units are all the same");
-
+        
         //newUnit.type[Random.Range(0, newUnit.type.Length)] = 1;
         //newUnit.track[Random.Range(0, newUnit.track.Length)] = 1;
 
@@ -98,7 +96,12 @@ public class Autoplay : MonoBehaviour
         if (rand)
         {
             from = randomTower();
-            GameStateRecorder.instance.towerAdded(from);
+            Vector3Int intPos = unnormalisePos(new Vector3(from.x, from.y, 0));
+            Vector3 fltPos = grid.CellToWorld(intPos);
+            if (EntityTracker.instance.isValidInput(from.type, fltPos))
+            {
+                GameStateRecorder.instance.towerAdded(from);
+            }
         }
         Vector3Int iPos = unnormalisePos(new Vector3(from.x, from.y, 0));
         Vector3 pos = grid.CellToWorld(iPos);
@@ -157,5 +160,10 @@ public class Autoplay : MonoBehaviour
             unit.GetComponent<SpriteRenderer>().sprite = UnitTypes.instance.getSprite(spawn);
             resources[0].updateGold((short)-UnitTypes.instance.getStats(spawn).cost);
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        Debug.LogWarning("Don't forget to fix this, the units are all the same. randomUnit()");
     }
 }
