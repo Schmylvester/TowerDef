@@ -4537,7 +4537,7 @@ MonoBehaviour:
   gameOver: 0
   randomGame: 1
   reset: {fileID: 1785044666}
-  framesAtATime: 1000
+  framesAtATime: 600
 --- !u!114 &1785044658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4698,6 +4698,7 @@ MonoBehaviour:
   - {fileID: 1768140841}
   count: 100
   evolve: {fileID: 1785044667}
+  evolveCount: 1000
 --- !u!114 &1785044667
 MonoBehaviour:
   m_ObjectHideFlags: 0
