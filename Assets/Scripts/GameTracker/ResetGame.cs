@@ -11,22 +11,44 @@ public class ResetGame : MonoBehaviour
     [SerializeField] int count = 100;
     [SerializeField] Evolve evolve;
     int alsoCount = 50;
-    private void Update()
+    float[] scores;
+
+    private void Start()
     {
-        if (PlayFrames.instance.gameOver)
+        scores = new float[100];
+    }
+
+    public void endGame(float defScore)
+    {
+        if (--count > 0)
         {
-            if (--count > 0)
+            scores[count] = defScore;
+            resetGame();
+            GameStateRecorder.instance.incrementOutFile();
+            Prediction.instance.nextFile();
+            PlayFrames.instance.gameOver = false;
+        }
+        else if (--alsoCount > 0)
+        {
+            evolve.evolve();
+            count = 100;
+
+            float total = 0;
+            float max = 0;
+            float min = float.MaxValue;
+            foreach(float s in scores)
             {
-                resetGame();
-                GameStateRecorder.instance.incrementOutFile();
-                Prediction.instance.nextFile();
-                PlayFrames.instance.gameOver = false;
+                total += s;
+                max = Mathf.Max(max, s);
+                if(s > 0)
+                    min = Mathf.Min(min, s);
             }
-            else if(--alsoCount > 0)
-            {
-                evolve.evolve();
-                count = 100;
-            }
+            float average = total / 100;
+            print("Average Score: " + average + " Max Score: " + max + " Min Score: " + min);
+            resetGame();
+            GameStateRecorder.instance.incrementOutFile();
+            Prediction.instance.nextFile();
+            PlayFrames.instance.gameOver = false;
         }
     }
 
@@ -55,6 +77,6 @@ public class ResetGame : MonoBehaviour
 
     public bool randomMatches()
     {
-        return count < 10;
+        return count <= 10;
     }
 }

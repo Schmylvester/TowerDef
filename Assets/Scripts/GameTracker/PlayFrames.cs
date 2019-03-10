@@ -25,7 +25,8 @@ public class PlayFrames : MonoBehaviour
 
     public void removeItem(ManualUpdate item)
     {
-        trackedObjects[trackedObjects.IndexOf(item)] = null;
+        if (trackedObjects.IndexOf(item) < trackedObjects.Count && trackedObjects.IndexOf(item) >= 0)
+            trackedObjects[trackedObjects.IndexOf(item)] = null;
     }
     private void Update()
     {
@@ -37,7 +38,7 @@ public class PlayFrames : MonoBehaviour
                 {
                     if (Random.Range(0, 1000) == 0)
                     {
-                        if (Random.Range(0, 3) == 0 || reset.randomMatches())
+                        if (reset.randomMatches() || Random.Range(0, 3) == 0)
                         {
                             Autoplay.instance.createTower(new EntityData(), true);
                         }
@@ -48,14 +49,7 @@ public class PlayFrames : MonoBehaviour
                     }
                     if (Random.Range(0, 1000) == 0)
                     {
-                        if (Random.Range(0, 3) == 0 || reset.randomMatches())
-                        {
-                            Autoplay.instance.createUnit(new UnitData(), true);
-                        }
-                        else
-                        {
-                            Prediction.instance.unitPrediction();
-                        }
+                        Autoplay.instance.createUnit(new UnitData(), true);
                     }
                     playFrame(0.01f);
                     frame++;

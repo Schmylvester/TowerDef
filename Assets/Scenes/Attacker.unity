@@ -4537,7 +4537,7 @@ MonoBehaviour:
   gameOver: 0
   randomGame: 1
   reset: {fileID: 1785044666}
-  framesAtATime: 1000
+  framesAtATime: 500
 --- !u!114 &1785044658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4630,6 +4630,7 @@ MonoBehaviour:
   attackPathOut: 
   defendPathIn: 
   defendPathOut: 0
+  reset: {fileID: 1785044666}
 --- !u!114 &1785044663
 MonoBehaviour:
   m_ObjectHideFlags: 0

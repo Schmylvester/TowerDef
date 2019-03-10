@@ -66,8 +66,15 @@ public class Autoplay : MonoBehaviour
             track = new short[3],
             type = new short[4],
         };
-        newUnit.type[Random.Range(0, newUnit.type.Length)] = 1;
-        newUnit.track[Random.Range(0, newUnit.track.Length)] = 1;
+
+        Debug.LogWarning("Don't forget to fix this, the units are all the same");
+
+        //newUnit.type[Random.Range(0, newUnit.type.Length)] = 1;
+        //newUnit.track[Random.Range(0, newUnit.track.Length)] = 1;
+
+        newUnit.type[1] = 1;
+        newUnit.track[1] = 1;
+
         return newUnit;
     }
 

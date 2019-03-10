@@ -29,7 +29,6 @@ public struct UnitData
 [System.Serializable]
 public struct IOASetup
 {
-    public float score;
     public uint frame;
     public InputRecord input;
     public UnitData output;
@@ -38,7 +37,6 @@ public struct IOASetup
 [System.Serializable]
 public struct IODSetup
 {
-    public float score;
     public uint frame;
     public InputRecord input;
     public EntityData output;
@@ -47,11 +45,13 @@ public struct IODSetup
 [System.Serializable]
 public struct Attacks
 {
+    public float score;
     public List<IOASetup> attacks;
 }
 
 [System.Serializable]
 public struct Defends
 {
+    public float score;
     public List<IODSetup> defends;
 }

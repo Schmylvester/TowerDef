@@ -16,6 +16,7 @@ public class GameStateRecorder : MonoBehaviour
     [SerializeField] string attackPathOut;
     [SerializeField] string defendPathIn;
     [SerializeField] string defendPathOut;
+    [SerializeField] ResetGame reset;
 
     /// <summary>
     /// Returns the grid position normalised between 0 and 1
@@ -302,7 +303,7 @@ public class GameStateRecorder : MonoBehaviour
         };
         defends.defends.Add(data);
     }
-    
+
     /// <summary>
     /// when the game ends, this is called
     /// to add the game data to the output
@@ -317,19 +318,20 @@ public class GameStateRecorder : MonoBehaviour
             float aScore = GameScorer.instance.getAttScore(!defenderWins);
             for (int i = 0; i < attacks.attacks.Count; i++)
             {
-                attacks.attacks[i] = setScore(attacks.attacks[i], aScore);
+                attacks.score = aScore;
             }
             packIntoFile(attacks, attackPathOut);
         }
+        float dScore = GameScorer.instance.getDefScore(defenderWins);
         if (defendPathOut != "")
         {
-            float dScore = GameScorer.instance.getDefScore(defenderWins);
             for (int i = 0; i < defends.defends.Count; i++)
             {
-                defends.defends[i] = setScore(defends.defends[i], dScore);
+                defends.score = dScore;
             }
             packIntoFile(defends, defendPathOut);
         }
+        reset.endGame(dScore);
     }
 
     /// <summary>
@@ -382,27 +384,5 @@ public class GameStateRecorder : MonoBehaviour
     public List<IOASetup> getAttackData()
     {
         return attacks.attacks;
-    }
-
-    IOASetup setScore(IOASetup _in, float score)
-    {
-        return new IOASetup()
-        {
-            score = score,
-            frame = _in.frame,
-            input = _in.input,
-            output = _in.output
-        };
-    }
-
-    IODSetup setScore(IODSetup _in, float score)
-    {
-        return new IODSetup()
-        {
-            score = score,
-            frame = _in.frame,
-            input = _in.input,
-            output = _in.output
-        };
     }
 }

@@ -7,8 +7,8 @@ public class Prediction : MonoBehaviour
     uint defend_file;
     uint attack_file;
 
-    List<IODSetup> defends;
-    List<IOASetup> attacks;
+    Defends defends;
+    Attacks attacks;
 
     public static Prediction instance;
 
@@ -17,10 +17,10 @@ public class Prediction : MonoBehaviour
         instance = this;
         System.IO.StreamReader file = 
             new System.IO.StreamReader("Assets/kNNData/Defends/" + defend_file + ".json");
-        defends = JsonUtility.FromJson<Defends>(file.ReadToEnd()).defends;
+        defends = JsonUtility.FromJson<Defends>(file.ReadToEnd());
         file.Close();
         file = new System.IO.StreamReader("Assets/kNNData/Attacks/" + attack_file + ".json");
-        attacks = JsonUtility.FromJson<Attacks>(file.ReadToEnd()).attacks;
+        attacks = JsonUtility.FromJson<Attacks>(file.ReadToEnd());
         file.Close();
     }
 
@@ -70,17 +70,17 @@ public class Prediction : MonoBehaviour
 
     public void towerPrediction()
     {
-        if (defends.Count == 0)
+        if (defends.defends.Count == 0)
             return;
         //current state of the game
         InputRecord gameState = GameStateRecorder.instance.getGameState();
         
         int bestDistIdx = 0;
         float bestDist = float.MaxValue;
-        for (int i = 0; i < defends.Count; i++)
+        for (int i = 0; i < defends.defends.Count; i++)
         {
-            float dist = getDistFromCurrentState(gameState, defends[i].input);
-            dist -= defends[i].score;
+            float dist = getDistFromCurrentState(gameState, defends.defends[i].input);
+            dist -= defends.score;
 
             if (dist < bestDist)
             {
@@ -93,8 +93,8 @@ public class Prediction : MonoBehaviour
             }
         }
 
-        Autoplay.instance.createTower(defends[bestDistIdx].output);
-        defends.RemoveAt(bestDistIdx);
+        Autoplay.instance.createTower(defends.defends[bestDistIdx].output);
+        defends.defends.RemoveAt(bestDistIdx);
     }
 
     public void unitPrediction()
@@ -104,10 +104,10 @@ public class Prediction : MonoBehaviour
 
         int bestDistIdx = 0;
         float bestDist = float.MaxValue;
-        for (int i = 0; i < attacks.Count; i++)
+        for (int i = 0; i < attacks.attacks.Count; i++)
         {
-            float dist = getDistFromCurrentState(gameState, attacks[i].input);
-            dist -= attacks[i].score;
+            float dist = getDistFromCurrentState(gameState, attacks.attacks[i].input);
+            dist -= attacks.score;
             if (dist < bestDist)
             {
                 bestDist = dist;
@@ -115,7 +115,7 @@ public class Prediction : MonoBehaviour
             }
         }
 
-        Autoplay.instance.createUnit(attacks[bestDistIdx].output);
+        Autoplay.instance.createUnit(attacks.attacks[bestDistIdx].output);
     }
 
     public void nextFile()

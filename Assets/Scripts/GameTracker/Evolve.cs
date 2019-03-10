@@ -38,7 +38,7 @@ public class Evolve : MonoBehaviour
             canExit = true;
             for (int i = 0; i < defends.Length - 1; i++)
             {
-                if (defends[i].defends[0].score < defends[i + 1].defends[0].score)
+                if (defends[i].score < defends[i + 1].score)
                 {
                     Defends temp = defends[i];
                     defends[i] = defends[i + 1];
