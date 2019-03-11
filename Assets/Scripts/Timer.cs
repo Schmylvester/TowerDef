@@ -7,29 +7,48 @@ public class Timer : ManualUpdate
 
     [SerializeField] UnityEngine.UI.Text timeText;
     [SerializeField] float startTime;
-    [SerializeField] GameManager m;
     float time;
+    PlayFrames player;
 
     private void Start()
     {
         time = startTime;
-        m.frames.addItem(this);
+        foreach (PlayFrames frames in FindObjectsOfType<PlayFrames>())
+            if (!frames.gameOver)
+            {
+                player = frames;
+                frames.addItem(this);
+                break;
+            }
+    }
+
+    private void Update()
+    {
+        if (player.gameOver)
+            foreach (PlayFrames frames in FindObjectsOfType<PlayFrames>())
+                if (!frames.gameOver)
+                {
+                    player = frames;
+                    frames.addItem(this);
+                    break;
+                }
     }
 
     public float getScore()
     {
-        return 1 -(time / startTime);
+        return 1 - (time / startTime);
     }
 
     public override void update(float rate)
     {
         time -= rate;
         time = Mathf.Max(0, time);
-        if(time == 0)
+        if (time == 0)
         {
             FeedbackManager.instance.setFeedback(true, "You lose.");
             FeedbackManager.instance.setFeedback(false, "You win.");
-            m.gsr.onGameOver(true);
+            foreach (GameStateRecorder gsr in FindObjectsOfType<GameStateRecorder>())
+                gsr.onGameOver(true);
         }
         showTime();
     }

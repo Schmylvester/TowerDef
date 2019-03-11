@@ -20,6 +20,7 @@ public class GameStateRecorder : MonoBehaviour
     [SerializeField] ResetGame reset;
     [SerializeField] Camera m_camera;
     [SerializeField] bool manyGames;
+    bool gameEnded = false;
 
     /// <summary>
     /// Returns the grid position normalised between 0 and 1
@@ -317,6 +318,9 @@ public class GameStateRecorder : MonoBehaviour
     /// <param name="defenderWins">True if defender won, False if attacker won</param>
     public void onGameOver(bool defenderWins)
     {
+        if (gameEnded)
+            return;
+        gameEnded = true;
         m_camera.backgroundColor = defenderWins ? Color.green : Color.red;
         m.frames.gameOver = true;
         if (attackPathOut != -1)
