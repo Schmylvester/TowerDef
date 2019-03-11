@@ -24,8 +24,12 @@ public class Unit : Entity
         base.Start();
         if (target)
             setNewTarget(target);
-        EntityTracker.instance.addUnit(this);
-        PlayFrames.instance.addItem(this);
+    }
+
+    public void initUnit()
+    {
+        m.tracker.addUnit(this);
+        m.frames.addItem(this);
     }
 
     public void setStartNode(Node set, short trackID)
@@ -91,7 +95,7 @@ public class Unit : Entity
         {
             FeedbackManager.instance.setFeedback(true, "You win.");
             FeedbackManager.instance.setFeedback(false, "You lose.");
-            GameStateRecorder.instance.onGameOver(false);
+            m.gsr.onGameOver(false);
             target = null;
             beDestroyed();
             return;
@@ -155,9 +159,9 @@ public class Unit : Entity
     protected override void beDestroyed()
     {
         Destroy(healthBar.gameObject);
-        EntityTracker.instance.removeUnit(this);
-        PlayFrames.instance.removeItem(this);
-        GameScorer.instance.unitDies(transform.position.x);
+        m.tracker.removeUnit(this);
+        m.frames.removeItem(this);
+        m.scorer.unitDies(transform.position.x);
         Destroy(gameObject);
     }
 

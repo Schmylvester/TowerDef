@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class EntityTracker : MonoBehaviour
 {
-    public static EntityTracker instance;
     List<Tower> towers = new List<Tower>();
     List<Unit> units = new List<Unit>();
     public Material lineMat;
     [SerializeField] Resources attackerRes;
     [SerializeField] Resources defenderRes;
+    [SerializeField] GameManager m;
 
     private void Awake()
     {
-        instance = this;
+        m.tracker = this;
     }
+
 
     public List<Unit> getUnits()
     {

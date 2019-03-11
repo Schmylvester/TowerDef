@@ -5,7 +5,6 @@ using System.IO;
 
 public class GameStateRecorder : MonoBehaviour
 {
-    public static GameStateRecorder instance;
     [SerializeField] Grid grid;
     [SerializeField] Structure[] walls;
     [SerializeField] Transform[] tracks;
@@ -16,6 +15,7 @@ public class GameStateRecorder : MonoBehaviour
     [SerializeField] string attackPathOut;
     [SerializeField] string defendPathIn;
     [SerializeField] string defendPathOut;
+    [SerializeField] GameManager m;
     [SerializeField] ResetGame reset;
 
     /// <summary>
@@ -32,7 +32,7 @@ public class GameStateRecorder : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        m.gsr = this;
         if (clear_files)
         {
             clearFiles();
@@ -132,8 +132,7 @@ public class GameStateRecorder : MonoBehaviour
             };
             input.walls.Add(wallData);
         }
-        EntityTracker tracker = EntityTracker.instance;
-        foreach (Unit unit in tracker.getUnits())
+        foreach (Unit unit in m.tracker.getUnits())
         {
             Vector2Int iPos = getGridPos(unit.transform.position);
             Vector2 pos = normalisePos(iPos);
@@ -147,7 +146,7 @@ public class GameStateRecorder : MonoBehaviour
             unitData.type[(int)unit.getType()] = 1;
             input.units.Add(unitData);
         }
-        foreach (Tower tower in tracker.getTowers())
+        foreach (Tower tower in m.tracker.getTowers())
         {
             if (tower.isReady())
             {
@@ -164,8 +163,8 @@ public class GameStateRecorder : MonoBehaviour
                 input.towers.Add(towerData);
             }
         }
-        input.attackerResources = tracker.getResources(true).normalisedValue();
-        input.defenderResources = tracker.getResources(false).normalisedValue();
+        input.attackerResources = m.tracker.getResources(true).normalisedValue();
+        input.defenderResources = m.tracker.getResources(false).normalisedValue();
 
         return input;
     }
@@ -228,7 +227,7 @@ public class GameStateRecorder : MonoBehaviour
         InputRecord _in = getGameState();
         IOASetup data = new IOASetup()
         {
-            frame = PlayFrames.instance.frame,
+            frame = m.frames.frame,
             input = _in,
             output = unit
         };
@@ -251,7 +250,7 @@ public class GameStateRecorder : MonoBehaviour
         UnitData _out = createOutput(unit);
         IOASetup data = new IOASetup()
         {
-            frame = PlayFrames.instance.frame,
+            frame = m.frames.frame,
             input = _in,
             output = _out
         };
@@ -274,7 +273,7 @@ public class GameStateRecorder : MonoBehaviour
         EntityData _out = createOutput(tower);
         IODSetup data = new IODSetup()
         {
-            frame = PlayFrames.instance.frame,
+            frame = m.frames.frame,
             input = _in,
             output = _out
         };
@@ -297,7 +296,7 @@ public class GameStateRecorder : MonoBehaviour
         InputRecord _in = getGameState();
         IODSetup data = new IODSetup()
         {
-            frame = PlayFrames.instance.frame,
+            frame = m.frames.frame,
             input = _in,
             output = tower
         };
@@ -312,10 +311,10 @@ public class GameStateRecorder : MonoBehaviour
     /// <param name="defenderWins">True if defender won, False if attacker won</param>
     public void onGameOver(bool defenderWins)
     {
-        PlayFrames.instance.gameOver = true;
+        m.frames.gameOver = true;
         if (attackPathOut != "")
         {
-            float aScore = GameScorer.instance.getAttScore(!defenderWins);
+            float aScore = m.scorer.getAttScore(!defenderWins);
             for (int i = 0; i < attacks.attacks.Count; i++)
             {
                 attacks.score = aScore;
@@ -323,7 +322,7 @@ public class GameStateRecorder : MonoBehaviour
             packIntoFile(attacks, attackPathOut);
             attacks.attacks.Clear();
         }
-        float dScore = GameScorer.instance.getDefScore(defenderWins);
+        float dScore = m.scorer.getDefScore(defenderWins);
         if (defendPathOut != "")
         {
             for (int i = 0; i < defends.defends.Count; i++)

@@ -9,12 +9,11 @@ public class Prediction : MonoBehaviour
 
     Defends defends;
     Attacks attacks;
-
-    public static Prediction instance;
+    [SerializeField] GameManager m;
 
     private void Awake()
     {
-        instance = this;
+        m.prediction = this;
         System.IO.StreamReader file =
             new System.IO.StreamReader("Assets/kNNData/Defends/" + defend_file + ".json");
         defends = JsonUtility.FromJson<Defends>(file.ReadToEnd());
@@ -75,7 +74,7 @@ public class Prediction : MonoBehaviour
             return;
         }
         //current state of the game
-        InputRecord gameState = GameStateRecorder.instance.getGameState();
+        InputRecord gameState = m.gsr.getGameState();
 
         int bestDistIdx = 0;
         float bestDist = float.MaxValue;
@@ -94,7 +93,7 @@ public class Prediction : MonoBehaviour
         }
         if (bestDist < 1.0f)
         {
-            Autoplay.instance.createTower(defends.defends[bestDistIdx].output);
+            m.autoplay.createTower(defends.defends[bestDistIdx].output);
             defends.defends.RemoveAt(bestDistIdx);
         }
     }
@@ -102,7 +101,7 @@ public class Prediction : MonoBehaviour
     public void unitPrediction()
     {
         //current state of the game
-        InputRecord gameState = GameStateRecorder.instance.getGameState();
+        InputRecord gameState = m.gsr.getGameState();
 
         int bestDistIdx = 0;
         float bestDist = float.MaxValue;
@@ -117,7 +116,7 @@ public class Prediction : MonoBehaviour
             }
         }
 
-        Autoplay.instance.createUnit(attacks.attacks[bestDistIdx].output);
+        m.autoplay.createUnit(attacks.attacks[bestDistIdx].output);
     }
 
     public void nextFile()

@@ -13,13 +13,6 @@ public class UpdateTowerPanel : MonoBehaviour {
     [SerializeField] Text uses;
     [SerializeField] Text damage;
 
-    public static UpdateTowerPanel instance;
-
-    private void Start()
-    {
-        instance = this;
-    }
-
     public void updatePanel(Sprite _sprite, string _name, float _range, float _rof, short _damage, short _uses, short _cost)
     {
         sprite.sprite = _sprite;

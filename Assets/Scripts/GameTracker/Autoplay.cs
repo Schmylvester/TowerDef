@@ -12,19 +12,23 @@ public class Autoplay : MonoBehaviour
     [SerializeField] LineRenderer[] paths;
     [SerializeField] Grid grid;
     [SerializeField] Resources[] resources;
-    public static Autoplay instance;
     List<IOASetup> attacks;
     List<IODSetup> defends;
     [SerializeField] bool replay = false;
+    [SerializeField] GameManager m;
+
+    private void Awake()
+    {
+        m.autoplay = this;
+    }
 
     private void Start()
     {
-        instance = this;
         if (replay)
         {
             defends = new List<IODSetup>();
             attacks = new List<IOASetup>();
-            GameStateRecorder.instance.getEvents(ref defends, ref attacks);
+            m.gsr.getEvents(ref defends, ref attacks);
             replayText.text = "Replaying Game: " + replay;
         }
     }
@@ -98,14 +102,14 @@ public class Autoplay : MonoBehaviour
             from = randomTower();
             Vector3Int intPos = unnormalisePos(new Vector3(from.x, from.y, 0));
             Vector3 fltPos = grid.CellToWorld(intPos);
-            if (EntityTracker.instance.isValidInput(from.type, fltPos))
+            if (m.tracker.isValidInput(from.type, fltPos))
             {
-                GameStateRecorder.instance.towerAdded(from);
+                m.gsr.towerAdded(from);
             }
         }
         Vector3Int iPos = unnormalisePos(new Vector3(from.x, from.y, 0));
         Vector3 pos = grid.CellToWorld(iPos);
-        if (EntityTracker.instance.isValidInput(from.type, pos))
+        if (m.tracker.isValidInput(from.type, pos))
         {
             short towerIdx = -1;
             for (short i = 0; i < from.type.Length; i++)
@@ -130,9 +134,9 @@ public class Autoplay : MonoBehaviour
         if (rand)
         {
             from = randomUnit();
-            GameStateRecorder.instance.unitAdded(from);
+            m.gsr.unitAdded(from);
         }
-        if (EntityTracker.instance.isValidInput(from))
+        if (m.tracker.isValidInput(from))
         {
             UnitType spawn = UnitType.Count;
             for (short i = 0; i < (short)UnitType.Count; i++)
@@ -153,6 +157,9 @@ public class Autoplay : MonoBehaviour
                 }
             }
             Unit unit = Instantiate(unitPrefab).GetComponent<Unit>();
+            unit.initEntity(m);
+            unit.initUnit();
+
             unit.setStartNode(paths[path].transform.GetChild(0).GetComponent<Node>(), path);
             unit.setClass(spawn);
             ShowHealth healthBar = Instantiate(healthBarPrefab, canvas).GetComponent<ShowHealth>();

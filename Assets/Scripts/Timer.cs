@@ -7,12 +7,13 @@ public class Timer : ManualUpdate
 
     [SerializeField] UnityEngine.UI.Text timeText;
     [SerializeField] float startTime;
+    [SerializeField] GameManager m;
     float time;
 
     private void Start()
     {
         time = startTime;
-        PlayFrames.instance.addItem(this);
+        m.frames.addItem(this);
     }
 
     public float getScore()
@@ -28,7 +29,7 @@ public class Timer : ManualUpdate
         {
             FeedbackManager.instance.setFeedback(true, "You lose.");
             FeedbackManager.instance.setFeedback(false, "You win.");
-            GameStateRecorder.instance.onGameOver(true);
+            m.gsr.onGameOver(true);
         }
         showTime();
     }

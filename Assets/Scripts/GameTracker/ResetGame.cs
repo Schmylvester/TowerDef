@@ -11,6 +11,7 @@ public class ResetGame : MonoBehaviour
     [SerializeField] int count = 100;
     [SerializeField] Evolve evolve;
     [SerializeField] int evolveCount;
+    [SerializeField] GameManager m;
     float[] scores;
     float checkAverage = float.MinValue;
 
@@ -25,9 +26,9 @@ public class ResetGame : MonoBehaviour
         {
             scores[count] = defScore;
             resetGame();
-            GameStateRecorder.instance.incrementOutFile();
-            Prediction.instance.nextFile();
-            PlayFrames.instance.gameOver = false;
+            m.gsr.incrementOutFile();
+            m.prediction.nextFile();
+            m.frames.gameOver = false;
         }
         else if (--evolveCount > 0)
         {
@@ -63,9 +64,9 @@ public class ResetGame : MonoBehaviour
                 checkAverage = average;
             }
             resetGame();
-            GameStateRecorder.instance.incrementOutFile();
-            Prediction.instance.nextFile();
-            PlayFrames.instance.gameOver = false;
+            m.gsr.incrementOutFile();
+            m.prediction.nextFile();
+            m.frames.gameOver = false;
         }
     }
 
@@ -79,16 +80,16 @@ public class ResetGame : MonoBehaviour
         {
             resource.resetGame();
         }
-        foreach (Tower tower in EntityTracker.instance.getTowers())
+        foreach (Tower tower in m.tracker.getTowers())
         {
             if (!safeTowers.Contains(tower))
                 Destroy(tower.gameObject);
         }
-        foreach (Unit unit in EntityTracker.instance.getUnits())
+        foreach (Unit unit in m.tracker.getUnits())
         {
             Destroy(unit.gameObject);
         }
-        EntityTracker.instance.resetGame();
+        m.tracker.resetGame();
         timer.resetGame();
     }
 

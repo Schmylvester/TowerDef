@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
-    public static Spawner instance;
     [SerializeField] GameObject unitPrefab;
     [SerializeField] GameObject healthBarPrefab;
     [SerializeField] Transform canvas;
@@ -13,6 +12,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] Resources resources;
     UnitType spawn;
     short targettedNode = 0;
+    [SerializeField] GameManager m;
 
     #region UnitUI
     [SerializeField] Image sprite;
@@ -26,14 +26,13 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        instance = this;
         switchTargettedNode(0);
         updatePanel();
     }
 
     private void Update()
     {
-        if (!Autoplay.instance.replayRunning())
+        if (!m.autoplay.replayRunning())
         {
             if (Input.GetKeyDown(KeyCode.D))
             {
@@ -60,12 +59,14 @@ public class Spawner : MonoBehaviour
                 if (resources.canAfford(cost))
                 {
                     Unit unit = Instantiate(unitPrefab).GetComponent<Unit>();
+                    unit.initEntity(m);
+                    unit.initUnit();
                     unit.setStartNode(paths[targettedNode].transform.GetChild(0).GetComponent<Node>(), targettedNode);
                     unit.setClass(spawn);
                     ShowHealth healthBar = Instantiate(healthBarPrefab, canvas).GetComponent<ShowHealth>();
                     unit.setHealthBar(healthBar);
                     unit.GetComponent<SpriteRenderer>().sprite = UnitTypes.instance.getSprite(spawn);
-                    GameStateRecorder.instance.unitAdded(unit);
+                    m.gsr.unitAdded(unit);
                     resources.updateGold((short)-cost);
                 }
                 else

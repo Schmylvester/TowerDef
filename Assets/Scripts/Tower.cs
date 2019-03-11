@@ -28,13 +28,15 @@ public class Tower : ManualUpdate
     bool ready;
     bool attachedToMouse = false;
     Vector2 startPos;
+    [SerializeField] GameManager m;
+    [SerializeField] UpdateTowerPanel tower_panel;
 
     private void Start()
     {
         timer = rateOfFire;
         startPos = new Vector2(transform.position.x, transform.position.y);
-        PlayFrames.instance.addItem(this);
-        EntityTracker.instance.addTower(this);
+        m.frames.addItem(this);
+        m.tracker.addTower(this);
         usesLeft = uses;
     }
 
@@ -55,7 +57,7 @@ public class Tower : ManualUpdate
 
     private void OnMouseDown()
     {
-        if (!Autoplay.instance.replayRunning())
+        if (!m.autoplay.replayRunning())
         {
             if (!ready && !attachedToMouse)
             {
@@ -74,25 +76,25 @@ public class Tower : ManualUpdate
     }
     private void OnMouseUp()
     {
-        if (!Autoplay.instance.replayRunning())
+        if (!m.autoplay.replayRunning())
         {
             if (attachedToMouse)
             {
-                float dist = EntityTracker.instance.getClosestTower(this);
+                float dist = m.tracker.getClosestTower(this);
                 if (dist > 1.5f)
                 {
                     ready = true;
                     attachedToMouse = false;
                     resources.updateGold(cost);
-                    GameStateRecorder.instance.towerAdded(this);
+                    m.gsr.towerAdded(this);
                     resources.updateGold((short)(cost * -1));
                 }
                 else
                 {
                     FeedbackManager.instance.setFeedback(false, "This tower is too close to another tower.", Color.red);
                     resources.updateGold(cost);
-                    EntityTracker.instance.removeTower(this);
-                    PlayFrames.instance.removeItem(this);
+                    m.tracker.removeTower(this);
+                    m.frames.removeItem(this);
                     Destroy(gameObject);
                 }
             }
@@ -101,15 +103,15 @@ public class Tower : ManualUpdate
 
     private void OnMouseEnter()
     {
-        if (!Autoplay.instance.replayRunning())
+        if (!m.autoplay.replayRunning())
         {
-            UpdateTowerPanel.instance.updatePanel(sprite.sprite, type.ToString(), range, rateOfFire, damage, uses, cost);
+            tower_panel.updatePanel(sprite.sprite, type.ToString(), range, rateOfFire, damage, uses, cost);
         }
     }
 
     private void Update()
     {
-        if (!Autoplay.instance.replayRunning())
+        if (!m.autoplay.replayRunning())
         {
             if (attachedToMouse)
             {
@@ -139,7 +141,7 @@ public class Tower : ManualUpdate
                         usesLeft--;
                         if (usesLeft <= 0)
                         {
-                            EntityTracker.instance.removeTower(this);
+                            m.tracker.removeTower(this);
                             Destroy(gameObject);
                         }
                         else

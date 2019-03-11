@@ -5,10 +5,12 @@ using UnityEngine;
 public class LineSet : ManualUpdate
 {
     float lifeTime = 0.2f;
-
-    private void Start()
+    PlayFrames frames;
+    
+    public void init(PlayFrames _frames)
     {
-        PlayFrames.instance.addItem(this);
+        frames = _frames;
+        frames.addItem(this);
     }
 
     public override void update(float rate)
@@ -16,7 +18,7 @@ public class LineSet : ManualUpdate
         lifeTime -= rate;
         if (lifeTime < 0)
         {
-            PlayFrames.instance.removeItem(this);
+            frames.removeItem(this);
             Destroy(gameObject);
         }
     }

@@ -10,12 +10,13 @@ public class Resources : ManualUpdate
     [SerializeField] float gainRate;
     [SerializeField] short gainAmount;
     float time = 0;
+    [SerializeField] PlayFrames frames;
 
     private void Start()
     {
         gold = startGold;
         updateGold(0);
-        PlayFrames.instance.addItem(this);
+        frames.addItem(this);
     }
 
     public override void update(float rate)

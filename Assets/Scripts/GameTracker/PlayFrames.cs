@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class PlayFrames : MonoBehaviour
 {
-    public static PlayFrames instance;
     List<ManualUpdate> trackedObjects = new List<ManualUpdate>();
     [HideInInspector] public uint frame = 0;
     [HideInInspector] public bool gameOver = false;
     [SerializeField] bool randomGame = false;
     [SerializeField] ResetGame reset;
     [SerializeField] int framesAtATime;
+    [SerializeField] GameManager m;
 
     private void Awake()
     {
+        m.frames = this;
         framesAtATime = Mathf.Max(framesAtATime, 1);
-        instance = this;
     }
 
     public void addItem(ManualUpdate item)
@@ -38,15 +38,15 @@ public class PlayFrames : MonoBehaviour
                 {
                     if (Random.Range(0, 100) == 0)
                     {
-                        Prediction.instance.towerPrediction();
+                        m.prediction.towerPrediction();
                     }
                     else if (reset.randomMatches() || Random.Range(0, 300) == 0)
                     {
-                        Autoplay.instance.createTower(new EntityData(), true);
+                        m.autoplay.createTower(new EntityData(), true);
                     }
                     if (Random.Range(0, 1000) == 0)
                     {
-                        Autoplay.instance.createUnit(new UnitData(), true);
+                        m.autoplay.createUnit(new UnitData(), true);
                     }
                     playFrame(0.01f);
                     frame++;
@@ -71,14 +71,14 @@ public class PlayFrames : MonoBehaviour
                 trackedObjects.Remove(trackedObjects[i]);
                 i--;
             }
-        if (Autoplay.instance.replayRunning())
+        if (m.autoplay.replayRunning())
         {
-            Autoplay.instance.replayFrame(frame);
+            m.autoplay.replayFrame(frame);
         }
-        foreach (ManualUpdate item in trackedObjects)
+        for (int i = 0; i < trackedObjects.Count; i++)
         {
-            if (item)
-                item.update(rate);
+            if (trackedObjects[i])
+                trackedObjects[i].update(rate);
         }
     }
 }

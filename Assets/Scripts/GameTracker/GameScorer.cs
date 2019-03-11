@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class GameScorer : MonoBehaviour
 {
-    public static GameScorer instance;
     [SerializeField] Structure castle;
     [SerializeField] Timer timer;
     [SerializeField] Grid grid;
     float distScore = 0;
+    [SerializeField] GameManager m;
 
     private void Awake()
     {
-        instance = this;
+        m.scorer = this;
     }
 
     public float getDefScore(bool won)

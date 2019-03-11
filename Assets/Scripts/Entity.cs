@@ -8,6 +8,7 @@ public abstract class Entity : ManualUpdate
     [SerializeField] protected ShowHealth healthBar;
     [SerializeField] protected SpriteRenderer sprite;
     protected short currentHealth;
+    [SerializeField] protected GameManager m;
 
     protected abstract void beDestroyed();
 
@@ -31,14 +32,19 @@ public abstract class Entity : ManualUpdate
         return currentHealth + "/" + health;
     }
 
+    public void initEntity(GameManager _m)
+    {
+        m = _m;
+    }
+
     void makeLine(GameObject attacker, Color color)
     {
         LineRenderer lRend = new GameObject().AddComponent<LineRenderer>();
-        lRend.gameObject.AddComponent<LineSet>();
+        LineSet line = lRend.gameObject.AddComponent<LineSet>();
+        line.init(m.frames);
         lRend.SetPositions(new Vector3[] { attacker.transform.position, transform.position });
         lRend.startColor = new Color(color.r / 2, color.g / 2, color.b / 2);
         lRend.endColor = color;
-        lRend.material = EntityTracker.instance.lineMat;
         lRend.startWidth = 0.1f;
         lRend.endWidth = 0.1f;
     }
