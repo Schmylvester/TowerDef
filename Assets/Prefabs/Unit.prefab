@@ -55,10 +55,8 @@ MonoBehaviour:
   health: 10
   healthBar: {fileID: 0}
   sprite: {fileID: 212160622201309936}
+  m: {fileID: 0}
   target: {fileID: 0}
-  moveSpeed: 2
-  damage: 1
-  attackRate: 0.5
 --- !u!212 &212160622201309936
 SpriteRenderer:
   m_ObjectHideFlags: 1

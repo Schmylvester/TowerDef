@@ -10,6 +10,7 @@ public class EntityTracker : MonoBehaviour
     [SerializeField] Resources attackerRes;
     [SerializeField] Resources defenderRes;
     [SerializeField] GameManager m;
+    [SerializeField] TowerTypes towerTypes;
 
     private void Awake()
     {
@@ -126,7 +127,7 @@ public class EntityTracker : MonoBehaviour
                 break;
             }
         }
-        if (!defenderRes.canAfford(TowerTypes.instance.getTower(towerIdx).getCost()))
+        if (!defenderRes.canAfford(towerTypes.getTower(towerIdx).getCost()))
             return false;
         float dist = getClosestTower(new Vector2(pos.x, pos.y));
         if (dist <= 1.5f)

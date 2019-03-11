@@ -109,12 +109,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 067a4c2e0f44d3040b4737c159e13239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   sprite: {fileID: 212832109023333300}
   cost: 6
+  uses: 0
   range: 2.5
   rateOfFire: 1
   damage: 2
   circle: {fileID: 114624079702080662}
+  m: {fileID: 0}
+  tower_panel: {fileID: 0}
 --- !u!114 &114624079702080662
 MonoBehaviour:
   m_ObjectHideFlags: 1

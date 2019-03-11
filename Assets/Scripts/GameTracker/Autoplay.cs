@@ -16,6 +16,7 @@ public class Autoplay : MonoBehaviour
     List<IODSetup> defends;
     [SerializeField] bool replay = false;
     [SerializeField] GameManager m;
+    [SerializeField] TowerTypes towerTypes;
 
     private void Awake()
     {
@@ -122,7 +123,7 @@ public class Autoplay : MonoBehaviour
             }
 
             Tower tower = Instantiate(
-                TowerTypes.instance.getTower(towerIdx).gameObject, pos
+                towerTypes.getTower(towerIdx).gameObject, pos
                 , new Quaternion()).GetComponent<Tower>();
             tower.setReady();
             resources[1].updateGold((short)-tower.getCost());

@@ -5,6 +5,7 @@ using System.IO;
 
 public class GameStateRecorder : MonoBehaviour
 {
+    static short nextInt = 0;
     [SerializeField] Grid grid;
     [SerializeField] Structure[] walls;
     [SerializeField] Transform[] tracks;
@@ -12,11 +13,13 @@ public class GameStateRecorder : MonoBehaviour
     Defends defends;
     [SerializeField] bool clear_files;
     [SerializeField] string attackPathIn;
-    [SerializeField] string attackPathOut;
+    [SerializeField] short attackPathOut;
     [SerializeField] string defendPathIn;
-    [SerializeField] string defendPathOut;
+    [SerializeField] short defendPathOut;
     [SerializeField] GameManager m;
     [SerializeField] ResetGame reset;
+    [SerializeField] Camera m_camera;
+    [SerializeField] bool manyGames;
 
     /// <summary>
     /// Returns the grid position normalised between 0 and 1
@@ -32,6 +35,13 @@ public class GameStateRecorder : MonoBehaviour
 
     private void Awake()
     {
+        if (manyGames)
+        {
+            defendPathOut = nextInt;
+            nextInt++;
+            m_camera.rect = new Rect(0.1f * (defendPathOut / 10), 0.1f * (defendPathOut % 10), 0.1f, 0.1f);
+            transform.position = new Vector3(40 * defendPathOut, 0, 0);
+        }
         m.gsr = this;
         if (clear_files)
         {
@@ -67,19 +77,15 @@ public class GameStateRecorder : MonoBehaviour
     /// </summary>
     public void incrementOutFile()
     {
-        if (attackPathOut != "")
+        if (attackPathOut != -1)
         {
-            uint fileID = uint.Parse(attackPathOut);
-            fileID++;
-            fileID %= 100;
-            attackPathOut = fileID.ToString();
+            attackPathOut++;
+            attackPathOut %= 100;
         }
-        if (defendPathOut != "")
+        if (defendPathOut != -1)
         {
-            uint fileID = uint.Parse(defendPathOut);
-            fileID++;
-            fileID %= 100;
-            defendPathOut = fileID.ToString();
+            defendPathOut++;
+            defendPathOut %= 100;
         }
     }
 
@@ -220,7 +226,7 @@ public class GameStateRecorder : MonoBehaviour
     /// <param name="unit">the data of the unit added</param>
     public void unitAdded(UnitData unit)
     {
-        if (attackPathOut == "")
+        if (attackPathOut == -1)
         {
             return;
         }
@@ -242,7 +248,7 @@ public class GameStateRecorder : MonoBehaviour
     /// <param name="unit">the unit added</param>
     public void unitAdded(Unit unit)
     {
-        if (attackPathOut == "")
+        if (attackPathOut == -1)
         {
             return;
         }
@@ -265,7 +271,7 @@ public class GameStateRecorder : MonoBehaviour
     /// <param name="tower">the tower added</param>
     public void towerAdded(Tower tower)
     {
-        if (defendPathOut == "")
+        if (defendPathOut == -1)
         {
             return;
         }
@@ -289,7 +295,7 @@ public class GameStateRecorder : MonoBehaviour
     /// <param name="tower">data of the new tower</param>
     public void towerAdded(EntityData tower)
     {
-        if (defendPathOut == "")
+        if (defendPathOut == -1)
         {
             return;
         }
@@ -311,8 +317,9 @@ public class GameStateRecorder : MonoBehaviour
     /// <param name="defenderWins">True if defender won, False if attacker won</param>
     public void onGameOver(bool defenderWins)
     {
+        m_camera.backgroundColor = defenderWins ? Color.green : Color.red;
         m.frames.gameOver = true;
-        if (attackPathOut != "")
+        if (attackPathOut != -1)
         {
             float aScore = m.scorer.getAttScore(!defenderWins);
             for (int i = 0; i < attacks.attacks.Count; i++)
@@ -323,7 +330,7 @@ public class GameStateRecorder : MonoBehaviour
             attacks.attacks.Clear();
         }
         float dScore = m.scorer.getDefScore(defenderWins);
-        if (defendPathOut != "")
+        if (defendPathOut != -1)
         {
             for (int i = 0; i < defends.defends.Count; i++)
             {
@@ -332,7 +339,7 @@ public class GameStateRecorder : MonoBehaviour
             packIntoFile(defends, defendPathOut);
             defends.defends.Clear();
         }
-        reset.endGame(dScore);
+        //reset.endGame(dScore);
     }
 
     /// <summary>
@@ -340,7 +347,7 @@ public class GameStateRecorder : MonoBehaviour
     /// </summary>
     /// <param name="def">the data to save</param>
     /// <param name="fileName">the file to save to</param>
-    public void packIntoFile(Defends def, string fileName)
+    public void packIntoFile(Defends def, short fileName)
     {
         StreamWriter file = new StreamWriter("Assets/kNNData/Defends/" + fileName + ".json", false);
         file.Write(JsonUtility.ToJson(def));
@@ -352,7 +359,7 @@ public class GameStateRecorder : MonoBehaviour
     /// </summary>
     /// <param name="att">the data to save</param>
     /// <param name="fileName">the file to save to</param>
-    public void packIntoFile(Attacks att, string fileName)
+    public void packIntoFile(Attacks att, short fileName)
     {
         StreamWriter file = new StreamWriter("Assets/kNNData/Attacks/" + fileName + ".json", false);
         file.Write(JsonUtility.ToJson(att));
