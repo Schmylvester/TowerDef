@@ -6,17 +6,18 @@ public class PlayFrames : MonoBehaviour
 {
     List<ManualUpdate> trackedObjects = new List<ManualUpdate>();
     [HideInInspector] public uint frame = 0;
-    [HideInInspector] public bool gameOver = false;
     [SerializeField] bool randomGame = false;
     [SerializeField] ResetGame reset;
-    [SerializeField] int framesAtATime;
     [SerializeField] GameManager m;
-    float frameInc = 0.01f;
+    [SerializeField] GameSpeed speed;
+    int defaultRand = 1000;
+    int activeRand = 1000;
+    bool createdThisGame = false;
+    bool createdLastGame = true;
 
     private void Awake()
     {
         m.frames = this;
-        framesAtATime = Mathf.Max(framesAtATime, 1);
     }
 
     public void addItem(ManualUpdate item)
@@ -30,39 +31,43 @@ public class PlayFrames : MonoBehaviour
             trackedObjects[trackedObjects.IndexOf(item)] = null;
     }
 
-    public float getRate()
-    {
-        return framesAtATime * frameInc;
-    }
-
     private void Update()
     {
         if (randomGame)
         {
-            for (int i = 0; i < framesAtATime; i++)
+            for (int i = 0; i < speed.getFrameCount(); i++)
             {
-                if (!gameOver)
+                if (!m.gsr.getGameEnded())
                 {
                     if (Random.Range(0, 100) == 0)
                     {
-                        m.prediction.towerPrediction();
+                        if (!m.prediction.towerPrediction())
+                        {
+                            m.autoplay.createTower(new EntityData(), true);
+                        }
                     }
                     else if (m.gsr.getGameID() >= 90 || Random.Range(0, 300) == 0)
                     {
                         m.autoplay.createTower(new EntityData(), true);
                     }
-                    if (Random.Range(0, 1000) == 0)
+                    if (Random.Range(0, activeRand) == 0)
                     {
+                        createdThisGame = true;
+                        activeRand = defaultRand;
                         m.autoplay.createUnit(new UnitData(), true);
                     }
-                    playFrame(frameInc);
+                    else if (activeRand > 1)
+                    {
+                        activeRand--;
+                    }
+                    playFrame(speed.getFrameSpeed());
                     frame++;
                 }
             }
         }
         else
         {
-            if (!gameOver)
+            if (!m.gsr.getGameEnded())
             {
                 playFrame(Time.deltaTime);
                 frame++;
@@ -87,5 +92,11 @@ public class PlayFrames : MonoBehaviour
             if (trackedObjects[i])
                 trackedObjects[i].update(rate);
         }
+    }
+
+    public void restart()
+    {
+        createdLastGame = createdThisGame;
+        createdThisGame = false;
     }
 }

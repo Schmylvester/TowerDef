@@ -169,9 +169,4 @@ public class Autoplay : MonoBehaviour
             resources[0].updateGold((short)-UnitTypes.instance.getStats(spawn).cost);
         }
     }
-
-    private void OnApplicationQuit()
-    {
-        Debug.LogWarning("Don't forget to fix this, the units are all the same. randomUnit()");
-    }
 }

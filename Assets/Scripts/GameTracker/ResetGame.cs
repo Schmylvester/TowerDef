@@ -10,27 +10,29 @@ public class ResetGame : MonoBehaviour
     [SerializeField] List<Tower> safeTowers;
     int evolveCount = 500;
     [SerializeField] GameManager m;
-    static float[] scores;
     float checkAverage = float.MinValue;
-    static int gamesOver = 0;
+    static float[] scores;
+    static bool[] gamesOver;
 
     private void Start()
     {
         if (scores == null)
             scores = new float[100];
+        if (gamesOver == null)
+            gamesOver = new bool[100];
     }
 
     public void endGame(float defScore, int gameIdx)
     {
         scores[gameIdx] = defScore;
+        gamesOver[gameIdx] = true;
         resetGame();
-        if (++gamesOver >= 100)
+        if (allGamesOver())
         {
-            timer.resetGame();
-            gamesOver = 0;
+            resetGamesOver();
             if (--evolveCount > 0)
             {
-                Evolve.instance.evolve();
+                StartCoroutine(Evolve.instance.evolve());
 
                 float total = 0;
                 float max = 0;
@@ -66,9 +68,11 @@ public class ResetGame : MonoBehaviour
 
     public void resume()
     {
-        m.frames.gameOver = false;
-        m.gsr.gameEnded = false;
+        m.prediction.reload();
         m.gsr.changeColours();
+        m.frames.restart();
+        timer.restartTime();
+        m.gsr.setGameEnded(false);
     }
 
     public void resetGame()
@@ -91,5 +95,19 @@ public class ResetGame : MonoBehaviour
             Destroy(unit.gameObject);
         }
         m.tracker.resetGame();
+    }
+
+    bool allGamesOver()
+    {
+        foreach (bool over in gamesOver)
+            if (!over)
+                return false;
+        return true;
+    }
+
+    void resetGamesOver()
+    {
+        for (int i = 0; i < gamesOver.Length; i++)
+            gamesOver[i] = false;
     }
 }

@@ -13,14 +13,14 @@ public class UpdateTowerPanel : MonoBehaviour {
     [SerializeField] Text uses;
     [SerializeField] Text damage;
 
-    public void updatePanel(Sprite _sprite, string _name, float _range, float _rof, short _damage, short _uses, short _cost)
+    public void updatePanel(Sprite _sprite, string _name, TowerStats stats)
     {
         sprite.sprite = _sprite;
         towerName.text = _name;
-        cost.text = "Cost: " + _cost;
-        range.text = "Range: " + _range;
-        rateOfFire.text = "Fire Rate: " + (short)(30 / _rof);
-        damage.text = "Damage: " + _damage;
-        uses.text = "Uses: " + _uses;
+        cost.text = "Cost: " + stats.cost;
+        range.text = "Range: " + stats.range;
+        rateOfFire.text = "Fire Rate: " + (short)(30 / stats.rateFire);
+        damage.text = "Damage: " + stats.damage;
+        uses.text = "Uses: " + stats.uses;
     }
 }

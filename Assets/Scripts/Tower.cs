@@ -2,25 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TowerType
-{
-    Archer,
-    Bard,
-    Necromancer,
-
-    Count
-}
-
 public class Tower : ManualUpdate
 {
     [SerializeField] TowerType type;
     [SerializeField] SpriteRenderer sprite;
-    [SerializeField] short cost;
-    [SerializeField] short uses;
     short usesLeft;
-    [SerializeField] float range;
-    [SerializeField] float rateOfFire;
-    [SerializeField] short damage;
     [SerializeField] DrawCircle circle;
     float timer = 0;
     List<Unit> units = new List<Unit>();
@@ -30,14 +16,16 @@ public class Tower : ManualUpdate
     Vector2 startPos;
     [SerializeField] GameManager m;
     [SerializeField] UpdateTowerPanel tower_panel;
+    TowerStats stats;
 
     private void Start()
     {
-        timer = rateOfFire;
+        stats = GetComponentInParent<TowerTypes>().getTowerStats(type);
+        timer = stats.rateFire;
         startPos = new Vector2(transform.position.x, transform.position.y);
         m.frames.addItem(this);
         m.tracker.addTower(this);
-        usesLeft = uses;
+        usesLeft = stats.uses;
     }
 
     public void addUnit(Unit unit)
@@ -61,11 +49,11 @@ public class Tower : ManualUpdate
         {
             if (!ready && !attachedToMouse)
             {
-                if (resources.canAfford(cost))
+                if (resources.canAfford(stats.cost))
                 {
                     attachedToMouse = true;
                     Instantiate(this, startPos, new Quaternion(), transform.parent);
-                    resources.updateGold((short)-cost);
+                    resources.updateGold((short)-stats.cost);
                 }
                 else
                 {
@@ -85,14 +73,14 @@ public class Tower : ManualUpdate
                 {
                     ready = true;
                     attachedToMouse = false;
-                    resources.updateGold(cost);
+                    resources.updateGold(stats.cost);
                     m.gsr.towerAdded(this);
-                    resources.updateGold((short)(cost * -1));
+                    resources.updateGold((short)(stats.cost * -1));
                 }
                 else
                 {
                     FeedbackManager.instance.setFeedback(false, "This tower is too close to another tower.", Color.red);
-                    resources.updateGold(cost);
+                    resources.updateGold(stats.cost);
                     m.tracker.removeTower(this);
                     m.frames.removeItem(this);
                     Destroy(gameObject);
@@ -105,7 +93,7 @@ public class Tower : ManualUpdate
     {
         if (!m.autoplay.replayRunning())
         {
-            tower_panel.updatePanel(sprite.sprite, type.ToString(), range, rateOfFire, damage, uses, cost);
+            tower_panel.updatePanel(sprite.sprite, type.ToString(), stats);
         }
     }
 
@@ -117,7 +105,7 @@ public class Tower : ManualUpdate
             {
                 Vector3 p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 transform.position = new Vector3(p.x, p.y);
-                circle.drawCircle(range, transform.position, 18);
+                circle.drawCircle(stats.range, transform.position, 18);
             }
         }
     }
@@ -127,14 +115,14 @@ public class Tower : ManualUpdate
         if (ready)
         {
             timer += rate;
-            if (timer > rateOfFire)
+            if (timer > stats.rateFire)
             {
                 foreach (Unit unit in units)
                 {
                     float dist = (transform.position - unit.transform.position).magnitude;
-                    if (dist < range)
+                    if (dist < stats.range)
                     {
-                        if (unit.takeDamage(damage, gameObject, Color.green))
+                        if (unit.takeDamage(stats.damage, gameObject, Color.green))
                         {
                             resources.updateGold(unit.getReward());
                         }
@@ -146,7 +134,7 @@ public class Tower : ManualUpdate
                         }
                         else
                         {
-                            sprite.color = new Color(1, 1, 1, (float)usesLeft / uses + 0.3f);
+                            sprite.color = new Color(1, 1, 1, (float)usesLeft / stats.uses + 0.3f);
                         }
                         timer = 0;
                         break;
@@ -173,19 +161,23 @@ public class Tower : ManualUpdate
 
     public short getCost()
     {
-        return cost;
+        if(stats.cost == 0)
+        {
+            stats = GetComponentInParent<TowerTypes>().getTowerStats(type);
+        }
+        return stats.cost;
     }
 
     public float getHealth()
     {
-        return (float)usesLeft / uses;
+        return (float)usesLeft / stats.uses;
     }
 
 #if (UNITY_EDITOR)
     void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
-        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, range);
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, stats.range);
     }
 #endif
 

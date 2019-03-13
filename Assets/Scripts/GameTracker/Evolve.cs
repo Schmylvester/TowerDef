@@ -9,6 +9,7 @@ public class Evolve : MonoBehaviour
     int survivors = 60;
     public static Evolve instance;
     ResetGame[] resets;
+    [SerializeField] Timer timer;
 
     private void Awake()
     {
@@ -19,8 +20,10 @@ public class Evolve : MonoBehaviour
         resets = FindObjectsOfType<ResetGame>();
     }
 
-    public void evolve()
+    public IEnumerator evolve()
     {
+        timer.pause();
+        yield return new WaitForSeconds(1.0f);
         Defends[] allDefs = new Defends[fileCount];
         for (int i = 0; i < fileCount; i++)
         {
@@ -40,8 +43,11 @@ public class Evolve : MonoBehaviour
             file.Close();
         }
 
+        //yield return new WaitForSeconds(1.0f);
         foreach (ResetGame r in resets)
             r.resume();
+        timer.resume();
+        yield return null;
     }
 
     Defends[] sortDefends(Defends[] defends)

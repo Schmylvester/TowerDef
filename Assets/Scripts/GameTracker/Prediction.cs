@@ -14,6 +14,18 @@ public class Prediction : MonoBehaviour
     private void Awake()
     {
         m.prediction = this;
+        string fileOut = "";
+        foreach (char c in gameObject.name)
+        {
+            if (char.IsDigit(c))
+                fileOut += c;
+        }
+        defend_file = uint.Parse(fileOut);
+        reload();
+    }
+
+    public void reload()
+    {
         System.IO.StreamReader file =
             new System.IO.StreamReader("Assets/kNNData/Defends/" + defend_file + ".json");
         defends = JsonUtility.FromJson<Defends>(file.ReadToEnd());
@@ -67,11 +79,11 @@ public class Prediction : MonoBehaviour
         return dist;
     }
 
-    public void towerPrediction()
+    public bool towerPrediction()
     {
         if (defends.defends.Count == 0)
         {
-            return;
+            return false;
         }
         //current state of the game
         InputRecord gameState = m.gsr.getGameState();
@@ -94,8 +106,10 @@ public class Prediction : MonoBehaviour
         if (bestDist < 1.0f)
         {
             m.autoplay.createTower(defends.defends[bestDistIdx].output);
-            defends.defends.RemoveAt(bestDistIdx);
+            modifyDefenceOutput(bestDistIdx);
+            return true;
         }
+        return false;
     }
 
     public void unitPrediction()
@@ -119,9 +133,21 @@ public class Prediction : MonoBehaviour
         m.autoplay.createUnit(attacks.attacks[bestDistIdx].output);
     }
 
-    public void nextFile()
+    void modifyDefenceOutput(int idx)
     {
-        attack_file++;
-        defend_file++;
+        IODSetup d = defends.defends[idx];
+        IODSetup newSet = new IODSetup()
+        {
+            frame = d.frame,
+            input = d.input,
+            output = new EntityData()
+            {
+                health = d.output.health,
+                type = d.output.type,
+                x = d.output.x + (Random.Range(-0.05f, 0.05f)),
+                y = d.output.y + (Random.Range(-0.05f, 0.05f))
+    }
+        };
+        defends.defends[idx] = newSet;
     }
 }

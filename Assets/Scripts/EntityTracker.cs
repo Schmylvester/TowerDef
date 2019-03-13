@@ -127,7 +127,7 @@ public class EntityTracker : MonoBehaviour
                 break;
             }
         }
-        if (!defenderRes.canAfford(towerTypes.getTower(towerIdx).getCost()))
+        if (!defenderRes.canAfford(towerTypes.getTowerStats((TowerType)towerIdx).cost))
             return false;
         float dist = getClosestTower(new Vector2(pos.x, pos.y));
         if (dist <= 1.5f)

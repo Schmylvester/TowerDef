@@ -8,26 +8,39 @@ public class Timer : MonoBehaviour
     [SerializeField] UnityEngine.UI.Text timeText;
     [SerializeField] float startTime;
     float time;
-    float rate;
+    [SerializeField] GameSpeed speed;
+    [SerializeField] GameStateRecorder[] gsrs;
+    bool paused = false;
 
     private void Start()
     {
         time = startTime;
-        rate = FindObjectOfType<PlayFrames>().getRate();
     }
 
     private void Update()
     {
-        time -= rate;
+        if (!paused)
+            time -= speed.getSpeed();
         time = Mathf.Max(0, time);
         if (time == 0)
         {
             FeedbackManager.instance.setFeedback(true, "You lose.");
             FeedbackManager.instance.setFeedback(false, "You win.");
-            foreach (GameStateRecorder gsr in FindObjectsOfType<GameStateRecorder>())
-                gsr.onGameOver(true);
+            foreach (GameStateRecorder gsr in gsrs)
+            {
+                if (!gsr.getGameEnded())
+                {
+                    gsr.onGameOver(true);
+                }
+            }
+            time = startTime;
         }
         showTime();
+    }
+
+    public void restartTime()
+    {
+        time = startTime;
     }
 
     public float getScore()
@@ -50,8 +63,18 @@ public class Timer : MonoBehaviour
         timeText.text = minutes.ToString() + ":" + seconds + "." + miliSeconds;
     }
 
-    public void resetGame()
+    public bool ended()
     {
-        time = startTime;
+        return time > 0;
+    }
+
+    public void pause()
+    {
+        paused = true;
+    }
+
+    public void resume()
+    {
+        paused = false;
     }
 }

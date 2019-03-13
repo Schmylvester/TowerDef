@@ -383,7 +383,6 @@ GameObject:
   - component: {fileID: 114867960328707922}
   - component: {fileID: 114187355891221326}
   - component: {fileID: 114734408664634398}
-  - component: {fileID: 114000380163757556}
   - component: {fileID: 114305552559975270}
   m_Layer: 0
   m_Name: Manager0
@@ -1174,8 +1173,8 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0.5
-    height: 0.5
+    width: 0.1
+    height: 0.1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1278,17 +1277,6 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1203803554109382}
   m_Enabled: 1
---- !u!114 &114000380163757556
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1465507637320708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c66f56db84d2907459a153cec590c3c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114014807182586260
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1464,13 +1452,13 @@ MonoBehaviour:
   - {fileID: 4624006201274702}
   - {fileID: 4717498216442430}
   clear_files: 0
-  attackPathIn: 
-  attackPathOut: 
-  defendPathIn: 
-  defendPathOut: 0
+  pathIn: -1
+  pathOut: 0
   m: {fileID: 114305552559975270}
   reset: {fileID: 114734408664634398}
   m_camera: {fileID: 20054798307085838}
+  manyGames: 1
+  gameEnded: 0
 --- !u!114 &114253445126596358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1684,11 +1672,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frame: 0
-  gameOver: 0
   randomGame: 1
   reset: {fileID: 114734408664634398}
-  framesAtATime: 3
   m: {fileID: 114305552559975270}
+  speed: {fileID: 0}
+  timer: {fileID: 0}
+  castle: {fileID: 114672152199877628}
 --- !u!114 &114478816416557736
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1856,9 +1845,6 @@ MonoBehaviour:
   - {fileID: 114670374461026910}
   - {fileID: 114656333384188308}
   - {fileID: 114322229173996588}
-  count: 100
-  evolve: {fileID: 114000380163757556}
-  evolveCount: 0
   m: {fileID: 114305552559975270}
 --- !u!114 &114761510133166216
 MonoBehaviour:
