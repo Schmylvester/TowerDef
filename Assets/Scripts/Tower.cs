@@ -64,7 +64,7 @@ public class Tower : ManualUpdate
                 if (resources.canAfford(cost))
                 {
                     attachedToMouse = true;
-                    Instantiate(this, startPos, new Quaternion());
+                    Instantiate(this, startPos, new Quaternion(), transform.parent);
                     resources.updateGold((short)-cost);
                 }
                 else

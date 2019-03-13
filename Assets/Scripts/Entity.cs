@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public abstract class Entity : ManualUpdate
 {
@@ -51,11 +52,12 @@ public abstract class Entity : ManualUpdate
 
     public bool takeDamage(short dam, GameObject attacker, Color color)
     {
-        makeLine(attacker, color);
+        if(SceneManager.GetActiveScene().name != "100Games")
+            makeLine(attacker, color);
         currentHealth -= dam;
         currentHealth = (short)Mathf.Max(currentHealth, 0);
-
-        healthBar.updateHealth(this);
+        if(healthBar)
+            healthBar.updateHealth(this);
         if (currentHealth <= 0)
         {
             beDestroyed();

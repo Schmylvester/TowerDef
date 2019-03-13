@@ -11,6 +11,7 @@ public class PlayFrames : MonoBehaviour
     [SerializeField] ResetGame reset;
     [SerializeField] int framesAtATime;
     [SerializeField] GameManager m;
+    float frameInc = 0.01f;
 
     private void Awake()
     {
@@ -28,6 +29,12 @@ public class PlayFrames : MonoBehaviour
         if (trackedObjects.IndexOf(item) < trackedObjects.Count && trackedObjects.IndexOf(item) >= 0)
             trackedObjects[trackedObjects.IndexOf(item)] = null;
     }
+
+    public float getRate()
+    {
+        return framesAtATime * frameInc;
+    }
+
     private void Update()
     {
         if (randomGame)
@@ -40,7 +47,7 @@ public class PlayFrames : MonoBehaviour
                     {
                         m.prediction.towerPrediction();
                     }
-                    else if (reset.randomMatches() || Random.Range(0, 300) == 0)
+                    else if (m.gsr.getGameID() >= 90 || Random.Range(0, 300) == 0)
                     {
                         m.autoplay.createTower(new EntityData(), true);
                     }
@@ -48,7 +55,7 @@ public class PlayFrames : MonoBehaviour
                     {
                         m.autoplay.createUnit(new UnitData(), true);
                     }
-                    playFrame(0.01f);
+                    playFrame(frameInc);
                     frame++;
                 }
             }

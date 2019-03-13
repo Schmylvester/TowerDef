@@ -7,6 +7,17 @@ public class Evolve : MonoBehaviour
 {
     int fileCount = 100;
     int survivors = 60;
+    public static Evolve instance;
+    ResetGame[] resets;
+
+    private void Awake()
+    {
+        if (instance)
+            Destroy(gameObject);
+        else
+            instance = this;
+        resets = FindObjectsOfType<ResetGame>();
+    }
 
     public void evolve()
     {
@@ -28,6 +39,9 @@ public class Evolve : MonoBehaviour
             file.Write(JsonUtility.ToJson(allDefs[i]));
             file.Close();
         }
+
+        foreach (ResetGame r in resets)
+            r.resume();
     }
 
     Defends[] sortDefends(Defends[] defends)

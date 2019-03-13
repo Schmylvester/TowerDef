@@ -20,7 +20,10 @@ public class GameStateRecorder : MonoBehaviour
     [SerializeField] ResetGame reset;
     [SerializeField] Camera m_camera;
     [SerializeField] bool manyGames;
-    bool gameEnded = false;
+    public bool gameEnded = false;
+
+    Color winColour;
+    Color[] loseColour;
 
     /// <summary>
     /// Returns the grid position normalised between 0 and 1
@@ -36,6 +39,8 @@ public class GameStateRecorder : MonoBehaviour
 
     private void Awake()
     {
+        winColour = new Color(0.7f, 1.0f, 0.7f);
+        loseColour = new Color[2] { new Color(1.0f, 0.7f, 0.7f), new Color(0.7f, 0.2f, 0.2f) };
         if (manyGames)
         {
             defendPathOut = nextInt;
@@ -88,6 +93,11 @@ public class GameStateRecorder : MonoBehaviour
             defendPathOut++;
             defendPathOut %= 100;
         }
+    }
+
+    public short getGameID()
+    {
+        return defendPathOut;
     }
 
     /// <summary>
@@ -321,7 +331,10 @@ public class GameStateRecorder : MonoBehaviour
         if (gameEnded)
             return;
         gameEnded = true;
-        m_camera.backgroundColor = defenderWins ? Color.green : Color.red;
+        if (!defenderWins)
+        {
+            m_camera.backgroundColor = loseColour[1];
+        }
         m.frames.gameOver = true;
         if (attackPathOut != -1)
         {
@@ -343,7 +356,18 @@ public class GameStateRecorder : MonoBehaviour
             packIntoFile(defends, defendPathOut);
             defends.defends.Clear();
         }
-        //reset.endGame(dScore);
+        reset.endGame(dScore, defendPathOut);
+    }
+
+    public void changeColours()
+    {
+
+        if (m_camera.backgroundColor == loseColour[1])
+        {
+            m_camera.backgroundColor = loseColour[0];
+        }
+        else
+            m_camera.backgroundColor = winColour;
     }
 
     /// <summary>

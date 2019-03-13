@@ -2,44 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Timer : ManualUpdate
+public class Timer : MonoBehaviour
 {
 
     [SerializeField] UnityEngine.UI.Text timeText;
     [SerializeField] float startTime;
     float time;
-    PlayFrames player;
+    float rate;
 
     private void Start()
     {
         time = startTime;
-        foreach (PlayFrames frames in FindObjectsOfType<PlayFrames>())
-            if (!frames.gameOver)
-            {
-                player = frames;
-                frames.addItem(this);
-                break;
-            }
+        rate = FindObjectOfType<PlayFrames>().getRate();
     }
 
     private void Update()
-    {
-        if (player.gameOver)
-            foreach (PlayFrames frames in FindObjectsOfType<PlayFrames>())
-                if (!frames.gameOver)
-                {
-                    player = frames;
-                    frames.addItem(this);
-                    break;
-                }
-    }
-
-    public float getScore()
-    {
-        return 1 - (time / startTime);
-    }
-
-    public override void update(float rate)
     {
         time -= rate;
         time = Mathf.Max(0, time);
@@ -51,6 +28,11 @@ public class Timer : ManualUpdate
                 gsr.onGameOver(true);
         }
         showTime();
+    }
+
+    public float getScore()
+    {
+        return 1 - (time / startTime);
     }
 
     void showTime()

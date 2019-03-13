@@ -86,7 +86,8 @@ public class Unit : Entity
         {
             nextTargetInSequence();
         }
-        healthBar.updatePos(this, sprite.sprite);
+        if (healthBar)
+            healthBar.updatePos(this, sprite.sprite);
     }
 
     void nextTargetInSequence()
@@ -158,7 +159,8 @@ public class Unit : Entity
 
     protected override void beDestroyed()
     {
-        Destroy(healthBar.gameObject);
+        if (healthBar)
+            Destroy(healthBar.gameObject);
         m.tracker.removeUnit(this);
         m.frames.removeItem(this);
         m.scorer.unitDies(transform.position.x);

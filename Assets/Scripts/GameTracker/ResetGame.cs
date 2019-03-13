@@ -8,66 +8,67 @@ public class ResetGame : MonoBehaviour
     [SerializeField] Resources[] resources;
     [SerializeField] Timer timer;
     [SerializeField] List<Tower> safeTowers;
-    [SerializeField] int count = 100;
-    [SerializeField] Evolve evolve;
-    [SerializeField] int evolveCount;
+    int evolveCount = 500;
     [SerializeField] GameManager m;
-    float[] scores;
+    static float[] scores;
     float checkAverage = float.MinValue;
+    static int gamesOver = 0;
 
     private void Start()
     {
-        scores = new float[100];
+        if (scores == null)
+            scores = new float[100];
     }
 
-    public void endGame(float defScore)
+    public void endGame(float defScore, int gameIdx)
     {
-        if (--count > 0)
+        scores[gameIdx] = defScore;
+        resetGame();
+        if (++gamesOver >= 100)
         {
-            scores[count] = defScore;
-            resetGame();
-            m.gsr.incrementOutFile();
-            m.prediction.nextFile();
-            m.frames.gameOver = false;
-        }
-        else if (--evolveCount > 0)
-        {
-            evolve.evolve();
-            count = 100;
+            timer.resetGame();
+            gamesOver = 0;
+            if (--evolveCount > 0)
+            {
+                Evolve.instance.evolve();
 
-            float total = 0;
-            float max = 0;
-            float min = float.MaxValue;
-            int wins = 0;
-            foreach(float s in scores)
-            {
-                total += s;
-                max = Mathf.Max(max, s);
-                if(s > 0)
-                    min = Mathf.Min(min, s);
-                if (s >= 1)
-                    wins++;
-            }
-            float average = total / 100;
-            Debug.Log("Average Score: " + average + " Max Score: " + max + " Min Score: " + min + " Wins: " + wins);
-            if(evolveCount % 50 == 0)
-            {
-                Debug.Log("Checking average...");
-                if(average <= checkAverage)
+                float total = 0;
+                float max = 0;
+                float min = float.MaxValue;
+                int wins = 0;
+                foreach (float s in scores)
                 {
-                    Debug.LogError("No good");
+                    total += s;
+                    max = Mathf.Max(max, s);
+                    if (s > 0)
+                        min = Mathf.Min(min, s);
+                    if (s >= 1)
+                        wins++;
                 }
-                else
+                float average = total / 100;
+                Debug.Log("Average Score: " + average + " Max Score: " + max + " Min Score: " + min + " Wins: " + wins);
+                if (evolveCount % 50 == 0)
                 {
-                    Debug.Log("Fine");
+                    Debug.Log("Checking average...");
+                    if (average <= checkAverage)
+                    {
+                        Debug.LogError("No good");
+                    }
+                    else
+                    {
+                        Debug.Log("Fine");
+                    }
+                    checkAverage = average;
                 }
-                checkAverage = average;
             }
-            resetGame();
-            m.gsr.incrementOutFile();
-            m.prediction.nextFile();
-            m.frames.gameOver = false;
         }
+    }
+
+    public void resume()
+    {
+        m.frames.gameOver = false;
+        m.gsr.gameEnded = false;
+        m.gsr.changeColours();
     }
 
     public void resetGame()
@@ -90,11 +91,5 @@ public class ResetGame : MonoBehaviour
             Destroy(unit.gameObject);
         }
         m.tracker.resetGame();
-        timer.resetGame();
-    }
-
-    public bool randomMatches()
-    {
-        return count <= 10;
     }
 }

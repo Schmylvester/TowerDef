@@ -124,7 +124,7 @@ public class Autoplay : MonoBehaviour
 
             Tower tower = Instantiate(
                 towerTypes.getTower(towerIdx).gameObject, pos
-                , new Quaternion()).GetComponent<Tower>();
+                , new Quaternion(), transform).GetComponent<Tower>();
             tower.setReady();
             resources[1].updateGold((short)-tower.getCost());
         }
@@ -157,14 +157,14 @@ public class Autoplay : MonoBehaviour
                     break;
                 }
             }
-            Unit unit = Instantiate(unitPrefab).GetComponent<Unit>();
+            Unit unit = Instantiate(unitPrefab, transform).GetComponent<Unit>();
             unit.initEntity(m);
             unit.initUnit();
 
             unit.setStartNode(paths[path].transform.GetChild(0).GetComponent<Node>(), path);
             unit.setClass(spawn);
-            ShowHealth healthBar = Instantiate(healthBarPrefab, canvas).GetComponent<ShowHealth>();
-            unit.setHealthBar(healthBar);
+//            ShowHealth healthBar = Instantiate(healthBarPrefab, canvas).GetComponent<ShowHealth>();
+//            unit.setHealthBar(healthBar);
             unit.GetComponent<SpriteRenderer>().sprite = UnitTypes.instance.getSprite(spawn);
             resources[0].updateGold((short)-UnitTypes.instance.getStats(spawn).cost);
         }
