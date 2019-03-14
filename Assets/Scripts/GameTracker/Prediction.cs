@@ -103,7 +103,7 @@ public class Prediction : MonoBehaviour
                 bestDistIdx = Random.Range(0, 2) == 0 ? i : bestDistIdx;
             }
         }
-        if (bestDist < 1.0f)
+        if (bestDist < 3.0f)
         {
             m.autoplay.createTower(defends.defends[bestDistIdx].output);
             modifyDefenceOutput(bestDistIdx);

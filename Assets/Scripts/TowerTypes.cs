@@ -45,8 +45,8 @@ public class TowerTypes : MonoBehaviour
         stats[(int)TowerType.Necromancer].cost = 30;
         stats[(int)TowerType.Necromancer].damage = 40;
         stats[(int)TowerType.Necromancer].range = 3.0f;
-        stats[(int)TowerType.Necromancer].rateFire = 20.0f;
-        stats[(int)TowerType.Necromancer].uses = 5;
+        stats[(int)TowerType.Necromancer].rateFire = 1.0f;
+        stats[(int)TowerType.Necromancer].uses = 50;
     }
 
     public TowerStats getTowerStats(TowerType type)
