@@ -7981,7 +7981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c86bc5903b2d04784435420188f514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  framesPerFrame: 400
+  framesPerFrame: 40
   frameSpeed: 0.01
 --- !u!114 &589730474 stripped
 MonoBehaviour:
