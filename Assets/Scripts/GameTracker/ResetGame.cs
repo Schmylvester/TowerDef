@@ -27,6 +27,7 @@ public class ResetGame : MonoBehaviour
         scores[gameIdx] = defScore;
         gamesOver[gameIdx] = true;
         resetGame();
+        m.frames.frame = 0;
         if (allGamesOver())
         {
             resetGamesOver();

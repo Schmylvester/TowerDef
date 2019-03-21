@@ -42,10 +42,10 @@ public class Timer : MonoBehaviour
     {
         time = startTime;
     }
-
-    public float getScore()
+    
+    public int frameCount()
     {
-        return 1 - (time / startTime);
+        return (int)(startTime / GameSpeed.instance.getFrameSpeed());
     }
 
     void showTime()

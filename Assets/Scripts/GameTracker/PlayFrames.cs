@@ -14,6 +14,7 @@ public class PlayFrames : MonoBehaviour
     int activeRand = 1000;
     bool createdThisGame = false;
     bool createdLastGame = true;
+    bool coroutineActive = false;
 
     private void Awake()
     {
@@ -46,7 +47,7 @@ public class PlayFrames : MonoBehaviour
                             m.autoplay.createTower(new EntityData(), true);
                         }
                     }
-                    else if (m.gsr.getGameID() >= 90 || Random.Range(0, 700) == 0)
+                    else if (m.gsr.getGameID() >= 90)
                     {
                         m.autoplay.createTower(new EntityData(), true);
                     }
@@ -65,14 +66,23 @@ public class PlayFrames : MonoBehaviour
                 }
             }
         }
-        else
+        else if(!coroutineActive)
         {
-            if (!m.gsr.getGameEnded())
-            {
-                playFrame(Time.deltaTime);
-                frame++;
-            }
+            coroutineActive = true;
+            StartCoroutine(go());
         }
+    }
+
+    IEnumerator go()
+    {
+        while(!m.gsr.getGameEnded())
+        {
+            playFrame(speed.getFrameSpeed());
+            frame++;
+            yield return null;
+        }
+        coroutineActive = false;
+        yield return null;
     }
 
     public void playFrame(float rate)

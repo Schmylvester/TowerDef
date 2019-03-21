@@ -146,7 +146,7 @@ public class Prediction : MonoBehaviour
                 type = d.output.type,
                 x = d.output.x + (Random.Range(-0.05f, 0.05f)),
                 y = d.output.y + (Random.Range(-0.05f, 0.05f))
-    }
+            }
         };
         defends.defends[idx] = newSet;
     }

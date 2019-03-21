@@ -23,7 +23,7 @@ public class GameScorer : MonoBehaviour
         }
         else
         {
-            return timer.getScore();
+            return (float)m.frames.frame / timer.frameCount();
         }
     }
     public float getAttScore(bool won)
