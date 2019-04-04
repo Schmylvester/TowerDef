@@ -6,7 +6,7 @@ using System.IO;
 public class Evolve : MonoBehaviour
 {
     int fileCount = 100;
-    int survivors = 60;
+    int survivors = 10;
     public static Evolve instance;
     ResetGame[] resets;
     [SerializeField] Timer timer;

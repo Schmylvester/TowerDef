@@ -47,10 +47,6 @@ public class PlayFrames : MonoBehaviour
                             m.autoplay.createTower(new EntityData(), true);
                         }
                     }
-                    else if (m.gsr.getGameID() >= 90)
-                    {
-                        m.autoplay.createTower(new EntityData(), true);
-                    }
                     if (Random.Range(0, activeRand) == 0)
                     {
                         createdThisGame = true;
