@@ -17,13 +17,13 @@ public struct BattleOutput
 [System.Serializable]
 public struct InOutMap
 {
+    public float score;
     public BattleInput _in;
     public BattleOutput _out;
 }
 
 public class FindBestAction : MonoBehaviour
 {
-    [SerializeField] float scoreThreshold;
     List<InOutMap> allGoodOnes = new List<InOutMap>();
     List<InOutMap> thisGame = new List<InOutMap>();
 
@@ -37,19 +37,38 @@ public class FindBestAction : MonoBehaviour
 
     public void endGame(float score)
     {
-        if (score >= scoreThreshold)
+        foreach (InOutMap iom in thisGame)
         {
-            foreach (InOutMap iom in thisGame)
+            allGoodOnes.Add(new InOutMap()
             {
-                allGoodOnes.Add(iom);
-            }
+                _in = iom._in,
+                _out = iom._out,
+                score = score
+            });
         }
+
+        int brek = 0;
+        while(allGoodOnes.Count > 100 && ++brek < 1000)
+        {
+            float min = float.MaxValue;
+            int mindex = -1;
+            for(int i = 0; i < allGoodOnes.Count; i++)
+            {
+                if(allGoodOnes[i].score < min)
+                {
+                    score = min;
+                    mindex = i;
+                }
+            }
+            allGoodOnes.RemoveAt(mindex);
+        }
+
         thisGame.Clear();
     }
 
     public int getBestAction(Fighter a, Fighter b)
     {
-        if (allGoodOnes.Count < 10)
+        if (allGoodOnes.Count < 10 || Random.Range(0,2) == 0)
         {
             return Random.Range(0, 2);
         }
@@ -82,12 +101,12 @@ public class FindBestAction : MonoBehaviour
         }
 
         int[] counts = new int[2];
-        foreach(int index in closestIndices)
+        foreach (int index in closestIndices)
         {
             counts[allGoodOnes[index]._out.myAction]++;
         }
 
-        if(counts[0] > counts[1])
+        if (counts[0] > counts[1])
             return 0;
         return 1;
     }

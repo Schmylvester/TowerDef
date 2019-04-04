@@ -35,7 +35,7 @@ public class TrackGame : MonoBehaviour
                 else
                     cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.green, 0.01f);
 
-                //balance.balance(score, 1 - i);
+                balance.balance(score, 1 - i);
                 reset();
                 return;
             }

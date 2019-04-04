@@ -16,6 +16,7 @@ public class Fighter : MonoBehaviour
     [SerializeField] bool aiControlled = false;
     int[] attackUses = new int[2];
     [SerializeField] FindBestAction action = null;
+    float timer = 0;
 
     void Start()
     {
@@ -25,6 +26,10 @@ public class Fighter : MonoBehaviour
 
     private void Update()
     {
+        //timer += Time.deltaTime;
+        //if (timer < 0.02f)
+            //return;
+        //timer = 0;
         int input = -1;
         if (aiControlled)
         {
