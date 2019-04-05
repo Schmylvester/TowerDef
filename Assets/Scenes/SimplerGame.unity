@@ -1044,7 +1044,7 @@ MonoBehaviour:
   - {fileID: 815007754}
   - {fileID: 1044051438}
   cam: {fileID: 408263440}
-  gameConstraints: {x: 4, y: 50}
+  gameConstraints: {x: 4, y: 20}
 --- !u!114 &870247027
 MonoBehaviour:
   m_ObjectHideFlags: 0
