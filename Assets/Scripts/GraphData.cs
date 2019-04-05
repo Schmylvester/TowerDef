@@ -21,7 +21,7 @@ public class GraphData : MonoBehaviour
         instance = this;
         totalGames = new StreamWriter("Assets/NewData/total.txt", false);
         xGames = new StreamWriter("Assets/NewData/100.txt", false);
-        gameLength = new StreamWriter("Assets/NewData/GameLength", false);
+        gameLength = new StreamWriter("Assets/NewData/GameLength.txt", false);
         p1attackRatio = new StreamWriter[2]
         {
             new StreamWriter("Assets/NewData/p1attack1.txt", false),
