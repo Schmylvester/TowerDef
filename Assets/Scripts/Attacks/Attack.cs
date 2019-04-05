@@ -23,7 +23,7 @@ public class Attack : MonoBehaviour
         damageUI = GetComponent<Text>();
         accuracyUI = transform.GetChild(0).GetComponent<Text>();
 
-        updateUI();
+        balance(0, int.MaxValue);
     }
 
     public virtual void balance(float by, int maxDam)

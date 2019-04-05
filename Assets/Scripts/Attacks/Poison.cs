@@ -6,11 +6,9 @@ public class Poison : Attack
 {
     [SerializeField] float infectionRate;
     float activeDamage;
-    bool used = false;
-
+    
     public override void balance(float by, int maxDam)
     {
-        used = false;
         activeDamage = damage;
         if (Random.Range(0, 2) == 0)
         {
@@ -21,15 +19,11 @@ public class Poison : Attack
 
     public override void use()
     {
-        if (!used)
-        {
-            used = true;
-            activeDamage = damage;
-        }
         if (Random.Range(0.0f, 1.0f) < accuracy)
         {
             target.takeDamage((int)activeDamage);
             activeDamage *= infectionRate;
+            updateUI();
         }
     }
 
