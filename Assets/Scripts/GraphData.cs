@@ -10,6 +10,7 @@ public class GraphData : MonoBehaviour
     public static GraphData instance;
     StreamWriter totalGames;
     StreamWriter xGames;
+    StreamWriter gameLength;
     StreamWriter[] p1attackRatio;
     StreamWriter[] p2attackRatio;
     int gamePassed = 0;
@@ -20,6 +21,7 @@ public class GraphData : MonoBehaviour
         instance = this;
         totalGames = new StreamWriter("Assets/NewData/total.txt", false);
         xGames = new StreamWriter("Assets/NewData/100.txt", false);
+        gameLength = new StreamWriter("Assets/NewData/GameLength", false);
         p1attackRatio = new StreamWriter[2]
         {
             new StreamWriter("Assets/NewData/p1attack1.txt", false),
@@ -36,6 +38,7 @@ public class GraphData : MonoBehaviour
     {
         totalGames.Close();
         xGames.Close();
+        gameLength.Close();
         foreach(StreamWriter w in p1attackRatio)
         {
             w.Close();
@@ -62,6 +65,11 @@ public class GraphData : MonoBehaviour
             float winRatio = (float)(p1Wins) / games;
             xGames.WriteLine(winRatio);
         }
+    }
+
+    public void addGameLength(int length)
+    {
+        gameLength.WriteLine(length);
     }
 
     public void addPlayerAttackRatio(int uses, int totalAttacks, int attackID, int playerID)

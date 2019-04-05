@@ -77,6 +77,9 @@ public class TrackGame : MonoBehaviour
             balance.balance(-1, -1);
         }
 
+        //add the length of the game to that graph
+        GraphData.instance.addGameLength(turns);
+
         //start again
         turns = 0;
         fighters[0].reset();
