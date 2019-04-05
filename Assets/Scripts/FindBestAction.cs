@@ -48,8 +48,9 @@ public class FindBestAction : MonoBehaviour
         }
 
         int brek = 0;
-        while(allGoodOnes.Count > 100 && ++brek < 1000)
+        while(allGoodOnes.Count > 500 && ++brek < 1000)
         {
+            allGoodOnes.RemoveAt(0);
             float min = float.MaxValue;
             int mindex = -1;
             for(int i = 0; i < allGoodOnes.Count; i++)
@@ -60,7 +61,8 @@ public class FindBestAction : MonoBehaviour
                     mindex = i;
                 }
             }
-            allGoodOnes.RemoveAt(mindex);
+            if(mindex != -1)
+                allGoodOnes.RemoveAt(mindex);
         }
 
         thisGame.Clear();

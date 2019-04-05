@@ -297,8 +297,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   user: {fileID: 815007754}
   target: {fileID: 1044051438}
-  damage: 70
-  accuracy: 0.7
+  damage: 50
+  accuracy: 0.5
   damageUI: {fileID: 72263181}
   accuracyUI: {fileID: 629027529}
 --- !u!1 &143426659
@@ -1034,7 +1034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d9590e2fb39d2d4096b1e7a9486a6c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  balance_rate: 0.1
+  balance_rate: 0.03
   fighters:
   - {fileID: 815007754}
   - {fileID: 1044051438}
@@ -1054,6 +1054,7 @@ MonoBehaviour:
   - {fileID: 815007754}
   - {fileID: 1044051438}
   cam: {fileID: 408263440}
+  gameConstraints: {x: 10, y: 50}
 --- !u!1 &895309631
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,8 +1416,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   user: {fileID: 815007754}
   target: {fileID: 1044051438}
-  damage: 15
-  accuracy: 0.95
+  damage: 400
+  accuracy: 1
   damageUI: {fileID: 1703962702}
   accuracyUI: {fileID: 635084095}
 --- !u!1 &1773749893
@@ -1708,7 +1709,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 1
+  m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}

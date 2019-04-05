@@ -26,10 +26,13 @@ public class Fighter : MonoBehaviour
 
     private void Update()
     {
-        //timer += Time.deltaTime;
-        //if (timer < 0.02f)
-            //return;
-        //timer = 0;
+        if (Input.GetKey(KeyCode.Space))
+        {
+            timer += Time.deltaTime;
+            if (timer < 0.2f)
+            return;
+            timer = 0;
+        }
         int input = -1;
         if (aiControlled)
         {
@@ -75,14 +78,6 @@ public class Fighter : MonoBehaviour
         return (float)health / startHealth;
     }
 
-    public void win()
-    {
-        if(++wins > 1000)
-        {
-            Debug.Break();
-        }
-    }
-
     public void endGame(float score)
     {
         if (action)
@@ -114,8 +109,17 @@ public class Fighter : MonoBehaviour
         }
         for (int i = 0; i < attackUses.Length; i++)
         {
-            float use = (float)attackUses[i] / attackSum;
-            attacks[i].balance(use * score);
+            //if they used any attack
+            if (attackSum != 0)
+            {
+                float use = (float)attackUses[i] / attackSum;
+                attacks[i].balance(use * score);
+            }
+            //they were killed before using an attack, buff them way up
+            else
+            {
+                attacks[i].balance(0.8f);
+            }
         }
     }
 }

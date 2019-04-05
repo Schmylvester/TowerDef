@@ -16,14 +16,15 @@ public class Attack : MonoBehaviour
         balance(0);
     }
 
-    public void balance(float by)
+    public virtual void balance(float by)
     {
         if (Random.Range(0, 2) == 0)
         {
-            accuracy = Mathf.Clamp(accuracy + by, 0.01f, 1.0f);
+            accuracy = Mathf.Clamp(accuracy + by, 0.1f, 1.0f);
         }
         else
         {
+            by = Mathf.Min(1, by * 5);
             damage = Mathf.Max(1, damage * (1 + by));
         }
         updateUI();
