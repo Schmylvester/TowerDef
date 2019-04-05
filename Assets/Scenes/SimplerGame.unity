@@ -148,7 +148,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 160, y: 80}
+  m_SizeDelta: {x: 300, y: 80}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &9252159
 MonoBehaviour:
@@ -161,8 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f126b89c1d653428dbe4e36d4fce00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 25
-  accuracy: 0.8
+  damage: 50
+  accuracy: 0.9
 --- !u!114 &9252160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,7 +238,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: -140}
-  m_SizeDelta: {x: 190, y: 80}
+  m_SizeDelta: {x: 300, y: 80}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &72263181
 MonoBehaviour:
@@ -288,12 +288,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 72263179}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ba2f09cd9be2fa40836f30af288217d, type: 3}
+  m_Script: {fileID: 11500000, guid: bc817b461823fac43b55ac4567c5b8df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
-  accuracy: 100
-  recoilRate: 1
+  damage: 90
+  accuracy: 0.4
+  drainRate: 0.7
 --- !u!1 &143426659
 GameObject:
   m_ObjectHideFlags: 0
@@ -991,6 +991,7 @@ GameObject:
   - component: {fileID: 870247024}
   - component: {fileID: 870247025}
   - component: {fileID: 870247026}
+  - component: {fileID: 870247027}
   m_Layer: 5
   m_Name: Manager
   m_TagString: Untagged
@@ -1043,7 +1044,18 @@ MonoBehaviour:
   - {fileID: 815007754}
   - {fileID: 1044051438}
   cam: {fileID: 408263440}
-  gameConstraints: {x: 10, y: 50}
+  gameConstraints: {x: 4, y: 50}
+--- !u!114 &870247027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 870247023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7780f3a8e1c1654e84134c02d747c18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &895309631
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,7 +1091,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: -140}
-  m_SizeDelta: {x: 190, y: 80}
+  m_SizeDelta: {x: 300, y: 80}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &895309633
 MonoBehaviour:
@@ -1129,12 +1141,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 895309631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc817b461823fac43b55ac4567c5b8df, type: 3}
+  m_Script: {fileID: 11500000, guid: 097f704bc4d7b4745bc0c8256ee5203a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
-  accuracy: 0.7
-  drainRate: 1
+  damage: 0
+  accuracy: 0
+  infectionRate: 0
 --- !u!1 &1044051436
 GameObject:
   m_ObjectHideFlags: 0
@@ -1342,7 +1354,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 160, y: 80}
+  m_SizeDelta: {x: 300, y: 80}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1703962702
 MonoBehaviour:
@@ -1395,8 +1407,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f126b89c1d653428dbe4e36d4fce00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 400
-  accuracy: 1
+  damage: 100
+  accuracy: 0.5
 --- !u!1 &1773749893
 GameObject:
   m_ObjectHideFlags: 0
