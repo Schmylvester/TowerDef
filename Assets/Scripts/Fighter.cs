@@ -153,11 +153,13 @@ public class Fighter : MonoBehaviour
         updateUI();
     }
 
-    public void balance(float modifier)
+    public void balance(float modifier, bool balanceHealth = true)
     {
-        //change their health
-        modifyHealth(modifier < 0);
-
+        if (balanceHealth)
+        {
+            //change their health
+            modifyHealth(modifier < 0);
+        }
         //count how much they used each attack
         int attackSum = 0;
         for (int i = 0; i < attackUses.Length; i++)

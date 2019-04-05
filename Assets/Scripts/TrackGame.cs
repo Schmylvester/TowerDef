@@ -63,7 +63,7 @@ public class TrackGame : MonoBehaviour
         {
             Debug.Break();
         }
-        getWinRatio();
+        //getWinRatio();
         getWinRatio(100);
 
         //game was too long, make both players stronger
@@ -109,7 +109,7 @@ public class TrackGame : MonoBehaviour
                 p1Wins++;
         }
         
-        //Debug.Log("Win rate of the last " + numMatches + " matches: " + p1Wins + " : " + (numMatches - p1Wins));
+        Debug.Log("Win rate of the last " + numMatches + " matches: " + p1Wins + " : " + (numMatches - p1Wins));
 
         if (allGames)
         {

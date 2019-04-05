@@ -15,10 +15,10 @@ public class BalanceAttacks : MonoBehaviour
     {
         switch (winner)
         {
-            //not balancing because a fight was won
+            //not balancing because a fight was won, don't balance health
             case -1:
-                fighters[0].balance(score * balance_rate);
-                fighters[1].balance(score * balance_rate);
+                fighters[0].balance(score * balance_rate, false);
+                fighters[1].balance(score * balance_rate, false);
                 break;
             //player0 won the fight
             //balance less if skew is high, more if skew is low
