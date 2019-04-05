@@ -8,7 +8,8 @@ public class HalfAttack : Attack
     {
         if (Random.Range(0.0f, 1.0f) < accuracy)
         {
-            target.takeDamage((int)(target.getHealth() / (100.0f / damage)));
+            //damage them for 'damage' % of their health
+            target.takeDamage((int)(target.getHealth() * (damage / 100)));
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Drain : Attack
 {
-    float drainRate = 1.0f;
+    [SerializeField] float drainRate = 1.0f;
 
     public override void use()
     {
@@ -15,10 +15,10 @@ public class Drain : Attack
         }
     }
 
-    public override void balance(float by)
+    public override void balance(float by, int maxDam)
     {
         drainRate = Mathf.Clamp(drainRate + by, 0.1f, 1.5f);
-        base.balance(by);
+        base.balance(by, maxDam);
     }
 
     protected override void updateUI()

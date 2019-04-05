@@ -4,21 +4,34 @@ using UnityEngine;
 
 public class BalanceAttacks : MonoBehaviour
 {
-    [SerializeField] float balance_rate;
+    //the rate of change between each fight for the attacks
+    [SerializeField] float balance_rate = 0.03f;
+    //when this is higher than 1 the game favours player0, lower than 1 favours player1
+    [SerializeField] float skew = 1.0f;
     [SerializeField] Fighter[] fighters;
 
 
     public void balance(float score, int winner)
     {
-        if (winner == -1)
+        switch (winner)
         {
-            fighters[0].balanceAttacks(score * balance_rate);
-            fighters[1].balanceAttacks(score * balance_rate);
-        }
-        else
-        {
-            fighters[winner].balanceAttacks(-score * balance_rate);
-            fighters[1 - winner].balanceAttacks(score * balance_rate);
+            //not balancing because a fight was won
+            case -1:
+                fighters[0].balance(score * balance_rate);
+                fighters[1].balance(score * balance_rate);
+                break;
+            //player0 won the fight
+            //balance less if skew is high, more if skew is low
+            case 0:
+                fighters[0].balance(-score * (1 / skew) * balance_rate);
+                fighters[1].balance(score * (1 / skew) * balance_rate);
+                break;
+            //player1 won the fight
+            //balance more if skew is low, less if skew is high
+            case 1:
+                fighters[0].balance(score * skew * balance_rate);
+                fighters[1].balance(-score * skew * balance_rate);
+                break;
         }
     }
 }

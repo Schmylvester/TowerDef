@@ -7,21 +7,20 @@ public class TrackGame : MonoBehaviour
     [SerializeField] BalanceAttacks balance;
     [SerializeField] Fighter[] fighters;
     [SerializeField] Camera cam;
+
+    //min and max length of a game in turns
     [SerializeField] Vector2Int gameConstraints;
-    int turn = 0;
-    Fighter activePlayer;
+    //the player whose turn it is
+    int activePlayer = 0;
+    //turns passed in this instance of the game
     int turns = 0;
-    int[] wins = new int[2] { 0, 0 };
+    //results of all games so far
     List<bool> gameResults = new List<bool>();
 
-    private void Start()
-    {
-        activePlayer = fighters[turn];
-    }
 
     public bool isActivePlayer(Fighter fighter)
     {
-        return activePlayer == fighter;
+        return fighters[activePlayer] == fighter;
     }
 
     public void advanceTurn()
@@ -31,8 +30,6 @@ public class TrackGame : MonoBehaviour
         {
             if (fighters[i].getHealth() <= 0)
             {
-                //record the win
-                ++wins[1 - i];
                 gameResults.Add(i == 1);
                 //get the game's score
                 float score = fighters[1 - i].getScore();
@@ -42,9 +39,9 @@ public class TrackGame : MonoBehaviour
 
                 //change the camera colour slightly to help visualise winning streaks
                 if (i == 0)
-                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.blue, 0.01f);
+                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, new Color(0.9f, 0.9f, 0.9f), 0.01f);
                 else
-                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, new Color(1.0f, 0.7f, 0.0f), 0.01f);
+                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, new Color(0.1f, 0.1f, 0.1f), 0.01f);
 
                 //balance the players, if the winning player had a lot of health left, balance more
                 balance.balance(score, 1 - i);
@@ -55,21 +52,19 @@ public class TrackGame : MonoBehaviour
         }
 
         //both players still alive, next turn
-        turn++;
-        turn %= fighters.Length;
-        activePlayer = fighters[turn];
+        activePlayer++;
+        activePlayer %= fighters.Length;
     }
 
     private void gameEnd()
     {
-        string w = " Wins: " + wins[0] + " : " + wins[1];
         //check out what's up every 100 games
         if (gameResults.Count % 1000 == 0)
         {
             Debug.Break();
         }
-        getWinRatio(50);
-        //Debug.Log("Turns: " + turns + w);
+        getWinRatio();
+        getWinRatio(100);
 
         //game was too long, make both players stronger
         if (turns > gameConstraints[1])
@@ -77,7 +72,7 @@ public class TrackGame : MonoBehaviour
             balance.balance(1, -1);
         }
         //game was too short, make both players weaker
-        else if(turns < gameConstraints[0])
+        else if (turns < gameConstraints[0])
         {
             balance.balance(-1, -1);
         }
@@ -89,21 +84,37 @@ public class TrackGame : MonoBehaviour
         advanceTurn();
     }
 
-    void getWinRatio(int numMatches)
+    void getWinRatio(int numMatches = -1)
     {
+        bool allGames = false;
+        if (numMatches == -1)
+        {
+            allGames = true;
+            numMatches = gameResults.Count;
+        }
         //not enough matches yet
         if (numMatches > gameResults.Count)
         {
             return;
         }
 
+        //count p1 wins
         int p1Wins = 0;
         for (int i = gameResults.Count - numMatches; i < gameResults.Count; i++)
         {
             if (gameResults[i])
                 p1Wins++;
         }
+        
+        //Debug.Log("Win rate of the last " + numMatches + " matches: " + p1Wins + " : " + (numMatches - p1Wins));
 
-        Debug.Log("Win rate of the last " + numMatches + " matches: " + p1Wins + " : " + (numMatches - p1Wins));
+        if (allGames)
+        {
+            GraphData.instance.addTotalWinRatio(p1Wins, numMatches);
+        }
+        else
+        {
+            GraphData.instance.addXGamesWinRatio(p1Wins, numMatches);
+        }
     }
 }

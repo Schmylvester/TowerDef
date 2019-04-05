@@ -161,12 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f126b89c1d653428dbe4e36d4fce00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  user: {fileID: 1044051438}
-  target: {fileID: 815007754}
   damage: 25
   accuracy: 0.8
-  damageUI: {fileID: 9252160}
-  accuracyUI: {fileID: 669996178}
 --- !u!114 &9252160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,15 +288,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 72263179}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb9814ee5405dfb4387fa19ef853523d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ba2f09cd9be2fa40836f30af288217d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  user: {fileID: 815007754}
-  target: {fileID: 1044051438}
-  damage: 50
-  accuracy: 0.5
-  damageUI: {fileID: 72263181}
-  accuracyUI: {fileID: 629027529}
+  damage: 100
+  accuracy: 100
+  recoilRate: 1
 --- !u!1 &143426659
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,7 +465,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -938,16 +931,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b26bd8b183ed25d4495371960c40c777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 1044051438}
-  game: {fileID: 870247026}
-  startHealth: 400
   hpSprite: {fileID: 380047372}
   hpText: {fileID: 2059648469}
-  attacks:
-  - {fileID: 1703962704}
-  - {fileID: 72263183}
   aiControlled: 1
-  action: {fileID: 815007757}
+  startHealth: 500
+  maxHealthDivergence: 30
 --- !u!114 &815007755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -967,7 +955,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 541d846f7f306274ea1589cbd43b0902, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0685bd0291fef3944b88dd8327b9995e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1035,6 +1023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balance_rate: 0.03
+  skew: 1
   fighters:
   - {fileID: 815007754}
   - {fileID: 1044051438}
@@ -1143,12 +1132,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc817b461823fac43b55ac4567c5b8df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  user: {fileID: 1044051438}
-  target: {fileID: 815007754}
   damage: 20
   accuracy: 0.7
-  damageUI: {fileID: 895309633}
-  accuracyUI: {fileID: 1796235494}
+  drainRate: 1
 --- !u!1 &1044051436
 GameObject:
   m_ObjectHideFlags: 0
@@ -1200,16 +1186,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b26bd8b183ed25d4495371960c40c777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 815007754}
-  game: {fileID: 870247026}
-  startHealth: 400
   hpSprite: {fileID: 143426660}
   hpText: {fileID: 551744971}
-  attacks:
-  - {fileID: 9252159}
-  - {fileID: 895309635}
   aiControlled: 1
-  action: {fileID: 1044051441}
+  startHealth: 500
+  maxHealthDivergence: 30
 --- !u!114 &1044051439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1229,7 +1210,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 541d846f7f306274ea1589cbd43b0902, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ce22ce956dd1b0e45be034b85a559a93, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1414,12 +1395,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79f126b89c1d653428dbe4e36d4fce00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  user: {fileID: 815007754}
-  target: {fileID: 1044051438}
   damage: 400
   accuracy: 1
-  damageUI: {fileID: 1703962702}
-  accuracyUI: {fileID: 635084095}
 --- !u!1 &1773749893
 GameObject:
   m_ObjectHideFlags: 0

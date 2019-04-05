@@ -8,30 +8,26 @@ public struct BattleInput
     public float myHealth;
     public float theirHealth;
 }
-[System.Serializable]
-public struct BattleOutput
-{
-    public int myAction;
-}
 
 [System.Serializable]
 public struct InOutMap
 {
     public float score;
     public BattleInput _in;
-    public BattleOutput _out;
+    public int actionSelected;
 }
 
 public class FindBestAction : MonoBehaviour
 {
+    //the pool of previous actions from which a good action is selected
     List<InOutMap> allGoodOnes = new List<InOutMap>();
+    //the actions from this game
     List<InOutMap> thisGame = new List<InOutMap>();
 
     public void recordEvent(Fighter a, Fighter b, int action)
     {
         BattleInput input = new BattleInput() { myHealth = a.getScore(), theirHealth = b.getScore() };
-        BattleOutput output = new BattleOutput() { myAction = action };
-        InOutMap iomap = new InOutMap() { _in = input, _out = output };
+        InOutMap iomap = new InOutMap() { _in = input, actionSelected = action };
         thisGame.Add(iomap);
     }
 
@@ -42,74 +38,115 @@ public class FindBestAction : MonoBehaviour
             allGoodOnes.Add(new InOutMap()
             {
                 _in = iom._in,
-                _out = iom._out,
+                actionSelected = iom.actionSelected,
                 score = score
             });
         }
 
-        int brek = 0;
-        while(allGoodOnes.Count > 500 && ++brek < 1000)
-        {
-            allGoodOnes.RemoveAt(0);
-            float min = float.MaxValue;
-            int mindex = -1;
-            for(int i = 0; i < allGoodOnes.Count; i++)
-            {
-                if(allGoodOnes[i].score < min)
-                {
-                    score = min;
-                    mindex = i;
-                }
-            }
-            if(mindex != -1)
-                allGoodOnes.RemoveAt(mindex);
-        }
+        purgeActions();
 
         thisGame.Clear();
     }
 
+    /// <summary>
+    /// used to improve the actions pool for selection
+    /// removes old data and bad data to constantly
+    /// improve data used
+    /// </summary>
+    void purgeActions()
+    {
+        int whileLoopBroken = 0;
+        //if there are more than 500 actions in allGoodOnes, remove them until there are only 500
+        while (allGoodOnes.Count > 500 && ++whileLoopBroken < 1000)
+        {
+            //remove the oldest one because it's likely based on outdated attacks
+            allGoodOnes.RemoveAt(0);
+
+            //find the lowest scoring one and remove it
+            float min = float.MaxValue;
+            int mindex = -1;
+            for (int i = 0; i < allGoodOnes.Count; i++)
+            {
+                if (allGoodOnes[i].score < min)
+                {
+                    min = allGoodOnes[i].score;
+                    mindex = i;
+                }
+            }
+            if (mindex != -1)
+                allGoodOnes.RemoveAt(mindex);
+        }
+        if(whileLoopBroken > 1000)
+        {
+            Debug.LogError("Program got stuck in a while loop");
+        }
+    }
+
+
     public int getBestAction(Fighter a, Fighter b)
     {
-        if (allGoodOnes.Count < 10 || Random.Range(0,2) == 0)
+        //how many neighbours sampled
+        int k = 5;
+
+        //if there isn't enough data to use, return a random
+        //also sometimes just return a random for the sake of mutation
+        if (allGoodOnes.Count < k || Random.Range(0,20) > 0)
         {
             return Random.Range(0, 2);
         }
+
+        //get current healths of each player
         float aHP = a.getScore();
         float bHP = b.getScore();
-        List<int> closestIndices = new List<int>() { -1, -1, -1, -1, -1 };
-
-        for (int k = 0; k < 5; k++)
+        //indices of the previous actions closest to current state
+        List<int> closestIndices = new List<int>();
+        //get 5 closest
+        for (int index = 0; index < k; index++)
         {
-            float bestDist = float.MaxValue;
-            int bestIdx = -1;
-            for (int j = 0; j < allGoodOnes.Count; j++)
-            {
-                if (!closestIndices.Contains(j))
-                {
-                    float dist
-                        = Mathf.Pow(aHP - allGoodOnes[j]._in.myHealth, 2)
-                        + Mathf.Pow(bHP - allGoodOnes[j]._in.theirHealth, 2);
-                    if (dist < bestDist)
-                    {
-                        bestIdx = j;
-                    }
-                    else if (dist == bestDist)
-                    {
-                        bestIdx = Random.Range(0, 2) == 0 ? bestIdx : j;
-                    }
-                }
-            }
-            closestIndices[k] = bestIdx;
+            getBestDist(ref closestIndices, aHP, bHP);
         }
 
+        //count each attack
         int[] counts = new int[2];
         foreach (int index in closestIndices)
         {
-            counts[allGoodOnes[index]._out.myAction]++;
+            counts[allGoodOnes[index].actionSelected]++;
         }
 
         if (counts[0] > counts[1])
             return 0;
         return 1;
+    }
+
+    void getBestDist(ref List<int> closestIndices, float aHP, float bHP)
+    {
+        //initialise closest to be as far as possible and an invalid index
+        float bestDist = float.MaxValue;
+        int bestIdx = -1;
+
+        //search through the previous action list
+        for (int prevAct = 0; prevAct < allGoodOnes.Count; prevAct++)
+        {
+            //skip it if it's already there
+            if (!closestIndices.Contains(prevAct))
+            {
+                //get distance
+                float dist
+                    = Mathf.Pow(aHP - allGoodOnes[prevAct]._in.myHealth, 2)
+                    + Mathf.Pow(bHP - allGoodOnes[prevAct]._in.theirHealth, 2);
+                //if it beats the best distance, it's the new best distance
+                if (dist < bestDist)
+                {
+                    bestDist = dist;
+                    bestIdx = prevAct;
+                }
+                //if it's the same, take one at random
+                else if (dist == bestDist)
+                {
+                    bestIdx = Random.Range(0, 2) == 0 ? bestIdx : prevAct;
+                }
+            }
+        }
+        closestIndices.Add(bestIdx);
     }
 }
