@@ -10,6 +10,13 @@ public class BalanceAttacks : MonoBehaviour
     [SerializeField] float skew = 1.0f;
     [SerializeField] Fighter[] fighters;
 
+    private void Start()
+    {
+        if(Random.Range(0,16) == 0)
+        {
+            skew = 2.5f;
+        }
+    }
 
     public void balance(float score, int winner)
     {
