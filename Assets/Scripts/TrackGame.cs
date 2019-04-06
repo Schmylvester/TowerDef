@@ -37,11 +37,12 @@ public class TrackGame : MonoBehaviour
                 fighters[i].endGame(-score);    //this player lost, so they get the negative score
                 fighters[1 - i].endGame(score); //this player won, so they get the positive score
 
+                cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.white, 0.01f);
                 //change the camera colour slightly to help visualise winning streaks
                 if (i == 0)
-                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, new Color(0.9f, 0.9f, 0.9f), 0.01f);
+                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.red, 0.01f);
                 else
-                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, new Color(0.1f, 0.1f, 0.1f), 0.01f);
+                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.blue, 0.01f);
 
                 //balance the players, if the winning player had a lot of health left, balance more
                 balance.balance(score, 1 - i);
@@ -77,8 +78,11 @@ public class TrackGame : MonoBehaviour
             balance.balance(-1, -1);
         }
 
-        //add the length of the game to that graph
-        GraphData.instance.addGameLength(turns);
+        if (GraphData.instance != null)
+        {
+            //add the length of the game to that graph
+            GraphData.instance.addGameLength(turns);
+        }
 
         //start again
         turns = 0;
@@ -111,13 +115,16 @@ public class TrackGame : MonoBehaviour
         
         Debug.Log("Win rate of the last " + numMatches + " matches: " + p1Wins + " : " + (numMatches - p1Wins));
 
-        if (allGames)
+        if (GraphData.instance != null)
         {
-            GraphData.instance.addTotalWinRatio(p1Wins, numMatches);
-        }
-        else
-        {
-            GraphData.instance.addXGamesWinRatio(p1Wins, numMatches);
+            if (allGames)
+            {
+                GraphData.instance.addTotalWinRatio(p1Wins, numMatches);
+            }
+            else
+            {
+                GraphData.instance.addXGamesWinRatio(p1Wins, numMatches);
+            }
         }
     }
 }

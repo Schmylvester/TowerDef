@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class GraphData : MonoBehaviour
 {
-    public static GraphData instance;
+    public static GraphData instance = null;
     StreamWriter totalGames;
     StreamWriter xGames;
     StreamWriter gameLength;

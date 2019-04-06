@@ -163,6 +163,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 50
   accuracy: 0.9
+  damageUI: {fileID: 0}
+  accuracyUI: {fileID: 0}
 --- !u!114 &9252160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,6 +295,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 90
   accuracy: 0.4
+  damageUI: {fileID: 0}
+  accuracyUI: {fileID: 0}
   drainRate: 0.7
 --- !u!1 &143426659
 GameObject:
@@ -474,8 +478,8 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
-    height: 1
+    width: 0.5
+    height: 0.5
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -931,6 +935,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b26bd8b183ed25d4495371960c40c777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  game: {fileID: 870247026}
+  enemy: {fileID: 1044051438}
   hpSprite: {fileID: 380047372}
   hpText: {fileID: 2059648469}
   aiControlled: 1
@@ -991,7 +997,6 @@ GameObject:
   - component: {fileID: 870247024}
   - component: {fileID: 870247025}
   - component: {fileID: 870247026}
-  - component: {fileID: 870247027}
   m_Layer: 5
   m_Name: Manager
   m_TagString: Untagged
@@ -1045,17 +1050,6 @@ MonoBehaviour:
   - {fileID: 1044051438}
   cam: {fileID: 408263440}
   gameConstraints: {x: 4, y: 20}
---- !u!114 &870247027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 870247023}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7780f3a8e1c1654e84134c02d747c18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &895309631
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,6 +1140,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   accuracy: 0
+  damageUI: {fileID: 0}
+  accuracyUI: {fileID: 0}
   infectionRate: 0
 --- !u!1 &1044051436
 GameObject:
@@ -1198,6 +1194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b26bd8b183ed25d4495371960c40c777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  game: {fileID: 870247026}
+  enemy: {fileID: 815007754}
   hpSprite: {fileID: 143426660}
   hpText: {fileID: 551744971}
   aiControlled: 1
@@ -1409,6 +1407,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 100
   accuracy: 0.5
+  damageUI: {fileID: 0}
+  accuracyUI: {fileID: 0}
 --- !u!1 &1773749893
 GameObject:
   m_ObjectHideFlags: 0
@@ -1432,7 +1432,7 @@ Transform:
   m_GameObject: {fileID: 1773749893}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.02, y: 0.02, z: 1}
   m_Children:
   - {fileID: 408263441}
   - {fileID: 2119888316}
@@ -1716,7 +1716,7 @@ Canvas:
   m_GameObject: {fileID: 2119888312}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 2
   m_Camera: {fileID: 408263440}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1735,8 +1735,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2119888312}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 815007753}
   - {fileID: 1044051437}
@@ -1746,5 +1746,5 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_SizeDelta: {x: 957, y: 538}
+  m_Pivot: {x: 0.5, y: 0.5}

@@ -6,12 +6,10 @@ using UnityEngine.UI;
 public class Fighter : MonoBehaviour
 {
     FindBestAction bestAction = null;
-    TrackGame game;
-    Fighter enemy;
-    [Header("Just pointers")]
+    [SerializeField] TrackGame game;
+    [SerializeField] Fighter enemy;
     [SerializeField] Image hpSprite;
     [SerializeField] Text hpText;
-    [Space(2)]
     [Header("Useful things")]
     [SerializeField] bool aiControlled = false;
     Attack[] attacks;
@@ -24,13 +22,7 @@ public class Fighter : MonoBehaviour
 
     void Start()
     {
-        game = FindObjectOfType<TrackGame>();
         bestAction = GetComponent<FindBestAction>();
-        foreach (Fighter f in FindObjectsOfType<Fighter>())
-        {
-            if (f != this)
-                enemy = f;
-        }
         attacks = GetComponentsInChildren<Attack>();
         attackUses = new int[attacks.Length];
         health = startHealth;
@@ -179,8 +171,11 @@ public class Fighter : MonoBehaviour
                 //they were killed before using an attack, buff them way up
                 attacks[i].balance(0.8f, int.MaxValue);
             }
-            int playerID = gameObject.name == "Fighter1" ? 0 : 1;
-            GraphData.instance.addPlayerAttackRatio(attackUses[i], attackSum, i, playerID);
+            if (GraphData.instance != null)
+            {
+                int playerID = gameObject.name == "Fighter1" ? 0 : 1;
+                GraphData.instance.addPlayerAttackRatio(attackUses[i], attackSum, i, playerID);
+            }
         }
 
     }
@@ -208,5 +203,10 @@ public class Fighter : MonoBehaviour
         //not too low
         if (startHealth < 10)
             startHealth = 10;
+    }
+
+    public Fighter getEnemy()
+    {
+        return enemy;
     }
 }
