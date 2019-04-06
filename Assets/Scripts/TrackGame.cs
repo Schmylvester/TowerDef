@@ -37,7 +37,6 @@ public class TrackGame : MonoBehaviour
                 fighters[i].endGame(-score);    //this player lost, so they get the negative score
                 fighters[1 - i].endGame(score); //this player won, so they get the positive score
 
-                cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.white, 0.01f);
                 //change the camera colour slightly to help visualise winning streaks
                 if (i == 0)
                     cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.red, 0.01f);

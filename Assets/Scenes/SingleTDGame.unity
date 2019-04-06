@@ -608,12 +608,22 @@ Prefab:
     - target: {fileID: 20054798307085838, guid: bbda922a7b6cb194e9a2a91eb2297954,
         type: 2}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 20054798307085838, guid: bbda922a7b6cb194e9a2a91eb2297954,
         type: 2}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 0.1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114462009547806938, guid: bbda922a7b6cb194e9a2a91eb2297954,
+        type: 2}
+      propertyPath: speed
+      value: 
+      objectReference: {fileID: 2145233009}
+    - target: {fileID: 114246071293168190, guid: bbda922a7b6cb194e9a2a91eb2297954,
+        type: 2}
+      propertyPath: manyGames
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbda922a7b6cb194e9a2a91eb2297954, type: 2}
@@ -1708,7 +1718,7 @@ Canvas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 929235033}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -2618,7 +2628,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeText: {fileID: 1697242165}
   startTime: 180
-  m: {fileID: 1785044668}
+  speed: {fileID: 2145233009}
+  gsrs: []
 --- !u!1 &1772462204
 GameObject:
   m_ObjectHideFlags: 0
@@ -2704,12 +2715,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1772462204}
   m_CullTransparentMesh: 0
---- !u!114 &1785044668 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114305552559975270, guid: bbda922a7b6cb194e9a2a91eb2297954,
-    type: 2}
-  m_PrefabInternal: {fileID: 202179314}
-  m_Script: {fileID: 11500000, guid: 93fcb108e59ece04abb46be667e762d6, type: 3}
 --- !u!1 &1844314613
 GameObject:
   m_ObjectHideFlags: 0
@@ -3463,3 +3468,21 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2120544242}
   m_CullTransparentMesh: 0
+--- !u!1 &2145233008 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1465507637320708, guid: bbda922a7b6cb194e9a2a91eb2297954,
+    type: 2}
+  m_PrefabInternal: {fileID: 202179314}
+--- !u!114 &2145233009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2145233008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c86bc5903b2d04784435420188f514, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  framesPerFrame: 1
+  frameSpeed: 0.01
