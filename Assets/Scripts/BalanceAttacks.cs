@@ -9,15 +9,7 @@ public class BalanceAttacks : MonoBehaviour
     //when this is higher than 1 the game favours player0, lower than 1 favours player1
     [SerializeField] float skew = 1.0f;
     [SerializeField] Fighter[] fighters;
-
-    private void Start()
-    {
-        if(Random.Range(0,16) == 0)
-        {
-            skew = 2.5f;
-        }
-    }
-
+    
     public void balance(float score, int winner)
     {
         switch (winner)
@@ -40,5 +32,10 @@ public class BalanceAttacks : MonoBehaviour
                 fighters[1].balance(-score * skew * balance_rate);
                 break;
         }
+    }
+
+    public void setSkew(float setTo)
+    {
+        skew = setTo;
     }
 }

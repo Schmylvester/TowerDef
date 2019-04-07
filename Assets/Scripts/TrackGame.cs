@@ -43,6 +43,11 @@ public class TrackGame : MonoBehaviour
                 else
                     cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.blue, 0.01f);
 
+                if(Mathf.Abs(cam.backgroundColor.r - cam.backgroundColor.b) < 0.1f)
+                {
+                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.green, 0.01f);
+                }
+
                 //balance the players, if the winning player had a lot of health left, balance more
                 balance.balance(score, 1 - i);
                 //start again
@@ -58,11 +63,6 @@ public class TrackGame : MonoBehaviour
 
     private void gameEnd()
     {
-        //check out what's up every 100 games
-        if (gameResults.Count % 1000 == 0)
-        {
-            Debug.Break();
-        }
         //getWinRatio();
         getWinRatio(100);
 

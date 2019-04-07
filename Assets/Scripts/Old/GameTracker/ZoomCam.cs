@@ -38,17 +38,17 @@ public class ZoomCam : MonoBehaviour
         if (activeCam)
             setManyCam();
         int newCam = Random.Range(0, 100);
-        int breakerCount = 10000;
-        while(allCams[newCam].GetComponentInParent<GameStateRecorder>().getGameEnded() && breakerCount-- > 0)
-        {
-            newCam++;
-            newCam %= 100;
-        }
-        if (breakerCount <= 0)
-        {
-            setManyCam();
-            return;
-        }
+        //int breakerCount = 10000;
+        //while(allCams[newCam].GetComponentInParent<GameStateRecorder>().getGameEnded() && breakerCount-- > 0)
+        //{
+        //    newCam++;
+        //    newCam %= 100;
+        //}
+        //if (breakerCount <= 0)
+        //{
+        //    setManyCam();
+        //    return;
+        //}
         activeCam = allCams[newCam];
         camDefRect = activeCam.rect;
         activeCam.rect = new Rect(Vector2.zero, Vector2.one);

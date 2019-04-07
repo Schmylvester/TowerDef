@@ -33,6 +33,6 @@ public class Poison : Attack
         damageUI.text =
             "Damages for " + activeDamage.ToString("0")
             + " damage and increases by "
-            + ((infectionRate - 1) * 100).ToString("0") + "% each use";
+            + ((infectionRate - 1) * 100).ToString("0") + "% each use (base damage: " + damage + ")";
     }
 }
