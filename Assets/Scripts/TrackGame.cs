@@ -101,7 +101,7 @@ public class TrackGame : MonoBehaviour
         //not enough matches yet
         if (numMatches > gameResults.Count)
         {
-            return;
+            numMatches = gameResults.Count;
         }
 
         //count p1 wins
@@ -112,7 +112,7 @@ public class TrackGame : MonoBehaviour
                 p1Wins++;
         }
         
-        Debug.Log("Win rate of the last " + numMatches + " matches: " + p1Wins + " : " + (numMatches - p1Wins));
+        //Debug.Log("Win rate of the last " + numMatches + " matches: " + p1Wins + " : " + (numMatches - p1Wins));
 
         if (GraphData.instance != null)
         {
