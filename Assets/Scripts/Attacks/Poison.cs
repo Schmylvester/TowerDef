@@ -6,7 +6,13 @@ public class Poison : Attack
 {
     [SerializeField] float infectionRate;
     float activeDamage;
-    
+
+    public override void randomiseInit()
+    {
+        infectionRate = Random.Range(1.1f, 2.0f);
+        base.randomiseInit();
+    }
+
     public override void balance(float by, int maxDam)
     {
         activeDamage = damage;

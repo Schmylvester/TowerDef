@@ -39,11 +39,11 @@ public class TrackGame : MonoBehaviour
 
                 //change the camera colour slightly to help visualise winning streaks
                 if (i == 0)
-                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.red, 0.01f);
-                else
                     cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.blue, 0.01f);
+                else
+                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.red, 0.01f);
 
-                if(Mathf.Abs(cam.backgroundColor.r - cam.backgroundColor.b) < 0.1f)
+                if(Mathf.Abs(cam.backgroundColor.r - cam.backgroundColor.b) < 0.05f)
                 {
                     cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.green, 0.01f);
                 }

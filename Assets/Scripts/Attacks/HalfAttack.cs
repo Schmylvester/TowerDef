@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class HalfAttack : Attack
 {
+    public override void randomiseInit()
+    {
+        base.randomiseInit();
+        damage = Random.Range(1, 100.0f);
+    }
+
     public override void use()
     {
         if (Random.Range(0.0f, 1.0f) < accuracy)

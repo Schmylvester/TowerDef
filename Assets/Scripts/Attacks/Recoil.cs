@@ -6,6 +6,12 @@ public class Recoil : Attack
 {
     [SerializeField] float recoilRate = 1.0f;
 
+    public override void randomiseInit()
+    {
+        recoilRate = Random.Range(0.1f, 1.5f);
+        base.randomiseInit();
+    }
+
     public override void use()
     {
         if (Random.Range(0.0f, 1.0f) < accuracy)

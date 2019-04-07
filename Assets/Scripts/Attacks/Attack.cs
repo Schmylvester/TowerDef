@@ -17,7 +17,14 @@ public class Attack : MonoBehaviour
         user = transform.parent.GetComponent<Fighter>();
         target = user.getEnemy();
 
+        randomiseInit();
         balance(0, int.MaxValue);
+    }
+
+    public virtual void randomiseInit()
+    {
+        damage = Random.Range(10, 300);
+        accuracy = Random.Range(0.6f, 1.0f);
     }
 
     public virtual void balance(float by, int maxDam)
@@ -26,7 +33,7 @@ public class Attack : MonoBehaviour
         if (Random.Range(0, 2) == 0)
         {
             //accuracy between 10% and 100%
-            accuracy = Mathf.Clamp(accuracy + by, 0.1f, 1.0f);
+            accuracy = Mathf.Clamp(accuracy + by, 0.6f, 1.0f);
         }
         else
         {

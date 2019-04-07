@@ -6,6 +6,12 @@ public class Drain : Attack
 {
     [SerializeField] float drainRate = 1.0f;
 
+    public override void randomiseInit()
+    {
+        base.randomiseInit();
+        drainRate = Random.Range(0.1f, 1.5f);
+    }
+
     public override void use()
     {
         if (Random.Range(0.0f, 1.0f) < accuracy)

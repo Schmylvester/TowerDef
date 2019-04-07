@@ -14,11 +14,13 @@ public struct InOutMap
 {
     public float score;
     public BattleInput _in;
-    public int actionSelected;
+    public int[] action_selected;
 }
 
 public class FindBestAction : MonoBehaviour
 {
+    int attackCount = 2;
+
     //the pool of previous actions from which a good action is selected
     List<InOutMap> allGoodOnes = new List<InOutMap>();
     //the actions from this game
@@ -27,7 +29,9 @@ public class FindBestAction : MonoBehaviour
     public void recordEvent(Fighter a, Fighter b, int action)
     {
         BattleInput input = new BattleInput() { myHealth = a.getScore(), theirHealth = b.getScore() };
-        InOutMap iomap = new InOutMap() { _in = input, actionSelected = action };
+        int[] new_action = new int[attackCount];
+        new_action[action] = 1;
+        InOutMap iomap = new InOutMap() { _in = input, action_selected = new_action };
         thisGame.Add(iomap);
     }
 
@@ -38,7 +42,7 @@ public class FindBestAction : MonoBehaviour
             allGoodOnes.Add(new InOutMap()
             {
                 _in = iom._in,
-                actionSelected = iom.actionSelected,
+                action_selected = iom.action_selected,
                 score = score
             });
         }
@@ -76,7 +80,7 @@ public class FindBestAction : MonoBehaviour
             if (mindex != -1)
                 allGoodOnes.RemoveAt(mindex);
         }
-        if(whileLoopBroken > 1000)
+        if (whileLoopBroken > 1000)
         {
             Debug.LogError("Program got stuck in a while loop");
         }
@@ -90,9 +94,9 @@ public class FindBestAction : MonoBehaviour
 
         //if there isn't enough data to use, return a random
         //also sometimes just return a random for the sake of mutation
-        if (allGoodOnes.Count < k || Random.Range(0,20) > 0)
+        if (allGoodOnes.Count < k || Random.Range(0, 20) > 0)
         {
-            return Random.Range(0, 2);
+            return Random.Range(0, attackCount);
         }
 
         //get current healths of each player
@@ -107,15 +111,28 @@ public class FindBestAction : MonoBehaviour
         }
 
         //count each attack
-        int[] counts = new int[2];
+        int[] counts = new int[attackCount];
         foreach (int index in closestIndices)
         {
-            counts[allGoodOnes[index].actionSelected]++;
+            for (int i = 0; i < attackCount; i++)
+            {
+                if (allGoodOnes[index].action_selected[i] == 1)
+                {
+                    counts[i]++;
+                }
+            }
         }
-
-        if (counts[0] > counts[1])
-            return 0;
-        return 1;
+        int maxIdx = -1;
+        int max = -1;
+        for(int i = 0; i < counts.Length; i++)
+        {
+            if(counts[i] > max)
+            {
+                max = counts[i];
+                maxIdx = i;
+            }
+        }
+        return Mathf.Max(maxIdx);
     }
 
     void getBestDist(ref List<int> closestIndices, float aHP, float bHP)
