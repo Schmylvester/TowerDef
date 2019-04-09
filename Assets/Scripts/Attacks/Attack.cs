@@ -9,11 +9,13 @@ public class Attack : MonoBehaviour
     protected Fighter target;
     [SerializeField] protected float damage;
     [SerializeField] protected float accuracy;
-    [SerializeField] protected Text damageUI;
-    [SerializeField] protected Text accuracyUI;
+    protected Text damageUI;
+    protected Text accuracyUI;
 
     private void Start()
     {
+        damageUI = GetComponent<Text>();
+        accuracyUI = transform.GetChild(0).GetComponent<Text>();
         user = transform.parent.GetComponent<Fighter>();
         target = user.getEnemy();
 

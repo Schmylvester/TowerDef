@@ -111,11 +111,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   sprite: {fileID: 212832109023333300}
-  cost: 6
-  uses: 0
-  range: 2.5
-  rateOfFire: 1
-  damage: 2
   circle: {fileID: 114624079702080662}
   m: {fileID: 0}
   tower_panel: {fileID: 0}

@@ -20,7 +20,7 @@ public class Fighter : MonoBehaviour
     [SerializeField] int startHealth;
     [SerializeField] int maxHealthDivergence = 30;
 
-    void Start()
+    public void start()
     {
         bestAction = GetComponent<FindBestAction>();
         attacks = GetComponentsInChildren<Attack>();
@@ -164,7 +164,15 @@ public class Fighter : MonoBehaviour
             if (attackSum != 0)
             {
                 float use = (float)attackUses[i] / attackSum;
-                attacks[i].balance(use * modifier, startHealth);
+                //if the unit didn't win, both their attacks should be modified
+                if (modifier > 1)
+                {
+                    attacks[i].balance(modifier, startHealth);
+                }
+                else
+                {
+                    attacks[i].balance(use * modifier, startHealth);
+                }
             }
             else
             {

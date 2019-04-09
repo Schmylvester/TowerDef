@@ -1458,7 +1458,6 @@ MonoBehaviour:
   reset: {fileID: 114734408664634398}
   m_camera: {fileID: 20054798307085838}
   manyGames: 1
-  gameEnded: 0
 --- !u!114 &114253445126596358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1586,11 +1585,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 2
   sprite: {fileID: 212699514059596342}
-  cost: 30
-  uses: 5
-  range: 3
-  rateOfFire: 20
-  damage: 40
   circle: {fileID: 114900839186638794}
   m: {fileID: 114305552559975270}
   tower_panel: {fileID: 114923033835967088}
@@ -1676,8 +1670,6 @@ MonoBehaviour:
   reset: {fileID: 114734408664634398}
   m: {fileID: 114305552559975270}
   speed: {fileID: 0}
-  timer: {fileID: 0}
-  castle: {fileID: 114672152199877628}
 --- !u!114 &114478816416557736
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1746,11 +1738,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   sprite: {fileID: 212667658323149882}
-  cost: 20
-  uses: 30
-  range: 1.5
-  rateOfFire: 0.2
-  damage: 1
   circle: {fileID: 114863248076077742}
   m: {fileID: 114305552559975270}
   tower_panel: {fileID: 114923033835967088}
@@ -1767,11 +1754,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   sprite: {fileID: 212405580060401986}
-  cost: 15
-  uses: 20
-  range: 1.4
-  rateOfFire: 0.6
-  damage: 2
   circle: {fileID: 114420077426803934}
   m: {fileID: 114305552559975270}
   tower_panel: {fileID: 114923033835967088}

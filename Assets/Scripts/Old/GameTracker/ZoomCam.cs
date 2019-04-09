@@ -7,6 +7,7 @@ public class ZoomCam : MonoBehaviour
     Camera activeCam = null;
     Camera[] allCams;
     Rect camDefRect;
+    int camIdx = 0;
 
     private void Awake()
     {
@@ -19,11 +20,23 @@ public class ZoomCam : MonoBehaviour
             setSingleCam();
         else if (Input.GetKeyDown(KeyCode.K))
             setManyCam();
+
+        if (Input.GetMouseButtonDown(0) && activeCam == null)
+        {
+            foreach (Camera cam in allCams)
+            {
+                Vector2 pos = (cam.ScreenToViewportPoint(Input.mousePosition));
+                if(pos.x >= 0 && pos.x < 1 && pos.y >= 0 && pos.y < 1)
+                {
+                    setSingleCam(cam);
+                }
+            }
+        }
     }
 
     void switchCamMode()
     {
-        if(activeCam)
+        if (activeCam)
         {
             setManyCam();
         }
@@ -33,23 +46,20 @@ public class ZoomCam : MonoBehaviour
         }
     }
 
-    void setSingleCam()
+    void setSingleCam(Camera targetCam = null)
     {
         if (activeCam)
             setManyCam();
-        int newCam = Random.Range(0, allCams.Length);
-        //int breakerCount = 10000;
-        //while(allCams[newCam].GetComponentInParent<GameStateRecorder>().getGameEnded() && breakerCount-- > 0)
-        //{
-        //    newCam++;
-        //    newCam %= 100;
-        //}
-        //if (breakerCount <= 0)
-        //{
-        //    setManyCam();
-        //    return;
-        //}
-        activeCam = allCams[newCam];
+        if (targetCam == null)
+        {
+            int newCam = camIdx++;
+            camIdx %= allCams.Length;
+            activeCam = allCams[newCam];
+        }
+        else
+        {
+            activeCam = targetCam;
+        }
         camDefRect = activeCam.rect;
         activeCam.rect = new Rect(Vector2.zero, Vector2.one);
         foreach (Camera cam in allCams)

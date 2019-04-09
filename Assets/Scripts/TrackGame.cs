@@ -11,15 +11,25 @@ public class TrackGame : MonoBehaviour
     //min and max length of a game in turns
     [SerializeField] Vector2Int gameConstraints;
     //the player whose turn it is
-    int activePlayer = 0;
+    int activePlayer = -1;
     //turns passed in this instance of the game
     int turns = 0;
     //results of all games so far
     List<bool> gameResults = new List<bool>();
 
+    private void Update()
+    {
+        if (activePlayer == -1)
+        {
+            if (Input.GetKeyDown(KeyCode.B))
+                activePlayer = 0;
+        }
+    }
 
     public bool isActivePlayer(Fighter fighter)
     {
+        if (activePlayer < 0)
+            return false;
         return fighters[activePlayer] == fighter;
     }
 
@@ -37,16 +47,15 @@ public class TrackGame : MonoBehaviour
                 fighters[i].endGame(-score);    //this player lost, so they get the negative score
                 fighters[1 - i].endGame(score); //this player won, so they get the positive score
 
-                //change the camera colour slightly to help visualise winning streaks
-                if (i == 0)
-                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.blue, 0.01f);
-                else
-                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.red, 0.01f);
 
-                if(Mathf.Abs(cam.backgroundColor.r - cam.backgroundColor.b) < 0.05f)
-                {
+                float winRatio = getWinRatio(150);
+                //change the camera colour slightly to help visualise winning streaks
+                if (winRatio > 0.55f)
+                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.blue, 0.01f);
+                else if (winRatio < 0.45f)
+                    cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.red, 0.01f);
+                else if (winRatio > 0.48f && winRatio < 0.52f)
                     cam.backgroundColor = Color.Lerp(cam.backgroundColor, Color.green, 0.01f);
-                }
 
                 //balance the players, if the winning player had a lot of health left, balance more
                 balance.balance(score, 1 - i);
@@ -90,7 +99,7 @@ public class TrackGame : MonoBehaviour
         advanceTurn();
     }
 
-    void getWinRatio(int numMatches = -1)
+    float getWinRatio(int numMatches = -1)
     {
         bool allGames = false;
         if (numMatches == -1)
@@ -111,9 +120,8 @@ public class TrackGame : MonoBehaviour
             if (gameResults[i])
                 p1Wins++;
         }
-        
-        //Debug.Log("Win rate of the last " + numMatches + " matches: " + p1Wins + " : " + (numMatches - p1Wins));
 
+        //Debug.Log("Win rate of the last " + numMatches + " matches: " + p1Wins + " : " + (numMatches - p1Wins));
         if (GraphData.instance != null)
         {
             if (allGames)
@@ -125,5 +133,6 @@ public class TrackGame : MonoBehaviour
                 GraphData.instance.addXGamesWinRatio(p1Wins, numMatches);
             }
         }
+        return (float)p1Wins / numMatches;
     }
 }
