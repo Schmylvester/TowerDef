@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class UpdateTowerPanel : MonoBehaviour {
 
-    [SerializeField] Text towerName;
-    [SerializeField] Image sprite;
-    [SerializeField] Text cost;
-    [SerializeField] Text range;
-    [SerializeField] Text rateOfFire;
-    [SerializeField] Text uses;
-    [SerializeField] Text damage;
+    [SerializeField] Text towerName = null;
+    [SerializeField] Image sprite = null;
+    [SerializeField] Text cost = null;
+    [SerializeField] Text range = null;
+    [SerializeField] Text rateOfFire = null;
+    [SerializeField] Text uses = null;
+    [SerializeField] Text damage = null;
 
     public void updatePanel(Sprite _sprite, string _name, TowerStats stats)
     {

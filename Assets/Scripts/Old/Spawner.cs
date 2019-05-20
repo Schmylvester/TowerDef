@@ -5,23 +5,23 @@ using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] GameObject unitPrefab;
-    [SerializeField] GameObject healthBarPrefab;
-    [SerializeField] Transform canvas;
-    [SerializeField] LineRenderer[] paths;
-    [SerializeField] Resources resources;
+    [SerializeField] GameObject unitPrefab = null;
+    [SerializeField] GameObject healthBarPrefab = null;
+    [SerializeField] Transform canvas = null;
+    [SerializeField] LineRenderer[] paths = null;
+    [SerializeField] Resources resources = null;
     UnitType spawn;
     short targettedNode = 0;
-    [SerializeField] GameManager m;
+    [SerializeField] GameManager m = null;
 
     #region UnitUI
-    [SerializeField] Image sprite;
-    [SerializeField] Text unitName;
-    [SerializeField] Text health;
-    [SerializeField] Text moveSpeed;
-    [SerializeField] Text damage;
-    [SerializeField] Text attackSpeed;
-    [SerializeField] Text cost;
+    [SerializeField] Image sprite = null;
+    [SerializeField] Text unitName = null;
+    [SerializeField] Text health = null;
+    [SerializeField] Text moveSpeed = null;
+    [SerializeField] Text damage = null;
+    [SerializeField] Text attackSpeed = null;
+    [SerializeField] Text cost = null;
     #endregion
 
     private void Start()

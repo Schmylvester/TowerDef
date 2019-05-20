@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class TrackGame : MonoBehaviour
 {
-    [SerializeField] BalanceAttacks balance;
-    [SerializeField] Fighter[] fighters;
-    [SerializeField] Camera cam;
+    [SerializeField] BalanceAttacks balance = null;
+    [SerializeField] Fighter[] fighters = null;
+    [SerializeField] Camera cam = null;
 
     //min and max length of a game in turns
     [SerializeField] Vector2Int gameConstraints;

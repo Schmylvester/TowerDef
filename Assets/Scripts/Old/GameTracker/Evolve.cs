@@ -9,7 +9,7 @@ public class Evolve : MonoBehaviour
     int survivors = 10;
     public static Evolve instance;
     ResetGame[] resets;
-    [SerializeField] Timer timer;
+    [SerializeField] Timer timer = null;
 
     private void Awake()
     {

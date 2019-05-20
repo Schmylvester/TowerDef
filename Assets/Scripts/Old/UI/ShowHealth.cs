@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ShowHealth : MonoBehaviour
 {
-    [SerializeField] RectTransform healthSprite;
-    [SerializeField] UnityEngine.UI.Text text;
+    [SerializeField] RectTransform healthSprite = null;
+    [SerializeField] UnityEngine.UI.Text text = null;
 
     public void updatePos(Entity entity, Sprite sprite)
     {

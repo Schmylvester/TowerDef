@@ -27,6 +27,13 @@ public class Drain : Attack
         base.balance(by, maxDam);
     }
 
+    //if the game was the wrong length, they should recover less or more health
+    public override void lengthBalance(float by, int maxDam)
+    {
+        drainRate = Mathf.Clamp(drainRate - by, 0.1f, 1.5f);
+        base.lengthBalance(by, maxDam);
+    }
+
     protected override void updateUI()
     {
         damageUI.text = "Damages target for " + damage.ToString("0") 

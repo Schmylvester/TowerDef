@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ShowPath : MonoBehaviour
 {
-    [SerializeField] LineRenderer line;
+    [SerializeField] LineRenderer line = null;
     void Start()
     {
         if (SceneManager.GetActiveScene().name == "100Games")

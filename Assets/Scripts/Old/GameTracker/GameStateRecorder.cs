@@ -5,18 +5,18 @@ using System.IO;
 
 public class GameStateRecorder : MonoBehaviour
 {
-    [SerializeField] Grid grid;
-    [SerializeField] Structure[] walls;
-    [SerializeField] Transform[] tracks;
+    [SerializeField] Grid grid = null;
+    [SerializeField] Structure[] walls = null;
+    [SerializeField] Transform[] tracks = null;
     Attacks attacks;
     Defends defends;
-    [SerializeField] bool clear_files;
-    [SerializeField] short pathIn;
+    [SerializeField] bool clear_files = false;
+    [SerializeField] short pathIn = 0;
     [SerializeField] short pathOut;
-    [SerializeField] GameManager m;
-    [SerializeField] ResetGame reset;
-    [SerializeField] Camera m_camera;
-    [SerializeField] bool manyGames;
+    [SerializeField] GameManager m = null;
+    [SerializeField] ResetGame reset = null;
+    [SerializeField] Camera m_camera = null;
+    [SerializeField] bool manyGames = false;
     bool gameEnded = false;
 
     /// <summary>

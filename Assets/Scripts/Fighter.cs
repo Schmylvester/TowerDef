@@ -6,14 +6,13 @@ using UnityEngine.UI;
 public class Fighter : MonoBehaviour
 {
     FindBestAction bestAction = null;
-    [SerializeField] TrackGame game;
-    [SerializeField] Fighter enemy;
-    [SerializeField] Image hpSprite;
-    [SerializeField] Text hpText;
+    [SerializeField] TrackGame game = null;
+    [SerializeField] Fighter enemy = null;
+    [SerializeField] Image hpSprite = null;
+    [SerializeField] Text hpText = null;
     [Header("Useful things")]
     [SerializeField] bool aiControlled = false;
     Attack[] attacks;
-    int wins = 0;
     int[] attackUses;
     float timer = 0;
     int health;
@@ -145,13 +144,42 @@ public class Fighter : MonoBehaviour
         updateUI();
     }
 
-    public void balance(float modifier, bool balanceHealth = true)
+    public void lengthBalance(float modifier)
     {
-        if (balanceHealth)
+        int attackSum = 0;
+        for (int i = 0; i < attackUses.Length; i++)
         {
-            //change their health
-            modifyHealth(modifier < 0);
+            attackSum += attackUses[i];
         }
+        for (int i = 0; i < attackUses.Length; i++)
+        {
+            //if they used any attack
+            if (attackSum != 0)
+            {
+                float use = (float)attackUses[i] / attackSum;
+                //if the unit didn't win, both their attacks should be modified
+                if (modifier > 1)
+                {
+                    attacks[i].balance(modifier, startHealth);
+                }
+                else
+                {
+                    attacks[i].balance(use * modifier, startHealth);
+                }
+            }
+            else
+            {
+                //they were killed before using an attack, buff them way up
+                attacks[i].balance(0.8f, int.MaxValue);
+            }
+        }
+    }
+
+    public void balance(float modifier)
+    {
+        //change their health
+        modifyHealth(modifier < 0);
+
         //count how much they used each attack
         int attackSum = 0;
         for (int i = 0; i < attackUses.Length; i++)

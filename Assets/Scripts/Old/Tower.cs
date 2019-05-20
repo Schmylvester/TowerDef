@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Tower : ManualUpdate
 {
-    [SerializeField] TowerType type;
-    [SerializeField] SpriteRenderer sprite;
+    [SerializeField] TowerType type = TowerType.Count;
+    [SerializeField] SpriteRenderer sprite = null;
     short usesLeft;
-    [SerializeField] DrawCircle circle;
+    [SerializeField] DrawCircle circle = null;
     float timer = 0;
     List<Unit> units = new List<Unit>();
     Resources resources;
     bool ready;
     bool attachedToMouse = false;
     Vector2 startPos;
-    [SerializeField] GameManager m;
-    [SerializeField] UpdateTowerPanel tower_panel;
+    [SerializeField] GameManager m = null;
+    [SerializeField] UpdateTowerPanel tower_panel = null;
     TowerStats stats;
 
     private void Start()

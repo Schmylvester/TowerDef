@@ -7,10 +7,10 @@ public class EntityTracker : MonoBehaviour
     List<Tower> towers = new List<Tower>();
     List<Unit> units = new List<Unit>();
     public Material lineMat;
-    [SerializeField] Resources attackerRes;
-    [SerializeField] Resources defenderRes;
-    [SerializeField] GameManager m;
-    [SerializeField] TowerTypes towerTypes;
+    [SerializeField] Resources attackerRes = null;
+    [SerializeField] Resources defenderRes = null;
+    [SerializeField] GameManager m = null;
+    [SerializeField] TowerTypes towerTypes = null;
 
     private void Awake()
     {

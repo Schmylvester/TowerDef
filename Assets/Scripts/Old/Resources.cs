@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Resources : ManualUpdate
 {
-    [SerializeField] int startGold;
+    [SerializeField] int startGold = 0;
     int gold;
-    [SerializeField] UnityEngine.UI.Text text;
-    [SerializeField] float gainRate;
-    [SerializeField] short gainAmount;
+    [SerializeField] UnityEngine.UI.Text text = null;
+    [SerializeField] float gainRate = 0;
+    [SerializeField] short gainAmount = 0;
     float time = 0;
-    [SerializeField] PlayFrames frames;
+    [SerializeField] PlayFrames frames = null;
 
     private void Start()
     {

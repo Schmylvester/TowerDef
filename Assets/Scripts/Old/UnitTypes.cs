@@ -25,7 +25,7 @@ public class UnitTypes : MonoBehaviour
 {
     public static UnitTypes instance;
 
-    [SerializeField] Sprite[] sprites;
+    [SerializeField] Sprite[] sprites = null;
     UnitStats[] stats;
 
     void Awake()

@@ -7,9 +7,8 @@ public class PlayFrames : MonoBehaviour
     List<ManualUpdate> trackedObjects = new List<ManualUpdate>();
     [HideInInspector] public uint frame = 0;
     [SerializeField] bool randomGame = false;
-    [SerializeField] ResetGame reset;
-    [SerializeField] GameManager m;
-    [SerializeField] GameSpeed speed;
+    [SerializeField] GameManager m = null;
+    [SerializeField] GameSpeed speed = null;
     int defaultRand = 1000;
     int activeRand = 1000;
     bool createdThisGame = false;

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class FeedbackManager : MonoBehaviour
 {
-    [SerializeField] Text attacker;
-    [SerializeField] Text defender;
+    [SerializeField] Text attacker = null;
+    [SerializeField] Text defender = null;
     public static FeedbackManager instance;
 
     private void Awake()

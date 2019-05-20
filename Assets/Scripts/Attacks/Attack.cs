@@ -35,7 +35,7 @@ public class Attack : MonoBehaviour
         if (Random.Range(0, 2) == 0)
         {
             //accuracy between 10% and 100%
-            accuracy = Mathf.Clamp(accuracy + by, 0.6f, 1.0f);
+            accuracy = Mathf.Clamp(accuracy + by, 0.6f, 0.95f);
         }
         else
         {
@@ -47,6 +47,11 @@ public class Attack : MonoBehaviour
             damage = Mathf.Clamp(damage + by, 1, maxDam);
         }
         updateUI();
+    }
+
+    public virtual void lengthBalance(float by, int maxDam)
+    {
+        balance(by, maxDam);
     }
 
     protected virtual void updateUI()

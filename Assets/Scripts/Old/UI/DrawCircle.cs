@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DrawCircle : MonoBehaviour
 {
-    [SerializeField] LineRenderer line;
+    [SerializeField] LineRenderer line = null;
 
     public void drawCircle(float radius, Vector3 pos, short points)
     {

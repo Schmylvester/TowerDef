@@ -8,7 +8,7 @@ public class BalanceAttacks : MonoBehaviour
     [SerializeField] float balance_rate = 0.03f;
     //when this is higher than 1 the game favours player0, lower than 1 favours player1
     [SerializeField] float skew = 1.0f;
-    [SerializeField] Fighter[] fighters;
+    [SerializeField] Fighter[] fighters = null;
     
     public void balance(float score, int winner)
     {
@@ -16,8 +16,8 @@ public class BalanceAttacks : MonoBehaviour
         {
             //not balancing because a fight was won, don't balance health
             case -1:
-                fighters[0].balance(score * balance_rate, false);
-                fighters[1].balance(score * balance_rate, false);
+                fighters[0].lengthBalance(score * balance_rate);
+                fighters[1].lengthBalance(score * balance_rate);
                 break;
             //player0 won the fight
             //balance less if skew is high, more if skew is low

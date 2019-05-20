@@ -5,8 +5,8 @@ using UnityEngine;
 public class GameSpeed : MonoBehaviour
 {
     public static GameSpeed instance;
-    [SerializeField] int framesPerFrame;
-    [SerializeField] float frameSpeed;
+    [SerializeField] int framesPerFrame = 1;
+    [SerializeField] float frameSpeed = 1;
 
     private void Awake()
     {

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class GameScorer : MonoBehaviour
 {
-    [SerializeField] Structure castle;
-    [SerializeField] Timer timer;
-    [SerializeField] Grid grid;
+    [SerializeField] Structure castle = null;
+    [SerializeField] Timer timer = null;
+    [SerializeField] Grid grid = null;
     float distScore = 0;
-    [SerializeField] GameManager m;
+    [SerializeField] GameManager m = null;
 
     private void Awake()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Structure : Entity
 {
-    [SerializeField] short reward;
+    [SerializeField] short reward = 0;
     bool destroyed = false;
     protected override void beDestroyed()
     {

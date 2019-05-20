@@ -22,7 +22,7 @@ public struct TowerStats
 
 public class TowerTypes : MonoBehaviour
 {
-    [SerializeField] Tower[] towers;
+    [SerializeField] Tower[] towers = null;
 
     TowerStats[] stats;
 

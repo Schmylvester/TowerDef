@@ -5,11 +5,11 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
 
-    [SerializeField] UnityEngine.UI.Text timeText;
-    [SerializeField] float startTime;
+    [SerializeField] UnityEngine.UI.Text timeText = null;
+    [SerializeField] float startTime = 0;
     float time;
-    [SerializeField] GameSpeed speed;
-    [SerializeField] GameStateRecorder[] gsrs;
+    [SerializeField] GameSpeed speed = null;
+    [SerializeField] GameStateRecorder[] gsrs = null;
     bool paused = false;
 
     private void Start()

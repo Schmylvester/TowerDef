@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Prediction : MonoBehaviour
 {
-    uint defend_file;
-    uint attack_file;
+    uint defend_file = 0;
+    uint attack_file = 0;
 
     Defends defends;
     Attacks attacks;
-    [SerializeField] GameManager m;
+    [SerializeField] GameManager m = null;
 
     private void Awake()
     {

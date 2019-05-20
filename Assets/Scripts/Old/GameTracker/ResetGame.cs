@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ResetGame : MonoBehaviour
 {
-    [SerializeField] Structure[] walls;
-    [SerializeField] Resources[] resources;
-    [SerializeField] Timer timer;
-    [SerializeField] List<Tower> safeTowers;
+    [SerializeField] Structure[] walls = null;
+    [SerializeField] Resources[] resources = null;
+    [SerializeField] Timer timer = null;
+    [SerializeField] List<Tower> safeTowers = null;
     int evolveCount = 500;
-    [SerializeField] GameManager m;
+    [SerializeField] GameManager m = null;
     float checkAverage = float.MinValue;
     static float[] scores;
     static bool[] gamesOver;

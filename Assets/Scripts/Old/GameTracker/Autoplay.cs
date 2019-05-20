@@ -5,18 +5,16 @@ using System.IO;
 
 public class Autoplay : MonoBehaviour
 {
-    [SerializeField] UnityEngine.UI.Text replayText;
-    [SerializeField] GameObject unitPrefab;
-    [SerializeField] GameObject healthBarPrefab;
-    [SerializeField] Transform canvas;
-    [SerializeField] LineRenderer[] paths;
-    [SerializeField] Grid grid;
-    [SerializeField] Resources[] resources;
+    [SerializeField] UnityEngine.UI.Text replayText = null;
+    [SerializeField] GameObject unitPrefab = null;
+    [SerializeField] LineRenderer[] paths = null;
+    [SerializeField] Grid grid = null;
+    [SerializeField] Resources[] resources = null;
     List<IOASetup> attacks;
     List<IODSetup> defends;
     [SerializeField] bool replay = false;
-    [SerializeField] GameManager m;
-    [SerializeField] TowerTypes towerTypes;
+    [SerializeField] GameManager m = null;
+    [SerializeField] TowerTypes towerTypes = null;
 
     private void Awake()
     {
